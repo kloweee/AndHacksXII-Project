@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gemini Base Chatbot</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 16px;
+    background: #f7f7f8;
+  }
+  h1 { font-size: 1.3rem; }
+  #chat {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    height: 420px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+  .msg { margin: 8px 0; line-height: 1.4; }
+  .user { text-align: right; }
+  .user .bubble { background: #2563eb; color: white; }
+  .model .bubble { background: #eee; color: #111; }
+  .bubble {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 80%;
+    white-space: pre-wrap;
+  }
+  form { display: flex; gap: 8px; }
+  input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; cursor: default; }
+</style>
+</head>
+<body>
+
+<h1>Gemini Base Chatbot</h1>
+<div id="chat"></div>
+
+<form id="chat-form">
+  <input id="input" type="text" placeholder="Type a message..." autocomplete="off" required />
+  <button type="submit" id="send-btn">Send</button>
+</form>
+
+<script>
+  const chatEl = document.getElementById("chat");
+  const formEl = document.getElementById("chat-form");
+  const inputEl = document.getElementById("input");
+  const sendBtn = document.getElementById("send-btn");
+
+  // Full conversation history, sent to the server on every request
+  let history = [];
+
+  function addMessage(role, text) {
+    const wrap = document.createElement("div");
+    wrap.className = `msg ${role}`;
+    wrap.innerHTML = `<span class="bubble"></span>`;
+    wrap.querySelector(".bubble").textContent = text;
+    chatEl.appendChild(wrap);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  formEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    addMessage("user", text);
+    history.push({ role: "user", text });
+    inputEl.value = "";
+    sendBtn.disabled = true;
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ history }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        addMessage("model", "Error: " + JSON.stringify(data.error));
+        return;
+      }
+
+      addMessage("model", data.reply);
+      history.push({ role: "model", text: data.reply });
+    } catch (err) {
+      addMessage("model", "Network error — is the server running?");
+    } finally {
+      sendBtn.disabled = false;
+      inputEl.focus();
+    }
+  });
+</script>
+
+</body>
+</html>
