@@ -1,0 +1,47 @@
+[
+  {
+    "code": "CSCI 141",
+    "title": "Modern Programming Fundamentals",
+    "department": "CSCI",
+    "credits": 4,
+    "description": "Introduces students to the foundational principles of programming.",
+    "prerequisites": [],
+    "coll_attribute": "NQR"
+  },
+  {
+    "code": "CSCI 241",
+    "title": "Intermediate Software Design",
+    "department": "CSCI",
+    "credits": 4,
+    "description": "Continuation of CSCI 141 focusing on object-oriented design.",
+    "prerequisites": ["CSCI 141"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "CSCI 301",
+    "title": "Data Structures and Algorithms",
+    "department": "CSCI",
+    "credits": 4,
+    "description": "Study of fundamental data structures and algorithms.",
+    "prerequisites": ["CSCI 241"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "DATA 101",
+    "title": "Introduction to Data Science",
+    "department": "DATA",
+    "credits": 3,
+    "description": "An introductory course to data science concepts and tools.",
+    "prerequisites": ["CSCI 141"],
+    "coll_attribute": "NQR"
+  },
+  {
+    "code": "COLL 200",
+    "title": "College Curriculum Seminar",
+    "department": "COLL",
+    "credits": 3,
+    "description": "A seminar fulfilling the COLL 200 requirement.",
+    "prerequisites": [],
+    "coll_attribute": "CSI"
+  }
+]

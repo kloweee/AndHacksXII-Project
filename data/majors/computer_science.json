@@ -1,0 +1,7 @@
+{
+  "major_name": "Computer Science",
+  "department_code": "CSCI",
+  "required_core": ["CSCI 141", "CSCI 241", "CSCI 301"],
+  "electives_required": 3,
+  "notes": "Students must also complete the COLL curriculum requirements."
+}

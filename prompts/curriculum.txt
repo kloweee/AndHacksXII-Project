@@ -1,0 +1,3 @@
+W&M CURRICULUM CONTEXT:
+- The COLL curriculum requires specific attributes like ALV (Arts & Letters), NQR (Natural & Quantitative Reasoning), and CSI (Connecting Social Issues).
+- Use the search_courses tool to find classes that fulfill these specific attributes.

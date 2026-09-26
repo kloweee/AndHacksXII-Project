@@ -1,0 +1,29 @@
+[
+  {
+    "crn": "10001",
+    "code": "CSCI 141",
+    "section": "01",
+    "instructor": "D. Kemper",
+    "meets": "MWF 10:00-10:50am",
+    "status": "OPEN",
+    "semester": "202710"
+  },
+  {
+    "crn": "10002",
+    "code": "CSCI 241",
+    "section": "01",
+    "instructor": "T. Barnes",
+    "meets": "TR 9:30-10:50am",
+    "status": "FULL",
+    "semester": "202710"
+  },
+  {
+    "crn": "10003",
+    "code": "DATA 101",
+    "section": "01",
+    "instructor": "H. Wang",
+    "meets": "TR 2:00-3:20pm",
+    "status": "OPEN",
+    "semester": "202710"
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "major_name": "Data Science",
+  "department_code": "DATA",
+  "required_core": ["CSCI 141", "DATA 101"],
+  "electives_required": 2,
+  "notes": "Students must also complete the COLL curriculum requirements and CSCI 241."
+}
