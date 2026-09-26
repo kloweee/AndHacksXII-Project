@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Gemini Base Chatbot</title>
+<title>W&M Schedule Advisor</title>
 <style>
   body {
     font-family: system-ui, sans-serif;
@@ -33,6 +33,22 @@
     max-width: 80%;
     white-space: pre-wrap;
   }
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0 14px 0;
+  }
+  .suggestion-btn {
+    background: white;
+    border: 1px solid #2563eb;
+    color: #2563eb;
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .suggestion-btn:hover { background: #eef2ff; }
   form { display: flex; gap: 8px; }
   input {
     flex: 1;
@@ -53,7 +69,7 @@
 </head>
 <body>
 
-<h1>Gemini Base Chatbot</h1>
+<h1>W&M Schedule Advisor</h1>
 <div id="chat"></div>
 
 <form id="chat-form">
@@ -79,14 +95,27 @@
     chatEl.scrollTop = chatEl.scrollHeight;
   }
 
-  formEl.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const text = inputEl.value.trim();
+  function addSuggestions(suggestions) {
+    if (!suggestions || suggestions.length === 0) return;
+    const wrap = document.createElement("div");
+    wrap.className = "suggestions";
+    suggestions.forEach((s) => {
+      const btn = document.createElement("button");
+      btn.className = "suggestion-btn";
+      btn.type = "button";
+      btn.textContent = s;
+      btn.addEventListener("click", () => sendMessage(s));
+      wrap.appendChild(btn);
+    });
+    chatEl.appendChild(wrap);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
+  async function sendMessage(text) {
     if (!text) return;
 
     addMessage("user", text);
     history.push({ role: "user", text });
-    inputEl.value = "";
     sendBtn.disabled = true;
 
     try {
@@ -104,12 +133,21 @@
 
       addMessage("model", data.reply);
       history.push({ role: "model", text: data.reply });
+      addSuggestions(data.suggestions);
     } catch (err) {
       addMessage("model", "Network error — is the server running?");
     } finally {
       sendBtn.disabled = false;
       inputEl.focus();
     }
+  }
+
+  formEl.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = inputEl.value.trim();
+    if (!text) return;
+    inputEl.value = "";
+    await sendMessage(text);
   });
 </script>
 
