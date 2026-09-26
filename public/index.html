@@ -3,153 +3,222 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>W&M Schedule Advisor</title>
-<style>
-  body {
-    font-family: system-ui, sans-serif;
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 0 16px;
-    background: #f7f7f8;
-  }
-  h1 { font-size: 1.3rem; }
-  #chat {
-    background: white;
-    border-radius: 10px;
-    padding: 16px;
-    height: 420px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
-  }
-  .msg { margin: 8px 0; line-height: 1.4; }
-  .user { text-align: right; }
-  .user .bubble { background: #2563eb; color: white; }
-  .model .bubble { background: #eee; color: #111; }
-  .bubble {
-    display: inline-block;
-    padding: 8px 12px;
-    border-radius: 12px;
-    max-width: 80%;
-    white-space: pre-wrap;
-  }
-  .suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 6px 0 14px 0;
-  }
-  .suggestion-btn {
-    background: white;
-    border: 1px solid #2563eb;
-    color: #2563eb;
-    border-radius: 16px;
-    padding: 6px 12px;
-    font-size: 0.85rem;
-    cursor: pointer;
-  }
-  .suggestion-btn:hover { background: #eef2ff; }
-  form { display: flex; gap: 8px; }
-  input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-  }
-  button {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
-  }
-  button:disabled { opacity: 0.5; cursor: default; }
-</style>
+<title>W&amp;M AI Academic Advisor</title>
+<link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body data-theme="light">
 
-<h1>W&M Schedule Advisor</h1>
-<div id="chat"></div>
+<!-- Icon sprite (inline, no external requests) -->
+<svg style="display:none">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4V5z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M4 5l6-2 6 2 4-1.5v14L16 19l-6-2-6 2V5z"/><path d="M10 3v14M16 5v14"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2-1.2L14 3h-4l-.6 2.6a7 7 0 0 0-2 1.2l-2.3-.9-2 3.4 2 1.5a7 7 0 0 0 0 2.4l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2 1.2L10 21h4l.6-2.6a7 7 0 0 0 2-1.2l2.3.9 2-3.4-2-1.5c.07-.4.1-.8.1-1.2z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-2 6-6 2 2-6z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-check-sq" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 12.5l2.5 2.5 5.5-6"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8 18h5a4 4 0 0 0 4-4V9"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5 5.5-6"/></symbol>
+  <symbol id="i-dot" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></symbol>
+  <symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="M12 3.5L21.5 20h-19L12 3.5z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M9 6H5.5A1.5 1.5 0 0 0 4 7.5v11A1.5 1.5 0 0 0 5.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15M14 4h6v6M20 4l-9 9"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c8-1 13-6 14-14-8 1-13 6-14 14z"/><path d="M6 18c2-4 5-7 9-9"/></symbol>
+</svg>
 
-<form id="chat-form">
-  <input id="input" type="text" placeholder="Type a message..." autocomplete="off" required />
-  <button type="submit" id="send-btn">Send</button>
-</form>
+<div class="atmosphere" aria-hidden="true"></div>
 
-<script>
-  const chatEl = document.getElementById("chat");
-  const formEl = document.getElementById("chat-form");
-  const inputEl = document.getElementById("input");
-  const sendBtn = document.getElementById("send-btn");
+<div class="app">
 
-  // Full conversation history, sent to the server on every request
-  let history = [];
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <svg class="icon leaf" aria-hidden="true"><use href="#i-leaf"/></svg>
+      <div class="brand-text">
+        <span class="mark">W&amp;M</span>
+        <span class="sub">AI Academic Advisor</span>
+      </div>
+    </div>
 
-  function addMessage(role, text) {
-    const wrap = document.createElement("div");
-    wrap.className = `msg ${role}`;
-    wrap.innerHTML = `<span class="bubble"></span>`;
-    wrap.querySelector(".bubble").textContent = text;
-    chatEl.appendChild(wrap);
-    chatEl.scrollTop = chatEl.scrollHeight;
-  }
+    <nav class="nav" aria-label="Primary">
+      <button class="nav-item" id="nav-advisor" data-page="advisor" aria-current="page">
+        <svg class="icon"><use href="#i-chat"/></svg>
+        <span class="label">Advisor</span>
+      </button>
+      <button class="nav-item" id="nav-roadmap" data-page="roadmap">
+        <svg class="icon"><use href="#i-map"/></svg>
+        <span class="label">My Roadmap</span>
+      </button>
+    </nav>
 
-  function addSuggestions(suggestions) {
-    if (!suggestions || suggestions.length === 0) return;
-    const wrap = document.createElement("div");
-    wrap.className = "suggestions";
-    suggestions.forEach((s) => {
-      const btn = document.createElement("button");
-      btn.className = "suggestion-btn";
-      btn.type = "button";
-      btn.textContent = s;
-      btn.addEventListener("click", () => sendMessage(s));
-      wrap.appendChild(btn);
-    });
-    chatEl.appendChild(wrap);
-    chatEl.scrollTop = chatEl.scrollHeight;
-  }
+    <div class="sidebar-bottom">
+      <div class="student-mini">
+        <div class="avatar" id="student-avatar">SL</div>
+        <div>
+          <div class="name" id="student-name-mini">Sophie Lin</div>
+          <div class="role">Data Science + Finance</div>
+        </div>
+      </div>
+      <button class="settings-btn">
+        <svg class="icon"><use href="#i-gear"/></svg>
+        <span class="label">Settings</span>
+      </button>
+    </div>
+  </aside>
 
-  async function sendMessage(text) {
-    if (!text) return;
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+        <svg class="icon icon-sun"><use href="#i-sun"/></svg>
+        <svg class="icon icon-moon"><use href="#i-moon"/></svg>
+      </button>
+    </div>
 
-    addMessage("user", text);
-    history.push({ role: "user", text });
-    sendBtn.disabled = true;
+    <!-- ============ ADVISOR PAGE ============ -->
+    <section class="page active" id="page-advisor">
+      <div class="advisor-layout">
+        <div class="advisor-main" id="advisor-main">
 
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ history }),
-      });
-      const data = await res.json();
+          <div class="advisor-hero">
+            <h1 id="advisor-greeting">Good afternoon, <span class="name-accent">Sophie</span>.</h1>
+            <p>Ask about courses, requirements, or your academic path.</p>
+          </div>
 
-      if (!res.ok) {
-        addMessage("model", "Error: " + JSON.stringify(data.error));
-        return;
-      }
+          <div id="chat" aria-live="polite"></div>
 
-      addMessage("model", data.reply);
-      history.push({ role: "model", text: data.reply });
-      addSuggestions(data.suggestions);
-    } catch (err) {
-      addMessage("model", "Network error — is the server running?");
-    } finally {
-      sendBtn.disabled = false;
-      inputEl.focus();
-    }
-  }
+          <div id="chat-form-wrap">
+            <form id="chat-form">
+              <input id="input" type="text" placeholder="Ask your academic advisor..." autocomplete="off" required />
+              <button type="submit" id="send-btn" aria-label="Send">
+                <svg class="icon" style="stroke:currentColor"><use href="#i-send"/></svg>
+              </button>
+            </form>
+          </div>
 
-  formEl.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const text = inputEl.value.trim();
-    if (!text) return;
-    inputEl.value = "";
-    await sendMessage(text);
-  });
-</script>
+          <div class="quick-actions" id="quick-actions">
+            <button class="quick-action" data-prompt="Help me explore majors, electives, or new interests.">
+              <span class="qa-tooltip">Explore majors, electives, or new interests</span>
+              <span class="qa-icon"><svg class="icon"><use href="#i-compass"/></svg></span>
+              <span class="qa-label">Explore</span>
+            </button>
+            <button class="quick-action" data-prompt="Help me plan my next semester.">
+              <span class="qa-tooltip">Build out your next term</span>
+              <span class="qa-icon"><svg class="icon"><use href="#i-calendar"/></svg></span>
+              <span class="qa-label">Plan Next Semester</span>
+            </button>
+            <button class="quick-action" data-prompt="Check my progress on my degree requirements.">
+              <span class="qa-tooltip">See what's left to satisfy</span>
+              <span class="qa-icon"><svg class="icon"><use href="#i-check-sq"/></svg></span>
+              <span class="qa-label">Check Requirements</span>
+            </button>
+            <button class="quick-action" data-prompt="Help me build my full academic roadmap.">
+              <span class="qa-tooltip">Lay out your path to graduation</span>
+              <span class="qa-icon"><svg class="icon"><use href="#i-route"/></svg></span>
+              <span class="qa-label">Build My Roadmap</span>
+            </button>
+          </div>
+        </div>
 
+        <aside id="academic-snapshot">
+          <div class="snapshot-header">
+            <h2>Academic Snapshot</h2>
+            <button class="snapshot-collapse-btn" id="snapshot-collapse" aria-label="Collapse panel">
+              <svg class="icon" style="width:14px;height:14px"><use href="#i-chevron-right"/></svg>
+            </button>
+          </div>
+
+          <div class="snap-student">
+            <div class="name">Sophie Lin</div>
+            <div class="role">Sophomore</div>
+            <div class="programs">Data Science + Finance</div>
+          </div>
+
+          <div class="snap-divider"></div>
+
+          <div class="snap-section-title">Degree Progress</div>
+          <div class="progress-ring-wrap">
+            <div class="progress-ring-label" id="snap-overall-pct">68%</div>
+          </div>
+          <div id="snap-bars"></div>
+
+          <div class="snap-divider"></div>
+
+          <div class="snap-section-title">Quick Links</div>
+          <div class="quick-links">
+            <button class="quick-link">Course Catalog <svg class="icon" style="width:14px;height:14px"><use href="#i-external"/></svg></button>
+            <button class="quick-link">COLL Requirements <svg class="icon" style="width:14px;height:14px"><use href="#i-external"/></svg></button>
+            <button class="quick-link">Academic Calendar <svg class="icon" style="width:14px;height:14px"><use href="#i-external"/></svg></button>
+          </div>
+        </aside>
+        <button class="snapshot-reopen" id="snapshot-reopen" aria-label="Open academic snapshot">
+          <svg class="icon" style="width:14px;height:14px"><use href="#i-chevron-left"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ ROADMAP PAGE ============ -->
+    <section class="page" id="page-roadmap">
+      <div class="roadmap-inner">
+        <div class="roadmap-header">
+          <div class="roadmap-title">
+            <h1>My Academic Roadmap</h1>
+            <div class="meta" id="roadmap-meta">Data Science + Finance · Expected Graduation: Spring 2029</div>
+          </div>
+          <div class="roadmap-controls">
+            <div class="view-toggle">
+              <button id="view-semester" class="active" data-view="semester">Semester View</button>
+              <button id="view-requirement" data-view="requirement">Requirement View</button>
+            </div>
+            <div class="roadmap-actions">
+              <button class="btn" id="ask-ai-btn">Ask AI</button>
+              <button class="btn btn-primary" id="edit-plan-btn">Edit Plan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semester View -->
+        <div id="semester-view">
+          <div class="semester-scroll" id="semester-scroll"></div>
+          <div class="degree-progress-panel">
+            <div class="dp-headline">
+              <div class="pct" id="dp-pct">68%</div>
+              <div class="frac" id="dp-frac">82 / 120 credits</div>
+            </div>
+            <div class="dp-bars" id="dp-bars"></div>
+            <div class="dp-grad">Expected Graduation<strong id="dp-grad-date">Spring 2029</strong></div>
+          </div>
+          <div class="still-needs-home">
+            <div class="snh-title">
+              <svg class="icon" style="width:15px;height:15px"><use href="#i-warning"/></svg>
+              Still Needs a Home
+            </div>
+            <div id="snh-list"></div>
+          </div>
+        </div>
+
+        <!-- Requirement View -->
+        <div id="requirement-view">
+          <div class="requirement-grid" id="requirement-grid"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Course details drawer (shared) -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="drawer" id="course-drawer" aria-label="Course details">
+  <button class="drawer-close" id="drawer-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  <div id="drawer-content"></div>
+</aside>
+
+<script src="app.js"></script>
 </body>
 </html>
