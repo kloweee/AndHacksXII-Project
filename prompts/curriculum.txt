@@ -1,3 +1,36 @@
-W&M CURRICULUM CONTEXT:
-- The COLL curriculum requires specific attributes like ALV (Arts & Letters), NQR (Natural & Quantitative Reasoning), and CSI (Connecting Social Issues).
-- Use the search_courses tool to find classes that fulfill these specific attributes.
+WILLIAM & MARY COLLEGE CURRICULUM (COLL) KNOWLEDGE BASE
+
+The College Curriculum (COLL) is the general education requirement for W&M undergraduates, accounting for roughly 30 of the 120 total degree credits. It is designed as a sequence moving from broad exploration to disciplinary study, global perspective, and independent research.
+
+=== CORE COLL SEQUENCE ===
+1. COLL 100 (First-Year Experience): 1 course required. Explores broad, significant ideas across academic fields.
+2. COLL 150 (First-Year Experience): 1 course required. Emphasizes intensive reading, discussion, and analysis of texts/data.
+3. COLL 200 (Academic Disciplines): 3 courses required (9 credits total). MUST cover all three of these distinct domains:
+   - Arts, Letters, and Values (ALV)
+   - Natural World and Quantitative Reasoning (NQR)
+   - Culture, Society, and the Individual (CSI)
+4. COLL 300 (Global/Cross-Cultural): 1 course required (3 credits). Places knowledge in global contexts (can be on-campus C30C or study abroad C30D/C30G).
+5. COLL 350 (Difference, Equity, and Justice): 1 course required (3 credits). Connects these themes to contemporary US life. (Note: This is an attribute that can be attached to a 100, 150, 200, 300, or 400 level course, not necessarily a separate course).
+6. COLL 400 (Senior Capstone): 1 course required (3 credits). Original research or senior seminar, typically within the student's major.
+
+=== PROFICIENCY REQUIREMENTS ===
+- Foreign Language Proficiency (typically 202 level)
+- Mathematics Proficiency
+
+=== ADDITIONAL KNOWLEDGE DOMAIN ===
+- Requires 3 courses (9 credits total).
+- Purpose: Introduce different areas of knowledge outside the core COLL sequence.
+
+=== CRITICAL OVERLAP & CREDIT RULES (STRICT ENFORCEMENT) ===
+When building schedules or roadmaps, you MUST adhere to these overlap rules. Violating these is a critical error.
+
+1. THE "NO DOUBLE-DIPPING" RULE: A single course CANNOT count as both a COLL (100, 150, 200, 300, 350, or 400) requirement AND an Additional Knowledge Domain requirement. 
+2. THE PROFICIENCY OVERLAP RULE: You MAY overlap exactly ONE course between a Proficiency requirement (e.g., Math, Foreign Language) and a COLL requirement or Additional Knowledge requirement.
+3. AP/IB/TRANSFER CREDIT RULE: Pre-matriculation credits (AP, IB, Transfer) MAY be used for Proficiencies and the Additional Knowledge Domain. They CANNOT replace COLL 100, COLL 200, COLL 300, COLL 350, or COLL 400 courses.
+4. FRESHMAN CREDIT LIMIT: Never recommend a schedule under 12 credits or over 18 credits. Do not encourage freshmen to take 18 credits unless they explicitly insist and understand the workload.
+
+=== AI ADVISOR BEHAVIOR FOR COLL ===
+- If a student asks about fulfilling COLL requirements, first identify which specific COLL levels or domains they are missing.
+- When suggesting COLL 200 classes, ensure you are offering options across the three distinct domains (ALV, NQR, CSI) if they need to fulfill multiple.
+- If a student proposes a schedule that violates the "No Double-Dipping" rule or the AP/IB rules, gently correct them and explain the specific rule from the Knowledge Base above.
+- Always distinguish between a "prerequisite" (a strict catalog fact) and a "recommendation" (your advice for their path).

@@ -3,17 +3,13 @@ import dotenv from "dotenv";
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 
-// Note: We still import the skills, but we won't use them if the toggle is ON
-import * as catalogTools from "./skills/catalog_tools.js";
-import * as majorTools from "./skills/major_tools.js";
-
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const MODEL = "gemini-1.5-flash";
+const MODEL = "gemini-1.5-flash"; // Fast and handles large context well
 
 if (!GEMINI_API_KEY) {
     console.error("❌ Missing GEMINI_API_KEY in .env");
@@ -21,14 +17,7 @@ if (!GEMINI_API_KEY) {
 }
 
 // ==========================================
-// 🚦 THE TOGGLE: Set to true to test without skills!
-// ==========================================
-// When TRUE: Reads data/ folder directly and stuffs it into the prompt.
-// When FALSE: Uses the partner's skills/ folder via Gemini Function Calling.
-const BYPASS_SKILLS_FOR_TESTING = true; 
-
-// ==========================================
-// 1. THE TRUST ANCHOR (System Instruction)
+// 1. LOAD THE BEHAVIORAL PROMPTS
 // ==========================================
 const promptsDir = "./prompts";
 let baseSystemInstruction = "";
@@ -39,130 +28,84 @@ try {
         .sort()
         .map(f => readFileSync(join(promptsDir, f), "utf-8"))
         .join("\n\n---\n\n");
-    console.log("✅ Loaded system prompts from /prompts folder.");
+    console.log("✅ Loaded behavioral prompts from /prompts folder.");
 } catch (err) {
     console.warn("⚠️ Could not load prompts folder. Using fallback.");
     baseSystemInstruction = "You are a helpful W&M academic advisor.";
 }
 
 // ==========================================
-// 2. THE BYPASS MECHANISM (Direct Data Injection)
+// 2. LOAD & INJECT THE MOCK DATA
 // ==========================================
-let finalSystemInstruction = baseSystemInstruction;
-let toolDefinitions = null; // Will stay null if bypassing
-
-if (BYPASS_SKILLS_FOR_TESTING) {
-    console.log("⚠️ BYPASSING SKILLS: Injecting mock data directly into prompt for testing.");
-    
+function buildFinalSystemInstruction() {
     try {
-        // Read data directly from the data/ folder
+        // Read the JSON files directly from the data/ folder
         const catalog = JSON.parse(readFileSync('./data/catalog.json', 'utf-8'));
         const sections = JSON.parse(readFileSync('./data/sections.json', 'utf-8'));
         
-        // Read all major files
+        // Read all major requirement files
         const majorsDir = './data/majors';
         const majorFiles = readdirSync(majorsDir).filter(f => f.endsWith('.json'));
-        let majorsText = "";
+        let majorsData = [];
         for (const file of majorFiles) {
-            const majorData = JSON.parse(readFileSync(join(majorsDir, file), 'utf-8'));
-            majorsText += `\n- ${majorData.major_name} requires: ${majorData.required_core.join(", ")}`;
+            majorsData.push(JSON.parse(readFileSync(join(majorsDir, file), 'utf-8')));
         }
 
-        // Append the raw JSON data directly to the system prompt
-        finalSystemInstruction += `\n\n---\nINJECTED MOCK DATA FOR TESTING (DO NOT INVENT OUTSIDE THIS DATA):\n`;
-        finalSystemInstruction += `COURSE CATALOG: ${JSON.stringify(catalog)}\n`;
-        finalSystemInstruction += `CURRENT SECTIONS: ${JSON.stringify(sections)}\n`;
-        finalSystemInstruction += `MAJOR REQUIREMENTS: ${majorsText}\n`;
-        
+        // Format the data into a readable string for the AI
+        const dataContext = `
+---
+INJECTED W&M DATA (USE ONLY THIS DATA, DO NOT INVENT OUTSIDE OF IT):
+
+COURSE CATALOG:
+${JSON.stringify(catalog, null, 2)}
+
+CURRENT SEMESTER SECTIONS:
+${JSON.stringify(sections, null, 2)}
+
+MAJOR REQUIREMENTS:
+${JSON.stringify(majorsData, null, 2)}
+`;
+        // Combine the behavioral rules with the raw data
+        return baseSystemInstruction + dataContext;
+
     } catch (err) {
-        console.error("❌ Failed to read mock data for bypass:", err.message);
+        console.error("❌ Failed to read mock data:", err.message);
+        return baseSystemInstruction + "\n\n[ERROR: Could not load course data]";
     }
-} else {
-    // If NOT bypassing, load the Tool Definitions for the partner's skills
-    console.log("🛠️ USING SKILLS: Function calling is active.");
-    toolDefinitions = {
-        functionDeclarations: [
-            {
-                name: "search_courses",
-                description: "Searches the W&M course catalog by department, COLL attribute, or keyword.",
-                parameters: { type: "OBJECT", properties: { department: { type: "STRING" }, attribute: { type: "STRING" }, keyword: { type: "STRING" } } }
-            },
-            {
-                name: "get_course_details",
-                description: "Gets full details and prerequisites for a specific course code.",
-                parameters: { type: "OBJECT", properties: { course_code: { type: "STRING" } }, required: ["course_code"] }
-            },
-            {
-                name: "get_major_requirements",
-                description: "Gets the required core courses for a specific major track.",
-                parameters: { type: "OBJECT", properties: { major_name: { type: "STRING" } }, required: ["major_name"] }
-            }
-        ]
-    };
 }
 
-const availableSkills = {
-    search_courses: catalogTools.search_courses,
-    get_course_details: catalogTools.get_course_details,
-    get_major_requirements: majorTools.get_major_requirements
-};
+// Build the instruction once at startup (or you could move this inside the route if you want it to reload on every message)
+const finalSystemInstruction = buildFinalSystemInstruction();
+console.log("✅ Injected mock data into system instruction.");
 
 // ==========================================
-// 3. THE AGENT LOOP (Chat Endpoint)
+// 3. THE CHAT ENDPOINT (Simplified)
 // ==========================================
 app.post("/api/chat", async (req, res) => {
     try {
         const { history } = req.body;
         
-        let contents = history.map(turn => ({
+        // Format frontend history into Gemini's expected structure
+        const contents = history.map(turn => ({
             role: turn.role,
             parts: [{ text: turn.text }]
         }));
 
-        // Build the base API request body
-        let requestBody = {
-            contents,
-            systemInstruction: { parts: [{ text: finalSystemInstruction }] }
-        };
-
-        // Only add tools if we are NOT bypassing
-        if (toolDefinitions) {
-            requestBody.tools = [toolDefinitions];
-        }
-
-        // --- STEP 1: Initial API Call ---
-        let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
+        // Single API call (No tools, no agent loop)
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
             method: "POST",
             headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_API_KEY },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify({
+                contents,
+                systemInstruction: { parts: [{ text: finalSystemInstruction }] }
+            })
         });
 
-        let data = await response.json();
-        let parts = data.candidates?.[0]?.content?.parts;
-
-        // --- STEP 2: Check for Function Calls (Only runs if BYPASS is FALSE) ---
-        if (!BYPASS_SKILLS_FOR_TESTING && parts && parts.some(p => p.functionCall)) {
-            console.log("🤖 AI is invoking a skill...");
-            
-            for (const part of parts) {
-                if (part.functionCall) {
-                    const { name, args } = part.functionCall;
-                    console.log(`   ↳ Executing: ${name} with args:`, args);
-                    
-                    const skillResult = availableSkills[name](args);
-                    
-                    contents.push({ role: "model", parts: [{ functionCall: part.functionCall }] });
-                    contents.push({ role: "function", parts: [{ functionResponse: { name: name, response: { result: skillResult } } }] });
-                }
-            }
-
-            // --- STEP 3: Second API Call with Tool Results ---
-            response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_API_KEY },
-                body: JSON.stringify(requestBody) // Re-use the body which now has updated contents
-            });
-            data = await response.json();
+        const data = await response.json();
+        
+        if (!response.ok) {
+            console.error("Gemini API error:", data);
+            return res.status(response.status).json({ error: data });
         }
 
         // Extract final text response
@@ -177,5 +120,5 @@ app.post("/api/chat", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 TribeAdvisor running at http://localhost:${PORT}`);
+    console.log(`🚀 TribeAdvisor (Direct Injection Mode) running at http://localhost:${PORT}`);
 });
