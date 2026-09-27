@@ -163,6 +163,12 @@
           <div class="snap-section-title">Degree Progress</div>
           <div class="progress-ring-wrap">
             <svg class="progress-ring" viewBox="0 0 120 120" width="108" height="108" role="img" aria-label="Overall degree progress">
+              <defs>
+                <linearGradient id="snapshot-progress-gradient" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop class="ring-gradient-start" offset="0%" />
+                  <stop class="ring-gradient-end" offset="100%" />
+                </linearGradient>
+              </defs>
               <circle class="ring-track" cx="60" cy="60" r="52" />
               <circle class="ring-progress" id="snap-ring-progress" cx="60" cy="60" r="52" />
             </svg>
@@ -223,6 +229,12 @@
           <div class="degree-progress-panel">
             <div class="dp-ring-wrap">
               <svg class="progress-ring roadmap-progress-ring" viewBox="0 0 120 120" width="96" height="96" role="img" aria-label="Roadmap degree progress">
+                <defs>
+                  <linearGradient id="roadmap-progress-gradient" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop class="ring-gradient-start" offset="0%" />
+                    <stop class="ring-gradient-end" offset="100%" />
+                  </linearGradient>
+                </defs>
                 <circle class="ring-track" cx="60" cy="60" r="52" />
                 <circle class="ring-progress" id="roadmap-ring-progress" cx="60" cy="60" r="52" />
               </svg>

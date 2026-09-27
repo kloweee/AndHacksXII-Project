@@ -563,6 +563,14 @@ p { margin: 0; }
   fill: none; stroke: var(--green-primary); stroke-width: 9; stroke-linecap: round;
   transition: stroke-dashoffset 600ms var(--ease);
 }
+.ring-gradient-start { stop-color: var(--green-primary); }
+.ring-gradient-end { stop-color: #b9df91; }
+#snap-ring-progress { stroke: url(#snapshot-progress-gradient); }
+#roadmap-ring-progress { stroke: url(#roadmap-progress-gradient); }
+[data-theme="dark"] .ring-gradient-end { stop-color: #fff3a6; }
+[data-theme="dark"] .ring-progress {
+  filter: drop-shadow(0 0 3px rgba(255, 239, 150, 0.45));
+}
 .progress-ring-label {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
