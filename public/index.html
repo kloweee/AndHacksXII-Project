@@ -30,6 +30,7 @@
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-external" viewBox="0 0 24 24"><path d="M9 6H5.5A1.5 1.5 0 0 0 4 7.5v11A1.5 1.5 0 0 0 5.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15M14 4h6v6M20 4l-9 9"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c8-1 13-6 14-14-8 1-13 6-14 14z"/><path d="M6 18c2-4 5-7 9-9"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
 </svg>
 
 <div class="atmosphere" aria-hidden="true"></div>
@@ -144,6 +145,10 @@
 
           <div class="snap-section-title">Degree Progress</div>
           <div class="progress-ring-wrap">
+            <svg class="progress-ring" viewBox="0 0 120 120" width="108" height="108" role="img" aria-label="Overall degree progress">
+              <circle class="ring-track" cx="60" cy="60" r="52" />
+              <circle class="ring-progress" id="snap-ring-progress" cx="60" cy="60" r="52" />
+            </svg>
             <div class="progress-ring-label" id="snap-overall-pct">68%</div>
           </div>
           <div id="snap-bars"></div>
@@ -187,9 +192,15 @@
         <div id="semester-view">
           <div class="semester-scroll" id="semester-scroll"></div>
           <div class="degree-progress-panel">
-            <div class="dp-headline">
-              <div class="pct" id="dp-pct">68%</div>
-              <div class="frac" id="dp-frac">82 / 120 credits</div>
+            <div class="dp-ring-wrap">
+              <svg class="progress-ring roadmap-progress-ring" viewBox="0 0 120 120" width="96" height="96" role="img" aria-label="Roadmap degree progress">
+                <circle class="ring-track" cx="60" cy="60" r="52" />
+                <circle class="ring-progress" id="roadmap-ring-progress" cx="60" cy="60" r="52" />
+              </svg>
+              <div class="dp-headline">
+                <div class="pct" id="dp-pct">68%</div>
+                <div class="frac" id="dp-frac">82 / 120 credits</div>
+              </div>
             </div>
             <div class="dp-bars" id="dp-bars"></div>
             <div class="dp-grad">Expected Graduation<strong id="dp-grad-date">Spring 2029</strong></div>
@@ -218,6 +229,23 @@
   <button class="drawer-close" id="drawer-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
   <div id="drawer-content"></div>
 </aside>
+
+<!-- Add-course search (shared, opened from any "+ Add Course" control while editing) -->
+<div class="drawer-backdrop" id="course-search-backdrop"></div>
+<div class="course-search-modal" id="course-search-modal" role="dialog" aria-modal="true" aria-label="Add a course">
+  <button class="drawer-close" id="course-search-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  <div class="cs-title">What course would you like to add?</div>
+  <div class="cs-sub" id="cs-target-label"></div>
+  <div class="cs-search-wrap">
+    <svg class="icon" style="width:16px;height:16px;color:var(--text-secondary)"><use href="#i-search"/></svg>
+    <input id="cs-search-input" type="text" placeholder="Search by course code or title…" autocomplete="off" />
+  </div>
+  <!-- INTEGRATION POINT: results currently come from a small mock
+       courseCatalog array in app.js. Swap that for a real catalog
+       lookup (e.g. GET /api/courses?q=) when the backend supports it —
+       the render/select logic below doesn't need to change. -->
+  <div class="cs-results" id="cs-results"></div>
+</div>
 
 <script src="app.js"></script>
 </body>

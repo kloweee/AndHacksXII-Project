@@ -137,8 +137,8 @@
 })();
 
 /* ==========================================================================
-    SECTION 2 — theme toggle
-    ========================================================================== */
+   SECTION 2 — theme toggle
+   ========================================================================== */
 (function themeModule() {
   const root = document.body;
   const toggle = document.getElementById("theme-toggle");
@@ -154,36 +154,10 @@
   });
 })();
 
-/* ==========================================================================
-    SECTION 2b — optional ambient background parallax (art-direction pass)
-    Purely decorative: shifts the fixed .atmosphere background by a few px
-    toward the pointer via CSS custom properties. Off entirely when the user
-    prefers reduced motion, and never touches any interactive element.
-    ========================================================================== */
-(function parallaxModule() {
-  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion || !window.matchMedia("(pointer: fine)").matches) return;
-
-  const root = document.documentElement;
-  const MAX_SHIFT = 4; // px in each direction => ~8px total travel, per spec
-  let pending = false;
-
-  window.addEventListener("pointermove", (e) => {
-    if (pending) return;
-    pending = true;
-    requestAnimationFrame(() => {
-      const x = ((e.clientX / window.innerWidth) - 0.5) * 2 * MAX_SHIFT;
-      const y = ((e.clientY / window.innerHeight) - 0.5) * 2 * MAX_SHIFT;
-      root.style.setProperty("--parallax-x", x.toFixed(2));
-      root.style.setProperty("--parallax-y", y.toFixed(2));
-      pending = false;
-    });
-  });
-})();
 
 /* ==========================================================================
-    SECTION 3 — tab navigation
-    ========================================================================== */
+   SECTION 3 — tab navigation
+   ========================================================================== */
 (function navModule() {
   const navButtons = document.querySelectorAll(".nav-item");
   const pages = { advisor: document.getElementById("page-advisor"), roadmap: document.getElementById("page-roadmap") };
@@ -198,8 +172,8 @@
 })();
 
 /* ==========================================================================
-    SECTION 4 — academic snapshot collapse
-    ========================================================================== */
+   SECTION 4 — academic snapshot collapse
+   ========================================================================== */
 (function snapshotModule() {
   const panel = document.getElementById("academic-snapshot");
   const collapseBtn = document.getElementById("snapshot-collapse");
@@ -216,85 +190,56 @@
 })();
 
 /* ==========================================================================
-    SECTION 5 — roadmap data model (NOW FETCHED FROM BACKEND)
-    ==========================================================================
-    INTEGRATION POINT: replaced hardcoded mock data with /api/roadmap fetch.
-    When the roadmap page loads, it fetches the current student + courses
-    from the backend. All downstream grouping, rendering, and progress math
-    work unchanged since they operate on the same shapes.
-    ========================================================================== */
-let student = {
+   SECTION 5 — roadmap data model
+   ==========================================================================
+   INTEGRATION POINT: this is mock data standing in for a real backend.
+   There is currently no /api/roadmap (or similar) endpoint — only /api/chat
+   exists server-side. When that endpoint exists, replace `student` and
+   `courses` below with a fetch() call that returns the same shapes, and
+   everything downstream (grouping, rendering, progress math) keeps working
+   unchanged, since Semester View and Requirement View both derive from this
+   one array, per spec §24.
+   ========================================================================== */
+const student = {
   name: "Sophie Lin",
   year: "Sophomore",
   graduation: "Spring 2029",
   programs: ["Data Science", "Finance"],
 };
 
-let courses = [];
-let requirementTotals = {
+const courses = [
+  { code: "CSCI 141", title: "Computer Science I", credits: 4, semester: "Fall 2025", status: "completed", requirements: ["Data Science"], prerequisites: [] },
+  { code: "MATH 111", title: "Calculus I", credits: 4, semester: "Fall 2025", status: "completed", requirements: ["Electives"], prerequisites: [] },
+  { code: "COLL 100", title: "Community, Change & Choice", credits: 3, semester: "Fall 2025", status: "completed", requirements: ["COLL"], prerequisites: [] },
+  { code: "ECON 101", title: "Principles of Microeconomics", credits: 3, semester: "Fall 2025", status: "completed", requirements: ["Finance"], prerequisites: [] },
+
+  { code: "CSCI 241", title: "Data Structures", credits: 4, semester: "Spring 2026", status: "completed", requirements: ["Data Science"], prerequisites: ["CSCI 141"] },
+  { code: "DATA 201", title: "Intro to Data Science", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["Data Science"], prerequisites: [] },
+  { code: "COLL 200 NQR", title: "Numeracy, Quantitative & Computational Reasoning", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["COLL"], prerequisites: [] },
+  { code: "MATH 301", title: "Linear Algebra", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["Electives"], prerequisites: ["MATH 111"] },
+
+  { code: "DATA 301", title: "Data Management", credits: 3, semester: "Fall 2026", status: "current", requirements: ["Data Science"], prerequisites: ["DATA 201"] },
+  { code: "BUAD 327", title: "Corporate Finance", credits: 3, semester: "Fall 2026", status: "current", requirements: ["Finance"], prerequisites: ["ECON 101"] },
+  { code: "BIOL 203", title: "Genetics", credits: 4, semester: "Fall 2026", status: "completed", requirements: ["Electives"], prerequisites: [] },
+
+  { code: "DATA 325", title: "Statistical Learning", credits: 3, semester: "Spring 2027", status: "planned", requirements: ["Data Science"], prerequisites: ["DATA 301"] },
+  { code: "FIN 301", title: "Investments", credits: 3, semester: "Spring 2027", status: "planned", requirements: ["Finance"], prerequisites: ["BUAD 327"] },
+  { code: "COLL 300", title: "Vision, Voice & Vocation", credits: 3, semester: "", status: "unassigned", requirements: ["COLL"], prerequisites: [] },
+
+  { code: "DATA 440", title: "Machine Learning", credits: 3, semester: "", status: "unassigned", requirements: ["Data Science"], prerequisites: ["DATA 325"] },
+  { code: "FIN 341", title: "Financial Modeling", credits: 3, semester: "", status: "unassigned", requirements: ["Finance"], prerequisites: ["FIN 301"] },
+];
+
+const requirementTotals = {
   "Data Science": 11,
   "Finance": 8,
   "COLL": 6,
   "Electives": 8,
 };
 
-/**
- * Fetch the roadmap from the backend
- */
-async function loadRoadmap() {
-  try {
-    const res = await fetch("/api/roadmap");
-    if (!res.ok) throw new Error(`Failed to load roadmap: ${res.status}`);
-    const data = await res.json();
-    
-    student = data.student;
-    courses = data.courses;
-    requirementTotals = data.requirementTotals;
-    
-    console.log("✅ Loaded roadmap from backend");
-  } catch (err) {
-    console.error("❌ Failed to load roadmap, using fallback:", err);
-    // Fallback to defaults (already defined above)
-  }
-}
-
-/**
- * Save the full roadmap to the backend
- */
-async function saveRoadmap() {
-  try {
-    const res = await fetch("/api/roadmap", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ student, courses, requirementTotals })
-    });
-    if (!res.ok) throw new Error(`Failed to save roadmap: ${res.status}`);
-    console.log("✅ Saved roadmap to backend");
-  } catch (err) {
-    console.error("❌ Failed to save roadmap:", err);
-  }
-}
-
-/**
- * Update a single course on the backend
- */
-async function updateCourse(code, updates) {
-  try {
-    const res = await fetch(`/api/roadmap/courses/${code}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updates)
-    });
-    if (!res.ok) throw new Error(`Failed to update course: ${res.status}`);
-    console.log(`✅ Updated course ${code} on backend`);
-  } catch (err) {
-    console.error(`❌ Failed to update course ${code}:`, err);
-  }
-}
-
 /* ==========================================================================
-    SECTION 6 — shared helpers
-    ========================================================================== */
+   SECTION 6 — shared helpers
+   ========================================================================== */
 const STATUS_ICON = { completed: "i-check-circle", current: "i-dot", planned: "i-circle", unassigned: "i-warning", problem: "i-warning" };
 const STATUS_CLASS = { completed: "completed", current: "current", planned: "planned", unassigned: "problem", problem: "problem" };
 
@@ -330,23 +275,35 @@ function totalCredits() {
 let editing = false;
 
 /* ==========================================================================
-    SECTION 7 — snapshot rendering (advisor page)
-    ========================================================================== */
+   SECTION 7 — snapshot rendering (advisor page)
+   ========================================================================== */
+const RING_RADIUS = 52;
+const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
+
 function renderSnapshotBars() {
   const el = document.getElementById("snap-bars");
   const names = Object.keys(requirementTotals);
   el.innerHTML = names
     .map((n) => {
       const { pct } = requirementProgress(n);
-      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`
+      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`;
     })
     .join("");
-  document.getElementById("snap-overall-pct").textContent = overallProgress() + "%";
+
+  const overall = overallProgress();
+  document.getElementById("snap-overall-pct").textContent = overall + "%";
+
+  // Circular progress ring — kept in sync with the same overallProgress()
+  // figure the text label and the Roadmap page's degree-progress bars use,
+  // so all three never drift apart.
+  const ring = document.getElementById("snap-ring-progress");
+  ring.style.strokeDasharray = RING_CIRCUMFERENCE;
+  ring.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - overall / 100);
 }
 
 /* ==========================================================================
-    SECTION 8 — semester view rendering
-    ========================================================================== */
+   SECTION 8 — semester view rendering
+   ========================================================================== */
 function groupBySemester() {
   const groups = {};
   courses.forEach((c) => {
@@ -390,16 +347,21 @@ function renderSemesterView() {
       .join("") + `<button class="add-semester-col">+ Add Semester</button>`;
 
   // Degree progress summary
+  const overall = overallProgress();
   const { earned, target } = totalCredits();
-  document.getElementById("dp-pct").textContent = overallProgress() + "%";
+  document.getElementById("dp-pct").textContent = overall + "%";
   document.getElementById("dp-frac").textContent = `${earned} / ${target} credits`;
   document.getElementById("dp-grad-date").textContent = student.graduation;
   document.getElementById("dp-bars").innerHTML = Object.keys(requirementTotals)
     .map((n) => {
       const { pct } = requirementProgress(n);
-      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`
+      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`;
     })
     .join("");
+
+  const roadmapRing = document.getElementById("roadmap-ring-progress");
+  roadmapRing.style.strokeDasharray = RING_CIRCUMFERENCE;
+  roadmapRing.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - overall / 100);
 
   renderStillNeedsHome();
   attachCourseCardHandlers();
@@ -438,8 +400,8 @@ function renderStillNeedsHome() {
 }
 
 /* ==========================================================================
-    SECTION 9 — requirement view rendering
-    ========================================================================== */
+   SECTION 9 — requirement view rendering
+   ========================================================================== */
 function renderRequirementView() {
   const grid = document.getElementById("requirement-grid");
   const names = Object.keys(requirementTotals);
@@ -461,8 +423,8 @@ function renderRequirementView() {
 }
 
 /* ==========================================================================
-    SECTION 10 — view toggle (semester / requirement)
-    ========================================================================== */
+   SECTION 10 — view toggle (semester / requirement)
+   ========================================================================== */
 (function viewToggleModule() {
   const semBtn = document.getElementById("view-semester");
   const reqBtn = document.getElementById("view-requirement");
@@ -483,8 +445,8 @@ function renderRequirementView() {
 })();
 
 /* ==========================================================================
-    SECTION 11 — course details drawer
-    ========================================================================== */
+   SECTION 11 — course details drawer
+   ========================================================================== */
 function openDrawer(course) {
   if (!course) return;
   const backdrop = document.getElementById("drawer-backdrop");
@@ -522,7 +484,7 @@ function openDrawer(course) {
 
     ${
       missingPrereq && (course.status === "planned" || course.status === "unassigned")
-        ? `<div class="drawer-warning"><svg class="icon" style="width:15px;height:15px;flex-shrink:0"><use href="#i-warning"/></svg><span>Missing prerequisite: ${missingPrereq} must be completed first</span></div>`
+        ? `<div class="drawer-warning"><svg class="icon" style="width:15px;height:15px;flex-shrink:0"><use href="#i-warning"/></svg><span>Missing prerequisite: ${missingPrereq} must be completed before ${course.code}.</span></div>`
         : ""
     }
 
@@ -571,45 +533,150 @@ function attachCourseCardHandlers() {
     });
   });
   document.querySelectorAll(".remove-course-x").forEach((btn) => {
-    btn.addEventListener("click", async (e) => {
+    btn.addEventListener("click", (e) => {
       e.stopPropagation();
       const c = courses.find((c) => c.code === btn.dataset.remove);
       if (c) {
         c.semester = "";
         c.status = "unassigned";
-        await updateCourse(c.code, { semester: "", status: "unassigned" });
       }
       renderSemesterView();
     });
   });
   document.querySelectorAll(".add-course-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const target = btn.dataset.addTo;
-      const unassigned = courses.filter((c) => c.status === "unassigned");
-      if (!unassigned.length) return;
-      const pick = unassigned[0]; // simple hackathon-grade picker: first eligible course
-      pick.semester = target;
-      pick.status = "planned";
-      updateCourse(pick.code, { semester: target, status: "planned" });
-      renderSemesterView();
-    });
+    btn.addEventListener("click", () => openCourseSearch(btn.dataset.addTo));
   });
 }
 
 /* ==========================================================================
-    SECTION 12 — edit mode + drag and drop
-    ========================================================================== */
+   SECTION 11b — add-course search
+   ==========================================================================
+   INTEGRATION POINT: courseCatalog below is mock data standing in for a
+   real "search the course catalog" backend call (the spec calls for this
+   to eventually be sourced from W&M's course catalog). There is no such
+   endpoint yet — only /api/chat exists server-side. When one exists
+   (e.g. GET /api/courses?q=...), swap the filter in renderSearchResults()
+   for a fetch() call; openCourseSearch/selectCatalogCourse and the modal
+   markup don't need to change.
+   ========================================================================== */
+const courseCatalog = [
+  { code: "DATA 325", title: "Statistical Learning", credits: 3, requirements: ["Data Science"] },
+  { code: "DATA 350", title: "Data Visualization", credits: 3, requirements: ["Data Science"] },
+  { code: "DATA 440", title: "Machine Learning", credits: 3, requirements: ["Data Science"] },
+  { code: "DATA 450", title: "Big Data Systems", credits: 3, requirements: ["Data Science"] },
+  { code: "CSCI 315", title: "Database Systems", credits: 3, requirements: ["Data Science"] },
+  { code: "CSCI 411", title: "Artificial Intelligence", credits: 3, requirements: ["Data Science"] },
+  { code: "STAT 302", title: "Probability", credits: 3, requirements: ["Data Science"] },
+  { code: "FIN 301", title: "Investments", credits: 3, requirements: ["Finance"] },
+  { code: "FIN 341", title: "Financial Modeling", credits: 3, requirements: ["Finance"] },
+  { code: "FIN 401", title: "Derivatives Markets", credits: 3, requirements: ["Finance"] },
+  { code: "BUAD 310", title: "Marketing Management", credits: 3, requirements: ["Finance"] },
+  { code: "BUAD 350", title: "Financial Accounting", credits: 3, requirements: ["Finance"] },
+  { code: "ECON 303", title: "Money and Banking", credits: 3, requirements: ["Finance"] },
+  { code: "COLL 300", title: "Vision, Voice & Vocation", credits: 3, requirements: ["COLL"] },
+  { code: "COLL 350", title: "COLL Capstone Seminar", credits: 3, requirements: ["COLL"] },
+  { code: "PHIL 201", title: "Ethics", credits: 3, requirements: ["COLL"] },
+  { code: "HIST 150", title: "Global History Survey", credits: 3, requirements: ["COLL"] },
+  { code: "ARTH 150", title: "Introduction to Art History", credits: 3, requirements: ["Electives"] },
+  { code: "PSYC 101", title: "Introduction to Psychology", credits: 3, requirements: ["Electives"] },
+  { code: "ENGL 201", title: "Creative Writing", credits: 3, requirements: ["Electives"] },
+  { code: "MUS 105", title: "Music Theory I", credits: 3, requirements: ["Electives"] },
+  { code: "KINE 201", title: "Introduction to Exercise Science", credits: 3, requirements: ["Electives"] },
+];
+
+let csTargetSemester = null;
+
+function openCourseSearch(targetSemester) {
+  csTargetSemester = targetSemester;
+  document.getElementById("cs-target-label").textContent = `Adding to ${targetSemester}`;
+  const input = document.getElementById("cs-search-input");
+  input.value = "";
+  renderSearchResults("");
+  document.getElementById("course-search-backdrop").classList.add("open");
+  document.getElementById("course-search-modal").classList.add("open");
+  input.focus();
+}
+
+function closeCourseSearch() {
+  document.getElementById("course-search-backdrop").classList.remove("open");
+  document.getElementById("course-search-modal").classList.remove("open");
+  csTargetSemester = null;
+}
+
+function renderSearchResults(query) {
+  const list = document.getElementById("cs-results");
+  const q = query.trim().toLowerCase();
+  const matches = courseCatalog.filter(
+    (c) => !q || c.code.toLowerCase().includes(q) || c.title.toLowerCase().includes(q)
+  );
+
+  if (!matches.length) {
+    list.innerHTML = `<div class="cs-empty">No matching courses found.</div>`;
+    return;
+  }
+
+  list.innerHTML = matches
+    .map(
+      (c) => `
+      <button type="button" class="cs-result" data-code="${c.code}">
+        <div class="cs-code">${c.code}</div>
+        <div class="cs-course-title">${c.title}</div>
+        <span class="tag">${c.requirements[0]}</span>
+        <span class="tag credits">${c.credits} credits</span>
+      </button>`
+    )
+    .join("");
+
+  list.querySelectorAll(".cs-result").forEach((btn) => {
+    btn.addEventListener("click", () => selectCatalogCourse(btn.dataset.code));
+  });
+}
+
+function selectCatalogCourse(code) {
+  if (!csTargetSemester) return;
+  const entry = courseCatalog.find((c) => c.code === code);
+  if (!entry) return;
+
+  // If this course already exists on the roadmap (e.g. it was sitting in
+  // "Still Needs a Home"), just reassign it rather than creating a
+  // duplicate. Otherwise add it as a new planned course.
+  let course = courses.find((c) => c.code === code);
+  if (course) {
+    course.semester = csTargetSemester;
+    course.status = "planned";
+  } else {
+    courses.push({
+      code: entry.code,
+      title: entry.title,
+      credits: entry.credits,
+      semester: csTargetSemester,
+      status: "planned",
+      requirements: entry.requirements,
+      prerequisites: [],
+    });
+  }
+
+  closeCourseSearch();
+  renderSemesterView();
+  if (document.getElementById("requirement-view").classList.contains("active")) renderRequirementView();
+}
+
+document.getElementById("cs-search-input").addEventListener("input", (e) => renderSearchResults(e.target.value));
+document.getElementById("course-search-close").addEventListener("click", closeCourseSearch);
+document.getElementById("course-search-backdrop").addEventListener("click", closeCourseSearch);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.getElementById("course-search-modal").classList.contains("open")) closeCourseSearch();
+});
+
+/* ==========================================================================
+   SECTION 12 — edit mode + drag and drop
+   ========================================================================== */
 document.getElementById("edit-plan-btn").addEventListener("click", function () {
   editing = !editing;
   this.textContent = editing ? "Save Plan" : "Edit Plan";
   this.classList.toggle("editing", editing);
   renderSemesterView();
   if (document.getElementById("requirement-view").classList.contains("active")) renderRequirementView();
-  
-  // Save when exiting edit mode
-  if (!editing) {
-    saveRoadmap();
-  }
 });
 
 let draggedCode = null;
@@ -629,7 +696,7 @@ function attachDragHandlers() {
       col.classList.add("drop-hover");
     });
     col.addEventListener("dragleave", () => col.classList.remove("drop-hover"));
-    col.addEventListener("drop", async (e) => {
+    col.addEventListener("drop", (e) => {
       e.preventDefault();
       col.classList.remove("drop-hover");
       if (!draggedCode) return;
@@ -649,7 +716,6 @@ function attachDragHandlers() {
 
       course.semester = destSemester;
       if (course.status === "unassigned") course.status = "planned";
-      await updateCourse(course.code, { semester: destSemester, status: course.status });
       draggedCode = null;
       renderSemesterView(); // credits, progress, and status recompute from the single source of truth
     });
@@ -657,11 +723,7 @@ function attachDragHandlers() {
 }
 
 /* ==========================================================================
-    SECTION 13 — initial load and render
-    ========================================================================== */
-(async function initializeApp() {
-  await loadRoadmap();
-  renderSnapshotBars();
-  renderSemesterView();
-  console.log("✅ App initialized with roadmap from backend");
-})();
+   SECTION 13 — initial render
+   ========================================================================== */
+renderSnapshotBars();
+renderSemesterView();
