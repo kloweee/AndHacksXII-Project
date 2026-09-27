@@ -1215,7 +1215,7 @@ function applyImportedRoadmap(roadmap) {
   if (document.getElementById("requirement-view").classList.contains("active")) renderRequirementView();
 
   // The parser no longer guesses graduation from the audit — ask for it.
-  if (!student.graduation) window.__openGradPrompt();
+  if (!student.graduation) window.__openGradPrompt({ auto: true });
 }
 
 const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…", "Analyzing your current degree progress…"];
@@ -1321,8 +1321,15 @@ const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…
    SECTION 12b — target graduation term prompt
    ==========================================================================
    Shown right after an upload (the audit's own graduation field is
-   unreliable, so the parser leaves it blank) and whenever the student clicks
-   the Expected Graduation date on the Roadmap page to change it.
+   unreliable, so the parser leaves it blank), on every subsequent page load
+   while the roadmap still has no graduation term set, and whenever the
+   student clicks the Expected Graduation date on the Roadmap page to
+   change it.
+
+   The two "no graduation set yet" cases (post-upload, page load) pass
+   { auto: true } so each time the prompt is raised automatically it's
+   also logged onto the saved roadmap record (gradPromptShownCount /
+   gradPromptLastShown), not just held in memory for that one visit.
    ========================================================================== */
 (function gradPromptModule() {
   const backdrop = document.getElementById("grad-backdrop");
@@ -1365,8 +1372,17 @@ const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…
     errorEl.textContent = "";
   }
 
-  function open() {
+  function open(options = {}) {
     if (!hasRoadmap()) return;
+    // options.auto: true when this open() came from the "no graduation set"
+    // check itself (post-upload or page load) rather than the student
+    // clicking to edit an existing date. Record that on the saved roadmap
+    // so it's part of the persisted record, not just an in-memory flag.
+    if (options.auto) {
+      student.gradPromptShownCount = (student.gradPromptShownCount || 0) + 1;
+      student.gradPromptLastShown = new Date().toISOString();
+      saveRoadmapToStorage();
+    }
     earliest = earliestGraduation();
     const earliestYear = Number(earliest.term.split(" ")[1]);
     const thisYear = new Date().getFullYear();
@@ -1623,4 +1639,9 @@ renderSemesterView();
 loadCatalog().then(() => {
   renderSemesterView();
   window.__renderCatalogSearch();
+  // Keep asking for a target graduation term on every visit — not just the
+  // first time, right after an upload — until the student actually sets
+  // one. Waiting for the catalog to load first keeps the "earliest
+  // realistic graduation" estimate shown in the prompt accurate.
+  if (hasRoadmap() && !student.graduation) window.__openGradPrompt({ auto: true });
 });
