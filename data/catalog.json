@@ -1,173 +1,257 @@
-[
-  {
+{
+  "CSCI 141": {
     "code": "CSCI 141",
     "title": "Modern Programming Fundamentals",
-    "department": "CSCI",
     "credits": 4,
-    "description": "Introduces students to the foundational principles of programming.",
+    "description": "CSCI 141 introduces students to the foundational principles of computer programming through problems drawn from computing, the natural and social sciences, and data-driven fields. Students learn how to design algorithmic solutions, translate them into Python programs, and evaluate the correctness and clarity of their code. The course emphasizes core programming concepts such as values, variables, data types, expressions, conditionals, loops, functions, and the use of standard libraries culminating in an introduction to the basics of object-oriented programming. Throughout the course students are introduced to the responsible use of modern computational tools including integrated development environments (IDEs) and evolving artificial intelligence (AI) platforms.",
     "prerequisites": [],
-    "coll_attribute": "NQR"
+    "corequisites": [
+      "CSCI 141L"
+    ],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": "NQR"
   },
-  {
+  "CSCI 241": {
     "code": "CSCI 241",
-    "title": "Intermediate Software Design",
-    "department": "CSCI",
-    "credits": 4,
-    "description": "Continuation of CSCI 141 focusing on object-oriented design.",
-    "prerequisites": ["CSCI 141"],
-    "coll_attribute": ""
+    "title": "Data Structures",
+    "credits": 3,
+    "description": "Data structures define how data are stored and accessed for computation. This course covers a broad introduction to their use in efficient software development. Topics include functional and performance implications of structured data abstraction, storage, and access, as well as fundamental data structures including arrays, linked lists, stacks, queues, deques, balanced search trees, heaps, and hash tables, together with the algorithms that govern their operation and applications that emerge from them. Students also examine the role data structures play in common applications including media streaming, text encoding and compression, sorting, searching, and indexing. Students will apply concepts through hands-on, object-oriented software development with classes, interfaces, GUI events, garbage collection, unit testing, recursion, and elementary design patterns. Students will study and apply responsible, effective use of AI agents for code generation, test case creation, specifications compliance, and visualization.",
+    "prerequisites": [
+      "CSCI 141",
+      "DATA 141",
+      "CSCI 140",
+      "DATA 140"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": ""
   },
-  {
+  "CSCI 243": {
+    "code": "CSCI 243",
+    "title": "Logic and Discrete Structures",
+    "credits": 3,
+    "description": "Theoretical foundations of computer science. Topics typically include propositional logic, predicate logic, sets, functions, Boolean algebra, proof techniques, counting, discrete probability, relations, trees, and graphs.",
+    "prerequisites": [
+      "CSCI 141",
+      "CSCI 142",
+      "CSCI 140",
+      "DATA 140",
+      "DATA 141"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": ""
+  },
+  "CSCI 301": {
     "code": "CSCI 301",
-    "title": "Data Structures and Algorithms",
-    "department": "CSCI",
-    "credits": 4,
-    "description": "Study of fundamental data structures and algorithms.",
-    "prerequisites": ["CSCI 241"],
-    "coll_attribute": ""
-  },
-  {
-    "code": "DATA 101",
-    "title": "Introduction to Data Science",
-    "department": "DATA",
+    "title": "Software Development",
     "credits": 3,
-    "description": "An introductory course to data science concepts and tools.",
-    "prerequisites": ["CSCI 141"],
-    "coll_attribute": "NQR"
+    "description": "An introduction to principled software development, emphasizing design at the module level as well as tools and techniques. Topics include object-oriented class design and implementation, abstraction techniques, debugging techniques, defensive programming, development and analysis tools, and testing. Emphasizes the role of the individual programmer in large software development projects.",
+    "prerequisites": [
+      "CSCI 241"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": ""
   },
-  {
-    "code": "COLL 200",
-    "title": "College Curriculum Seminar",
-    "department": "COLL",
+  "CSCI 303": {
+    "code": "CSCI 303",
+    "title": "Algorithms",
     "credits": 3,
-    "description": "A seminar fulfilling the COLL 200 requirement.",
-    "prerequisites": [],
-    "coll_attribute": "CSI"
+    "description": "A systematic study of algorithms and their complexity, including searching, sorting, selecting, and algorithms for graphs. A survey of algorithm design methods, including greedy algorithms, divide-and-conquer, dynamic programming, and backtracking. An introduction to NP-complete problems.",
+    "prerequisites": [
+      "CSCI 241",
+      "CSCI 243 or MATH 214"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": ""
   },
-  {
-    "code": "MATH 111",
-    "title": "Calculus I",
-    "department": "MATH",
-    "credits": 4,
-    "description": "Limits, derivatives, and an introduction to integration.",
-    "prerequisites": [],
-    "coll_attribute": "NQR"
-  },
-  {
-    "code": "COLL 100",
-    "title": "Community, Change & Choice",
-    "department": "COLL",
+  "CSCI 304": {
+    "code": "CSCI 304",
+    "title": "Computer Organization",
     "credits": 3,
-    "description": "First-year seminar exploring community engagement and decision-making.",
-    "prerequisites": [],
-    "coll_attribute": ""
+    "description": "Organization of computer hardware and software; virtual machines, computer systems organization, machine language, assembler language and microprogramming.",
+    "prerequisites": [
+      "CSCI 241"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": ""
   },
-  {
-    "code": "ECON 101",
-    "title": "Principles of Microeconomics",
-    "department": "ECON",
+  "CSCI 312": {
+    "code": "CSCI 312",
+    "title": "Principles of Programming Languages",
     "credits": 3,
-    "description": "Introduces supply, demand, and the behavior of individual markets.",
-    "prerequisites": [],
-    "coll_attribute": ""
+    "description": "A study of programming language principles and paradigms. Formal syntax, including grammars, and semantics. Paradigms, including: imperative, object oriented, functional, logic, event-driven, and concurrent. Run-time implementation issues, including: memory management, parameter passing, and event handling.",
+    "prerequisites": [
+      "CSCI 241",
+      "CSCI 243 or MATH 214"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": ""
   },
-  {
-    "code": "DATA 201",
-    "title": "Intro to Data Science",
-    "department": "DATA",
+  "CSCI 423": {
+    "code": "CSCI 423",
+    "title": "Finite Automata and Theory of Computation",
     "credits": 3,
-    "description": "Hands-on introduction to data collection, cleaning, and exploratory analysis.",
-    "prerequisites": [],
-    "coll_attribute": ""
+    "description": "Theory of sequential machines, finite automata, Turing machines, recursive functions, computability of functions.",
+    "prerequisites": [
+      "CSCI 303"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "general",
+    "domain": ""
   },
-  {
-    "code": "COLL 200 NQR",
-    "title": "Numeracy, Quantitative & Computational Reasoning",
-    "department": "COLL",
+  "CSCI 444": {
+    "code": "CSCI 444",
+    "title": "Principles of Operating Systems",
     "credits": 3,
-    "description": "A COLL 200 seminar satisfying the NQR domain requirement.",
-    "prerequisites": [],
-    "coll_attribute": "NQR"
+    "description": "The conceptual view of an operating system as a collection of concurrent processes; semaphores, monitors and rendezvous. Real and virtual memory organization and management, processor allocation and management, and external device management.",
+    "prerequisites": [
+      "CSCI 301",
+      "CSCI 303",
+      "CSCI 304"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "cybersecurity",
+    "domain": ""
   },
-  {
-    "code": "MATH 301",
-    "title": "Linear Algebra",
-    "department": "MATH",
+  "CSCI 454": {
+    "code": "CSCI 454",
+    "title": "Computer and Network Security",
     "credits": 3,
-    "description": "Vector spaces, matrices, eigenvalues, and linear transformations.",
-    "prerequisites": ["MATH 111"],
-    "coll_attribute": ""
+    "description": "An introduction to the principles and practices of cryptography, network security, and secure software. Cryptography topics includes: basic methods, key distribution, and protocols for authenticated and confidential communications. The practice of network security includes: Kerberos, PGP, public key infrastructures, SSL/TLS. IP security, intrusion detection, password management, firewalls, viruses and worms, and Denial of Service (DoS) attacks.",
+    "prerequisites": [
+      "CSCI 303",
+      "CSCI 304"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "cybersecurity",
+    "domain": ""
   },
-  {
-    "code": "DATA 301",
-    "title": "Data Management",
-    "department": "DATA",
+  "CSCI 464": {
+    "code": "CSCI 464",
+    "title": "Penetration Testing",
     "credits": 3,
-    "description": "Database design, querying, and data pipeline fundamentals.",
-    "prerequisites": ["DATA 201"],
-    "coll_attribute": ""
+    "description": "This course introduces computer network vulnerability assessments and penetration testing. The course explores how malicious actors and hackers attack computers and networks and how to protect against these threats. This is a hands-on learning course where students will be exposed to and perform various types of vulnerability assessments and explore penetration testing techniques in order to understand how to defend against cyber-attacks. Legal implications and ethical issues will also be addressed.",
+    "prerequisites": [
+      "CSCI 224",
+      "CSCI 304"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "cybersecurity",
+    "domain": ""
   },
-  {
-    "code": "BUAD 327",
-    "title": "Corporate Finance",
-    "department": "BUAD",
+  "CSCI 356": {
+    "code": "CSCI 356",
+    "title": "Large Language Models",
     "credits": 3,
-    "description": "Core principles of corporate financial decision-making.",
-    "prerequisites": ["ECON 101"],
-    "coll_attribute": ""
+    "description": "This course dives into the realm of large language models (LLMs), the engines driving today’s natural language processing revolution. Students will master the theory, architecture, and real-world applications of LLMs, preparing to harness our future AI applications. Blending lectures, hands-on coding, and critical analysis, this course equips students with the skills to build, apply, and interrogate these linguistic models.",
+    "prerequisites": [
+      "CSCI 141"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
-    "code": "BIOL 203",
-    "title": "Genetics",
-    "department": "BIOL",
-    "credits": 4,
-    "description": "Principles of heredity, gene expression, and molecular genetics.",
-    "prerequisites": [],
-    "coll_attribute": ""
-  },
-  {
-    "code": "DATA 325",
-    "title": "Statistical Learning",
-    "department": "DATA",
+  "CSCI 416": {
+    "code": "CSCI 416",
+    "title": "Fundamentals of Artificial Intelligence/Machine Learning",
     "credits": 3,
-    "description": "Regression, classification, and resampling methods for data analysis.",
-    "prerequisites": ["DATA 301"],
-    "coll_attribute": ""
+    "description": "This course will give an overview of important concepts, techniques, and algorithms in artificial intelligence with emphasis on machine learning, beginning with topics such as linear regression and ending up with more recent topics such as boosting, support vector machines, and expectation maximization. The course will give the student the basic ideas and intuition behind modern methods as well as a bit more formal understanding of how, why, and when they work.",
+    "prerequisites": [
+      "CSCI 303",
+      "MATH 112 or MATH 132",
+      "MATH 211 or MATH 109"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "C400",
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
-    "code": "FIN 301",
-    "title": "Investments",
-    "department": "FIN",
+  "CSCI 421": {
+    "code": "CSCI 421",
+    "title": "Database Systems",
     "credits": 3,
-    "description": "Theory and practice of security valuation and portfolio management.",
-    "prerequisites": ["BUAD 327"],
-    "coll_attribute": ""
+    "description": "Design, organization and implementation of database management systems: file organization and processing, hierarchical, network, and relational models of database structure, data definition and data manipulation languages, security and integrity of databases, and the study of existing database implementations.",
+    "prerequisites": [
+      "CSCI 303"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
-    "code": "COLL 300",
-    "title": "Vision, Voice & Vocation",
-    "department": "COLL",
+  "CSCI 436": {
+    "code": "CSCI 436",
+    "title": "Data Mining",
     "credits": 3,
-    "description": "Reflective seminar connecting coursework to purpose and career vision.",
-    "prerequisites": [],
-    "coll_attribute": ""
+    "description": "Introduction to fundamental concepts and techniques in data mining, specifically, basic data mining concepts, graph mining, traditional clustering and classification methods, as well as recent deep learning techniques.",
+    "prerequisites": [
+      "CSCI 303",
+      "MATH 211 or MATH 109",
+      "MATH 212 or MATH 213"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
-    "code": "DATA 440",
-    "title": "Machine Learning",
-    "department": "DATA",
+  "CSCI 446": {
+    "code": "CSCI 446",
+    "title": "Neural Networks for Machine Learning",
     "credits": 3,
-    "description": "Supervised and unsupervised machine learning methods and applications.",
-    "prerequisites": ["DATA 325"],
-    "coll_attribute": ""
+    "description": "Machine learning enables computers to learn from experience. The first part of the course will cover foundational topics in pattern recognition and machine learning such as probability distributions, linear models for regression, and linear models for classification. The second part of the course will examine nonlinear models for regression and classification, focusing on artificial neural networks. Neural networks are being used to achieve state-of-the-art performance at applications in different modalities and domains. Students will be required to analyze and present relevant research papers.",
+    "prerequisites": [
+      "MATH 106 or MATH 351 or MATH 451",
+      "MATH 211 or MATH 109",
+      "MATH 212 or MATH 213"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
-    "code": "FIN 341",
-    "title": "Financial Modeling",
-    "department": "FIN",
+  "CSCI 455": {
+    "code": "CSCI 455",
+    "title": "Generative Artificial Intelligence for Software Development",
     "credits": 3,
-    "description": "Building and applying financial models for valuation and forecasting.",
-    "prerequisites": ["FIN 301"],
-    "coll_attribute": ""
+    "description": "GenAI for Software Development provides students with a strong foundation in the principles and technical expertise needed to develop and apply Deep Learning (DL)-based systems, with a particular emphasis on Generative AI methods. The course focuses on leveraging advanced techniques to enhance software development processes, addressing practices such as source code generation, automated documentation, and other key aspects of modern software engineering. By the end of the course, students will possess a comprehensive understanding of Generative AI methods for software development. This includes the ability to design and implement new DL-based approaches to address challenges in the software engineering domain, critically analyze the latest advancements in the field, and propose innovative solutions to refine Generative AI techniques.",
+    "prerequisites": [
+      "CSCI 301",
+      "CSCI 416"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "ai/ml",
+    "domain": ""
+  },
+  "CSCI 466": {
+    "code": "CSCI 466",
+    "title": "Applied Topology Data Science",
+    "credits": 3,
+    "description": "This course introduces applied topology—new algorithms for probing the shape and structure of complex data arising in computing, data science, and physics. We begin with foundational concepts of topology such as topological spaces, continuous maps, and connectedness. Then we examine tools of topological data analysis, including simplicial complexes, persistent homology, persistence diagrams, and stability. The course emphasizes the idea that data are not only points to be fit or classified but also objects with multiscale structure that can reveal loops, voids, and connectivity patterns. These patterns elude traditional machine learning approaches, particularly in noisy, high-dimensional settings. Students will work with real datasets, compute topological invariants, and use these features in artificial intelligence and machine learning models, while also learning where topological methods succeed and where they break down.",
+    "prerequisites": [
+      "MATH 106 or MATH 351 or MATH 451",
+      "MATH 109 or MATH 211"
+    ],
+    "corequisites": [],
+    "coll_curriculum": "",
+    "track": "ai/ml",
+    "domain": ""
   }
-]
+}
