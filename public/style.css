@@ -201,13 +201,6 @@ p { margin: 0; }
 }
 .student-mini .name { font-size: 13.5px; font-weight: 600; line-height: 1.2; }
 .student-mini .role { font-size: 11.5px; color: var(--text-secondary); }
-.settings-btn {
-  display: flex; align-items: center; gap: 10px;
-  padding: 9px 12px; border: none; background: transparent;
-  border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 13.5px;
-  transition: background-color 180ms var(--ease), color 180ms var(--ease);
-}
-.settings-btn:hover { background: rgba(157,170,139,0.14); color: var(--text-primary); }
 
 /* ==========================================================================
    Main / topbar
@@ -713,10 +706,10 @@ p { margin: 0; }
 }
 @media (max-width: 900px) {
   :root { --sidebar-w: 64px; }
-  .sidebar-brand .sub, .sidebar-brand .brand-text .sub, .nav-item span.label, .student-mini .name, .student-mini .role, .settings-btn span.label { display: none; }
+  .sidebar-brand .sub, .sidebar-brand .brand-text .sub, .nav-item span.label, .student-mini .name, .student-mini .role { display: none; }
   .sidebar-brand { justify-content: center; }
   .sidebar { align-items: center; padding: 18px 8px; }
-  .nav-item, .settings-btn { justify-content: center; }
+  .nav-item { justify-content: center; }
   .student-mini { justify-content: center; }
 }
 @media (max-width: 640px) {

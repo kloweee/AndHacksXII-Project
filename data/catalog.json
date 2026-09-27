@@ -43,5 +43,131 @@
     "description": "A seminar fulfilling the COLL 200 requirement.",
     "prerequisites": [],
     "coll_attribute": "CSI"
+  },
+  {
+    "code": "MATH 111",
+    "title": "Calculus I",
+    "department": "MATH",
+    "credits": 4,
+    "description": "Limits, derivatives, and an introduction to integration.",
+    "prerequisites": [],
+    "coll_attribute": "NQR"
+  },
+  {
+    "code": "COLL 100",
+    "title": "Community, Change & Choice",
+    "department": "COLL",
+    "credits": 3,
+    "description": "First-year seminar exploring community engagement and decision-making.",
+    "prerequisites": [],
+    "coll_attribute": ""
+  },
+  {
+    "code": "ECON 101",
+    "title": "Principles of Microeconomics",
+    "department": "ECON",
+    "credits": 3,
+    "description": "Introduces supply, demand, and the behavior of individual markets.",
+    "prerequisites": [],
+    "coll_attribute": ""
+  },
+  {
+    "code": "DATA 201",
+    "title": "Intro to Data Science",
+    "department": "DATA",
+    "credits": 3,
+    "description": "Hands-on introduction to data collection, cleaning, and exploratory analysis.",
+    "prerequisites": [],
+    "coll_attribute": ""
+  },
+  {
+    "code": "COLL 200 NQR",
+    "title": "Numeracy, Quantitative & Computational Reasoning",
+    "department": "COLL",
+    "credits": 3,
+    "description": "A COLL 200 seminar satisfying the NQR domain requirement.",
+    "prerequisites": [],
+    "coll_attribute": "NQR"
+  },
+  {
+    "code": "MATH 301",
+    "title": "Linear Algebra",
+    "department": "MATH",
+    "credits": 3,
+    "description": "Vector spaces, matrices, eigenvalues, and linear transformations.",
+    "prerequisites": ["MATH 111"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "DATA 301",
+    "title": "Data Management",
+    "department": "DATA",
+    "credits": 3,
+    "description": "Database design, querying, and data pipeline fundamentals.",
+    "prerequisites": ["DATA 201"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "BUAD 327",
+    "title": "Corporate Finance",
+    "department": "BUAD",
+    "credits": 3,
+    "description": "Core principles of corporate financial decision-making.",
+    "prerequisites": ["ECON 101"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "BIOL 203",
+    "title": "Genetics",
+    "department": "BIOL",
+    "credits": 4,
+    "description": "Principles of heredity, gene expression, and molecular genetics.",
+    "prerequisites": [],
+    "coll_attribute": ""
+  },
+  {
+    "code": "DATA 325",
+    "title": "Statistical Learning",
+    "department": "DATA",
+    "credits": 3,
+    "description": "Regression, classification, and resampling methods for data analysis.",
+    "prerequisites": ["DATA 301"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "FIN 301",
+    "title": "Investments",
+    "department": "FIN",
+    "credits": 3,
+    "description": "Theory and practice of security valuation and portfolio management.",
+    "prerequisites": ["BUAD 327"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "COLL 300",
+    "title": "Vision, Voice & Vocation",
+    "department": "COLL",
+    "credits": 3,
+    "description": "Reflective seminar connecting coursework to purpose and career vision.",
+    "prerequisites": [],
+    "coll_attribute": ""
+  },
+  {
+    "code": "DATA 440",
+    "title": "Machine Learning",
+    "department": "DATA",
+    "credits": 3,
+    "description": "Supervised and unsupervised machine learning methods and applications.",
+    "prerequisites": ["DATA 325"],
+    "coll_attribute": ""
+  },
+  {
+    "code": "FIN 341",
+    "title": "Financial Modeling",
+    "department": "FIN",
+    "credits": 3,
+    "description": "Building and applying financial models for valuation and forecasting.",
+    "prerequisites": ["FIN 301"],
+    "coll_attribute": ""
   }
 ]

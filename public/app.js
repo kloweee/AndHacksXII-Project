@@ -154,6 +154,17 @@
   });
 })();
 
+/* ==========================================================================
+   SECTION 2b — quick links (external)
+   ========================================================================== */
+(function quickLinksModule() {
+  document.querySelectorAll(".quick-link").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const url = btn.dataset.url;
+      if (url) window.open(url, "_blank", "noopener");
+    });
+  });
+})();
 
 /* ==========================================================================
    SECTION 3 — tab navigation
@@ -274,6 +285,12 @@ function totalCredits() {
 
 let editing = false;
 
+// Semesters added via "+ Add Semester" that don't have any courses in them
+// yet. groupBySemester() below folds these in as empty columns so they
+// actually render (a semester with zero courses would otherwise never
+// appear, since it derives its column list from the courses array).
+let manualSemesters = [];
+
 /* ==========================================================================
    SECTION 7 — snapshot rendering (advisor page)
    ========================================================================== */
@@ -309,6 +326,9 @@ function groupBySemester() {
   courses.forEach((c) => {
     if (!c.semester) return;
     (groups[c.semester] = groups[c.semester] || []).push(c);
+  });
+  manualSemesters.forEach((sem) => {
+    groups[sem] = groups[sem] || [];
   });
   return Object.keys(groups).sort(semesterSort).map((sem) => ({ semester: sem, list: groups[sem] }));
 }
@@ -365,7 +385,32 @@ function renderSemesterView() {
 
   renderStillNeedsHome();
   attachCourseCardHandlers();
+  attachAddSemesterHandler();
   if (editing) attachDragHandlers();
+}
+
+/* ==========================================================================
+   SECTION 8b — "+ Add Semester"
+   ========================================================================== */
+function attachAddSemesterHandler() {
+  const btn = document.querySelector(".add-semester-col");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const input = window.prompt('New semester (e.g. "Fall 2027"):');
+    if (!input) return;
+    const trimmed = input.trim();
+    const validPattern = /^(Winter|Spring|Summer|Fall)\s+\d{4}$/;
+    if (!validPattern.test(trimmed)) {
+      window.alert('Please use the format "Season Year", e.g. "Fall 2027".');
+      return;
+    }
+    if (groupBySemester().some((g) => g.semester === trimmed)) {
+      window.alert(`${trimmed} is already on the roadmap.`);
+      return;
+    }
+    manualSemesters.push(trimmed);
+    renderSemesterView();
+  });
 }
 
 function renderStillNeedsHome() {
@@ -641,10 +686,30 @@ function selectCatalogCourse(code) {
   // "Still Needs a Home"), just reassign it rather than creating a
   // duplicate. Otherwise add it as a new planned course.
   let course = courses.find((c) => c.code === code);
+
   if (course) {
+    if (course.status === "completed") {
+      closeCourseSearch();
+      return;
+    }
+
+    // Same rule the drag-and-drop handler enforces (see attachDragHandlers):
+    // don't let a course land in a semester before its prerequisites are done.
+    const blocking = course.prerequisites.find((p) => {
+      const pc = courses.find((c) => c.code === p);
+      return !pc || pc.status !== "completed";
+    });
+    if (blocking) {
+      closeCourseSearch();
+      openDrawer(course); // surfaces the same "Missing prerequisite" explanation
+      return;
+    }
+
     course.semester = csTargetSemester;
     course.status = "planned";
   } else {
+    // Brand-new addition from the catalog — no prerequisites recorded yet,
+    // so there's nothing to block.
     courses.push({
       code: entry.code,
       title: entry.title,

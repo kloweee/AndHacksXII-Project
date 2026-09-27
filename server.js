@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
+import { randomUUID } from "crypto";
 
 dotenv.config();
 const app = express();
@@ -17,40 +18,70 @@ if (!GEMINI_API_KEY) {
 }
 
 // ==========================================
-// 0. IN-MEMORY ROADMAP STORE (TODO: replace with database)
+// 0. PER-SESSION ROADMAP STORE (TODO: replace with a real database)
 // ==========================================
-let roadmapStore = {
-    student: {
-        name: "Sophie Lin",
-        year: "Sophomore",
-        graduation: "Spring 2029",
-        programs: ["Data Science", "Finance"]
-    },
-    courses: [
-        { code: "CSCI 141", title: "Computer Science I", credits: 4, semester: "Fall 2025", status: "completed", requirements: ["Data Science"], prerequisites: [] },
-        { code: "MATH 111", title: "Calculus I", credits: 4, semester: "Fall 2025", status: "completed", requirements: ["Electives"], prerequisites: [] },
-        { code: "COLL 100", title: "Community, Change & Choice", credits: 3, semester: "Fall 2025", status: "completed", requirements: ["COLL"], prerequisites: [] },
-        { code: "ECON 101", title: "Principles of Microeconomics", credits: 3, semester: "Fall 2025", status: "completed", requirements: ["Finance"], prerequisites: [] },
-        { code: "CSCI 241", title: "Data Structures", credits: 4, semester: "Spring 2026", status: "completed", requirements: ["Data Science"], prerequisites: ["CSCI 141"] },
-        { code: "DATA 201", title: "Intro to Data Science", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["Data Science"], prerequisites: [] },
-        { code: "COLL 200 NQR", title: "Numeracy, Quantitative & Computational Reasoning", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["COLL"], prerequisites: [] },
-        { code: "MATH 301", title: "Linear Algebra", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["Electives"], prerequisites: ["MATH 111"] },
-        { code: "DATA 301", title: "Data Management", credits: 3, semester: "Fall 2026", status: "current", requirements: ["Data Science"], prerequisites: ["DATA 201"] },
-        { code: "BUAD 327", title: "Corporate Finance", credits: 3, semester: "Fall 2026", status: "current", requirements: ["Finance"], prerequisites: ["ECON 101"] },
-        { code: "BIOL 203", title: "Genetics", credits: 4, semester: "Fall 2026", status: "completed", requirements: ["Electives"], prerequisites: [] },
-        { code: "DATA 325", title: "Statistical Learning", credits: 3, semester: "Spring 2027", status: "planned", requirements: ["Data Science"], prerequisites: ["DATA 301"] },
-        { code: "FIN 301", title: "Investments", credits: 3, semester: "Spring 2027", status: "planned", requirements: ["Finance"], prerequisites: ["BUAD 327"] },
-        { code: "COLL 300", title: "Vision, Voice & Vocation", credits: 3, semester: "", status: "unassigned", requirements: ["COLL"], prerequisites: [] },
-        { code: "DATA 440", title: "Machine Learning", credits: 3, semester: "", status: "unassigned", requirements: ["Data Science"], prerequisites: ["DATA 325"] },
-        { code: "FIN 341", title: "Financial Modeling", credits: 3, semester: "", status: "unassigned", requirements: ["Finance"], prerequisites: ["FIN 301"] }
-    ],
-    requirementTotals: {
-        "Data Science": 11,
-        "Finance": 8,
-        "COLL": 6,
-        "Electives": 8
+// Each browser gets its own roadmap, keyed by an anonymous session cookie,
+// instead of everyone sharing one global object — so two people using the
+// demo at the same time (e.g. two hackathon judges) don't overwrite each
+// other's edits. This is still in-memory (a server restart wipes every
+// session), which is an acceptable trade-off for a demo; swap the Map
+// below for a real datastore, keyed the same way, when this goes further.
+
+const SESSION_COOKIE = "wm_advisor_sid";
+const roadmapStores = new Map(); // sessionId -> { student, courses, requirementTotals }
+
+// The starting roadmap every new session gets is fictional demo data for
+// "Sophie Lin" — see data/mock/sophie-lin-roadmap.json. That file (and this
+// one require line) can be deleted once real student data is wired up.
+const mockRoadmapSeed = JSON.parse(readFileSync("./data/mock/sophie-lin-roadmap.json", "utf-8"));
+
+function cloneSeedRoadmap() {
+    // Every session needs its own independent copy — mutating one
+    // session's courses array must never leak into another's.
+    return {
+        student: structuredClone(mockRoadmapSeed.student),
+        courses: structuredClone(mockRoadmapSeed.courses),
+        requirementTotals: structuredClone(mockRoadmapSeed.requirementTotals),
+    };
+}
+
+function parseCookies(header) {
+    const out = {};
+    if (!header) return out;
+    header.split(";").forEach((pair) => {
+        const idx = pair.indexOf("=");
+        if (idx === -1) return;
+        const key = pair.slice(0, idx).trim();
+        const val = pair.slice(idx + 1).trim();
+        if (key) out[key] = decodeURIComponent(val);
+    });
+    return out;
+}
+
+// Assigns/reads an anonymous session id on every request and exposes the
+// matching roadmap as req.roadmap (get returns it, set replaces it). Every
+// route below relies on this middleware having already run.
+app.use((req, res, next) => {
+    const cookies = parseCookies(req.headers.cookie);
+    let sid = cookies[SESSION_COOKIE];
+
+    if (!sid || !roadmapStores.has(sid)) {
+        sid = randomUUID();
+        roadmapStores.set(sid, cloneSeedRoadmap());
+        res.setHeader("Set-Cookie", `${SESSION_COOKIE}=${sid}; HttpOnly; Path=/; SameSite=Lax`);
     }
-};
+
+    req.sessionId = sid;
+    Object.defineProperty(req, "roadmap", {
+        get() {
+            return roadmapStores.get(sid);
+        },
+        set(value) {
+            roadmapStores.set(sid, value);
+        },
+    });
+    next();
+});
 
 // ==========================================
 // 1. LOAD THE BEHAVIORAL PROMPTS
@@ -145,14 +176,18 @@ app.post("/api/chat", async (req, res) => {
         }
 
         // Extract final text response
-        const replyText = data.candidates?.[0]?.content?.parts?.map(p => p.text).join("") ?? "(no response)";
-        
-        // Optional: parse the reply to extract course suggestions or structured recommendations
-        // For now, we'll return a basic structure that can be extended
-        const suggestions = extractSuggestions(replyText);
-        
+        const rawReply = data.candidates?.[0]?.content?.parts?.map(p => p.text).join("") ?? "(no response)";
+
+        // model_spec.txt requires every model reply to end with a numbered
+        // 3-4 item follow-up list. We split that list out of the reply text
+        // here and send it back as its own `suggestions` array, which the
+        // frontend renders as clickable pills — see splitReplyAndSuggestions
+        // below. Without this split, the numbered list would show up both
+        // inside the chat bubble AND as pills underneath it.
+        const { cleanReply, suggestions } = splitReplyAndSuggestions(rawReply);
+
         res.json({ 
-            reply: replyText,
+            reply: cleanReply,
             suggestions: suggestions,
             courses: [] // TODO: extract course recommendations from reply if needed
         });
@@ -167,13 +202,85 @@ app.post("/api/chat", async (req, res) => {
 // 4. ROADMAP ENDPOINTS
 // ==========================================
 
+const VALID_STATUSES = ["completed", "current", "planned", "unassigned", "problem"];
+
+function isNonEmptyString(v) {
+    return typeof v === "string" && v.trim().length > 0;
+}
+
+function isStringArray(v) {
+    return Array.isArray(v) && v.every((x) => typeof x === "string");
+}
+
+/**
+ * Validates a single course object. Returns an array of human-readable
+ * error strings (empty array = valid).
+ */
+function validateCourse(course, index) {
+    const label = `courses[${index}]`;
+    if (typeof course !== "object" || course === null || Array.isArray(course)) {
+        return [`${label} must be an object`];
+    }
+    const errors = [];
+    if (!isNonEmptyString(course.code)) errors.push(`${label}.code must be a non-empty string`);
+    if (!isNonEmptyString(course.title)) errors.push(`${label}.title must be a non-empty string`);
+    if (typeof course.credits !== "number" || course.credits <= 0) errors.push(`${label}.credits must be a positive number`);
+    if (typeof course.semester !== "string") errors.push(`${label}.semester must be a string (can be empty)`);
+    if (!VALID_STATUSES.includes(course.status)) errors.push(`${label}.status must be one of: ${VALID_STATUSES.join(", ")}`);
+    if (!isStringArray(course.requirements)) errors.push(`${label}.requirements must be an array of strings`);
+    if (!isStringArray(course.prerequisites)) errors.push(`${label}.prerequisites must be an array of strings`);
+    return errors;
+}
+
+/**
+ * Validates a full roadmap payload (student, courses, requirementTotals).
+ * Returns an array of human-readable error strings (empty array = valid).
+ */
+function validateRoadmapPayload(body) {
+    const errors = [];
+    const { student, courses, requirementTotals } = body || {};
+
+    if (typeof student !== "object" || student === null || Array.isArray(student)) {
+        errors.push("student must be an object");
+    } else {
+        if (!isNonEmptyString(student.name)) errors.push("student.name must be a non-empty string");
+        if (!isNonEmptyString(student.year)) errors.push("student.year must be a non-empty string");
+        if (!isNonEmptyString(student.graduation)) errors.push("student.graduation must be a non-empty string");
+        if (!isStringArray(student.programs)) errors.push("student.programs must be an array of strings");
+    }
+
+    if (!Array.isArray(courses)) {
+        errors.push("courses must be an array");
+    } else {
+        const seenCodes = new Set();
+        courses.forEach((course, i) => {
+            errors.push(...validateCourse(course, i));
+            if (course && typeof course.code === "string") {
+                if (seenCodes.has(course.code)) errors.push(`courses[${i}].code "${course.code}" is a duplicate`);
+                seenCodes.add(course.code);
+            }
+        });
+    }
+
+    if (typeof requirementTotals !== "object" || requirementTotals === null || Array.isArray(requirementTotals)) {
+        errors.push("requirementTotals must be an object");
+    } else {
+        Object.entries(requirementTotals).forEach(([key, value]) => {
+            if (typeof value !== "number" || value <= 0) errors.push(`requirementTotals.${key} must be a positive number`);
+        });
+    }
+
+    return errors;
+}
+
 /**
  * GET /api/roadmap
- * Returns the full roadmap: student info, courses, and requirement totals
+ * Returns the full roadmap for this session: student info, courses, and
+ * requirement totals.
  */
 app.get("/api/roadmap", (req, res) => {
     try {
-        res.json(roadmapStore);
+        res.json(req.roadmap);
     } catch (err) {
         console.error("❌ Error fetching roadmap:", err);
         res.status(500).json({ error: "Failed to fetch roadmap" });
@@ -182,19 +289,21 @@ app.get("/api/roadmap", (req, res) => {
 
 /**
  * PUT /api/roadmap
- * Updates the full roadmap (replace entire structure)
+ * Replaces this session's entire roadmap. Every field is validated —
+ * courses in particular must be a well-formed array, not just "truthy" —
+ * so a malformed request can't corrupt the stored roadmap.
  */
 app.put("/api/roadmap", (req, res) => {
     try {
-        const { student, courses, requirementTotals } = req.body;
-        
-        if (!student || !courses || !requirementTotals) {
-            return res.status(400).json({ error: "Missing required fields: student, courses, requirementTotals" });
+        const errors = validateRoadmapPayload(req.body);
+        if (errors.length) {
+            return res.status(400).json({ error: "Invalid roadmap payload", details: errors });
         }
-        
-        roadmapStore = { student, courses, requirementTotals };
-        console.log("✅ Roadmap updated");
-        res.json({ success: true, roadmap: roadmapStore });
+
+        const { student, courses, requirementTotals } = req.body;
+        req.roadmap = { student, courses, requirementTotals };
+        console.log(`✅ Roadmap updated (session ${req.sessionId.slice(0, 8)}…)`);
+        res.json({ success: true, roadmap: req.roadmap });
         
     } catch (err) {
         console.error("❌ Error updating roadmap:", err);
@@ -204,20 +313,31 @@ app.put("/api/roadmap", (req, res) => {
 
 /**
  * PATCH /api/roadmap/courses/:code
- * Updates a single course by code
+ * Updates a single course by code, in this session's roadmap.
  */
 app.patch("/api/roadmap/courses/:code", (req, res) => {
     try {
         const { code } = req.params;
-        const updates = req.body;
-        
-        const course = roadmapStore.courses.find(c => c.code === code);
+        const updates = req.body || {};
+
+        const course = req.roadmap.courses.find(c => c.code === code);
         if (!course) {
             return res.status(404).json({ error: `Course ${code} not found` });
         }
-        
-        // Only allow updating specific fields
+
+        // Only allow updating specific fields, and validate each one that's present
         const allowedFields = ["semester", "status", "title", "credits", "requirements", "prerequisites"];
+        const errors = [];
+        if ("semester" in updates && typeof updates.semester !== "string") errors.push("semester must be a string (can be empty)");
+        if ("status" in updates && !VALID_STATUSES.includes(updates.status)) errors.push(`status must be one of: ${VALID_STATUSES.join(", ")}`);
+        if ("title" in updates && !isNonEmptyString(updates.title)) errors.push("title must be a non-empty string");
+        if ("credits" in updates && (typeof updates.credits !== "number" || updates.credits <= 0)) errors.push("credits must be a positive number");
+        if ("requirements" in updates && !isStringArray(updates.requirements)) errors.push("requirements must be an array of strings");
+        if ("prerequisites" in updates && !isStringArray(updates.prerequisites)) errors.push("prerequisites must be an array of strings");
+        if (errors.length) {
+            return res.status(400).json({ error: "Invalid course update", details: errors });
+        }
+
         allowedFields.forEach(field => {
             if (field in updates) {
                 course[field] = updates[field];
@@ -235,18 +355,30 @@ app.patch("/api/roadmap/courses/:code", (req, res) => {
 
 /**
  * POST /api/roadmap/courses
- * Adds a new course to the roadmap
+ * Adds a new course to this session's roadmap.
  */
 app.post("/api/roadmap/courses", (req, res) => {
     try {
-        const courseData = req.body;
-        
-        if (!courseData.code || !courseData.title) {
+        const courseData = req.body || {};
+
+        if (!isNonEmptyString(courseData.code) || !isNonEmptyString(courseData.title)) {
             return res.status(400).json({ error: "Missing required fields: code, title" });
         }
-        
+        if ("credits" in courseData && (typeof courseData.credits !== "number" || courseData.credits <= 0)) {
+            return res.status(400).json({ error: "credits must be a positive number" });
+        }
+        if ("requirements" in courseData && !isStringArray(courseData.requirements)) {
+            return res.status(400).json({ error: "requirements must be an array of strings" });
+        }
+        if ("prerequisites" in courseData && !isStringArray(courseData.prerequisites)) {
+            return res.status(400).json({ error: "prerequisites must be an array of strings" });
+        }
+        if ("status" in courseData && !VALID_STATUSES.includes(courseData.status)) {
+            return res.status(400).json({ error: `status must be one of: ${VALID_STATUSES.join(", ")}` });
+        }
+
         // Check if course already exists
-        if (roadmapStore.courses.find(c => c.code === courseData.code)) {
+        if (req.roadmap.courses.find(c => c.code === courseData.code)) {
             return res.status(409).json({ error: `Course ${courseData.code} already exists` });
         }
         
@@ -260,7 +392,7 @@ app.post("/api/roadmap/courses", (req, res) => {
             prerequisites: courseData.prerequisites || []
         };
         
-        roadmapStore.courses.push(newCourse);
+        req.roadmap.courses.push(newCourse);
         console.log(`✅ Course ${courseData.code} added`);
         res.status(201).json({ success: true, course: newCourse });
         
@@ -272,18 +404,18 @@ app.post("/api/roadmap/courses", (req, res) => {
 
 /**
  * DELETE /api/roadmap/courses/:code
- * Removes a course from the roadmap
+ * Removes a course from this session's roadmap.
  */
 app.delete("/api/roadmap/courses/:code", (req, res) => {
     try {
         const { code } = req.params;
-        const index = roadmapStore.courses.findIndex(c => c.code === code);
+        const index = req.roadmap.courses.findIndex(c => c.code === code);
         
         if (index === -1) {
             return res.status(404).json({ error: `Course ${code} not found` });
         }
         
-        const removed = roadmapStore.courses.splice(index, 1);
+        const removed = req.roadmap.courses.splice(index, 1);
         console.log(`✅ Course ${code} removed`);
         res.json({ success: true, course: removed[0] });
         
@@ -294,26 +426,48 @@ app.delete("/api/roadmap/courses/:code", (req, res) => {
 });
 
 // ==========================================
-// 5. HELPER: Extract suggestions from AI reply
+// 5. HELPER: Split the model's reply from its trailing suggestion list
 // ==========================================
-function extractSuggestions(replyText) {
-    // Simple heuristic: look for bullet points or numbered items in the reply
-    // This is a placeholder; you could implement more sophisticated NLP here
-    const lines = replyText.split('\n');
-    const suggestions = [];
-    
-    for (const line of lines) {
-        // Match lines starting with -, •, *, or numbers followed by . or )
-        if (/^\s*[-•*]\s+|^\s*\d+[\.)]\s+/.test(line)) {
-            const text = line.replace(/^\s*[-•*]\s+|^\s*\d+[\.)]\s+/, '').trim();
-            if (text && text.length > 10 && text.length < 150) {
-                suggestions.push(text);
-            }
+/**
+ * model_spec.txt requires every reply to end with a numbered 3-4 item
+ * follow-up list. This walks the reply backwards from the last line,
+ * collecting a contiguous trailing block of numbered lines (blank lines
+ * inside/around that block are tolerated), and returns the reply with that
+ * block removed plus the block's items as a separate suggestions array.
+ * That way the frontend can render the list once, as clickable pills,
+ * instead of it appearing both in the chat bubble and as pills below it.
+ */
+function splitReplyAndSuggestions(replyText) {
+    const numberedPattern = /^\s*\d+[.)]\s+/;
+    const lines = replyText.split("\n");
+
+    let splitIndex = lines.length;
+    let foundNumbered = false;
+
+    for (let i = lines.length - 1; i >= 0; i--) {
+        const line = lines[i];
+        if (line.trim() === "") continue; // tolerate blank lines around/within the block
+        if (numberedPattern.test(line)) {
+            foundNumbered = true;
+            splitIndex = i;
+            continue;
         }
+        break; // hit real content that isn't part of the numbered list — stop
     }
-    
-    // Return up to 3 suggestions
-    return suggestions.slice(0, 3);
+
+    if (!foundNumbered) {
+        return { cleanReply: replyText.trim(), suggestions: [] };
+    }
+
+    const cleanReply = lines.slice(0, splitIndex).join("\n").trim();
+    const suggestions = lines
+        .slice(splitIndex)
+        .filter(line => numberedPattern.test(line))
+        .map(line => line.replace(numberedPattern, "").trim())
+        .filter(Boolean)
+        .slice(0, 4); // spec allows 3 or 4 follow-ups
+
+    return { cleanReply, suggestions };
 }
 
 const PORT = process.env.PORT || 3000;

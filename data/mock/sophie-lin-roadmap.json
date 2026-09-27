@@ -1,0 +1,33 @@
+{
+  "_comment": "DEMO/MOCK FIXTURE — this is fictional data for a made-up student (Sophie Lin), used only to seed every new browser session with something to look at. Safe to delete this whole file (and its require in server.js) once real student data is wired up. Every course code that appears below is also defined in data/catalog.json and covered by a major file in data/majors/ so the AI advisor's Golden Rule doesn't refuse to talk about it.",
+  "student": {
+    "name": "Sophie Lin",
+    "year": "Sophomore",
+    "graduation": "Spring 2029",
+    "programs": ["Data Science", "Finance"]
+  },
+  "courses": [
+    { "code": "CSCI 141", "title": "Computer Science I", "credits": 4, "semester": "Fall 2025", "status": "completed", "requirements": ["Data Science"], "prerequisites": [] },
+    { "code": "MATH 111", "title": "Calculus I", "credits": 4, "semester": "Fall 2025", "status": "completed", "requirements": ["Electives"], "prerequisites": [] },
+    { "code": "COLL 100", "title": "Community, Change & Choice", "credits": 3, "semester": "Fall 2025", "status": "completed", "requirements": ["COLL"], "prerequisites": [] },
+    { "code": "ECON 101", "title": "Principles of Microeconomics", "credits": 3, "semester": "Fall 2025", "status": "completed", "requirements": ["Finance"], "prerequisites": [] },
+    { "code": "CSCI 241", "title": "Data Structures", "credits": 4, "semester": "Spring 2026", "status": "completed", "requirements": ["Data Science"], "prerequisites": ["CSCI 141"] },
+    { "code": "DATA 201", "title": "Intro to Data Science", "credits": 3, "semester": "Spring 2026", "status": "completed", "requirements": ["Data Science"], "prerequisites": [] },
+    { "code": "COLL 200 NQR", "title": "Numeracy, Quantitative & Computational Reasoning", "credits": 3, "semester": "Spring 2026", "status": "completed", "requirements": ["COLL"], "prerequisites": [] },
+    { "code": "MATH 301", "title": "Linear Algebra", "credits": 3, "semester": "Spring 2026", "status": "completed", "requirements": ["Electives"], "prerequisites": ["MATH 111"] },
+    { "code": "DATA 301", "title": "Data Management", "credits": 3, "semester": "Fall 2026", "status": "current", "requirements": ["Data Science"], "prerequisites": ["DATA 201"] },
+    { "code": "BUAD 327", "title": "Corporate Finance", "credits": 3, "semester": "Fall 2026", "status": "current", "requirements": ["Finance"], "prerequisites": ["ECON 101"] },
+    { "code": "BIOL 203", "title": "Genetics", "credits": 4, "semester": "Fall 2026", "status": "completed", "requirements": ["Electives"], "prerequisites": [] },
+    { "code": "DATA 325", "title": "Statistical Learning", "credits": 3, "semester": "Spring 2027", "status": "planned", "requirements": ["Data Science"], "prerequisites": ["DATA 301"] },
+    { "code": "FIN 301", "title": "Investments", "credits": 3, "semester": "Spring 2027", "status": "planned", "requirements": ["Finance"], "prerequisites": ["BUAD 327"] },
+    { "code": "COLL 300", "title": "Vision, Voice & Vocation", "credits": 3, "semester": "", "status": "unassigned", "requirements": ["COLL"], "prerequisites": [] },
+    { "code": "DATA 440", "title": "Machine Learning", "credits": 3, "semester": "", "status": "unassigned", "requirements": ["Data Science"], "prerequisites": ["DATA 325"] },
+    { "code": "FIN 341", "title": "Financial Modeling", "credits": 3, "semester": "", "status": "unassigned", "requirements": ["Finance"], "prerequisites": ["FIN 301"] }
+  ],
+  "requirementTotals": {
+    "Data Science": 11,
+    "Finance": 8,
+    "COLL": 6,
+    "Electives": 8
+  }
+}

@@ -2,8 +2,13 @@ import json
 import os
 from pathlib import Path
 
-input_folder = "./data/raw_scraper_output"
-output_file = "./data/sections.json"
+# Resolve paths relative to this file's own location, not the current
+# working directory — that way `python data/format.py` from the repo root
+# and `cd data && python format.py` both work, instead of the latter
+# silently reading/writing the wrong place.
+SCRIPT_DIR = Path(__file__).resolve().parent
+input_folder = SCRIPT_DIR / "raw_scraper_output"
+output_file = SCRIPT_DIR / "sections.json"
 
 # file names and their attributes
 raw_data = {
