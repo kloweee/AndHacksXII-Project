@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const MODEL = "gemini-1.5-flash"; // Fast and handles large context well
+const MODEL = "gemini-3.5-flash"; // Current Gemini flash model, supports generateContent
 
 if (!GEMINI_API_KEY) {
     console.error("❌ Missing GEMINI_API_KEY in .env");
