@@ -84,6 +84,14 @@ ${JSON.stringify(majorsData)}
 const staticDataContext = buildStaticDataContext();
 console.log("✅ Loaded static course data.");
 
+const catalogByCode = new Map(courseCatalog.map((c) => [c.code, c]));
+
+// The same catalog the advisor sees, for the Roadmap page's catalog search
+// and its earliest-graduation estimate. Public catalog data only.
+app.get("/api/catalog", (req, res) => {
+    res.json(courseCatalog);
+});
+
 // ==========================================
 // 2b. PER-REQUEST STUDENT ROADMAP CONTEXT
 // ==========================================
@@ -162,7 +170,13 @@ app.post("/api/chat", async (req, res) => {
         }
 
         // Extract final text response
-        const rawReply = data.candidates?.[0]?.content?.parts?.map(p => p.text).join("") ?? "(no response)";
+        const modelText = data.candidates?.[0]?.content?.parts?.map(p => p.text).join("") ?? "(no response)";
+
+        // A full multi-semester roadmap comes with a machine-readable
+        // <roadmap_json> block (see prompts/modes.txt). Pull it out before
+        // anything else so it never shows up in the chat bubble, and send it
+        // back as `roadmapPlan` for the frontend to sync to My Roadmap.
+        const { text: rawReply, plan: roadmapPlan } = extractRoadmapPlan(modelText);
 
         // model_spec.txt requires every reply to end with a numbered 3-4
         // item follow-up list. We split that list out of the reply text
@@ -175,6 +189,7 @@ app.post("/api/chat", async (req, res) => {
         res.json({
             reply: cleanReply,
             suggestions: suggestions,
+            roadmapPlan,
         });
 
     } catch (err) {
@@ -306,6 +321,58 @@ app.post("/api/roadmap/import-degreeworks", degreeworksUpload.single("file"), as
         res.status(500).json({ error: "Failed to parse the uploaded PDF. Please make sure it's an unmodified DegreeWorks audit export." });
     }
 });
+
+// ==========================================
+// 4b. HELPER: Pull the advisor's structured roadmap out of its reply
+// ==========================================
+const ROADMAP_BLOCK = /<roadmap_json>([\s\S]*?)<\/roadmap_json>/i;
+const TERM_PATTERN = /^(Fall|Spring|Summer|Winter) \d{4}$/;
+
+/**
+ * Finds a <roadmap_json>{"semesters":[{"term":"Fall 2026","courses":["CSCI 303"]}]}</roadmap_json>
+ * block, removes it from the reply text, and returns it enriched with real
+ * catalog data (title, credits, prerequisites, major roles). Course codes
+ * that aren't in the catalog are dropped — only verified courses get synced.
+ * Returns { text, plan } with plan = null when there's no usable block.
+ */
+function extractRoadmapPlan(replyText) {
+    const match = replyText.match(ROADMAP_BLOCK);
+    if (!match) return { text: replyText, plan: null };
+    const text = replyText.replace(ROADMAP_BLOCK, "").replace(/\n{3,}/g, "\n\n").trim();
+
+    let parsed;
+    try {
+        parsed = JSON.parse(match[1].trim().replace(/^```(?:json)?|```$/g, "").trim());
+    } catch (err) {
+        console.warn("⚠️ Advisor returned an unreadable roadmap block:", err.message);
+        return { text, plan: null };
+    }
+
+    const seen = new Set();
+    const semesters = (Array.isArray(parsed?.semesters) ? parsed.semesters : [])
+        .filter((sem) => sem && typeof sem.term === "string" && TERM_PATTERN.test(sem.term.trim()))
+        .map((sem) => ({
+            term: sem.term.trim(),
+            courses: (Array.isArray(sem.courses) ? sem.courses : [])
+                .map((code) => (typeof code === "string" ? code : code?.code))
+                .filter((code) => typeof code === "string")
+                .map((code) => code.trim().toUpperCase().replace(/\s+/g, " "))
+                .filter((code) => catalogByCode.has(code) && !seen.has(code) && seen.add(code))
+                .map((code) => {
+                    const c = catalogByCode.get(code);
+                    return {
+                        code: c.code,
+                        title: c.title,
+                        credits: c.credits,
+                        prerequisites: c.prerequisites,
+                        cs_major_roles: c.cs_major_roles || [],
+                    };
+                }),
+        }))
+        .filter((sem) => sem.courses.length > 0);
+
+    return { text, plan: semesters.length ? { semesters } : null };
+}
 
 // ==========================================
 // 5. HELPER: Split the model's reply from its trailing suggestion list

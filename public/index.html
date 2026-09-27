@@ -31,6 +31,8 @@
   <symbol id="i-external" viewBox="0 0 24 24"><path d="M9 6H5.5A1.5 1.5 0 0 0 4 7.5v11A1.5 1.5 0 0 0 5.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15M14 4h6v6M20 4l-9 9"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c8-1 13-6 14-14-8 1-13 6-14 14z"/><path d="M6 18c2-4 5-7 9-9"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
 </svg>
 
@@ -65,6 +67,7 @@
         <div class="avatar" id="student-avatar">?</div>
         <div>
           <div class="name" id="student-name-mini">No audit uploaded</div>
+          <div class="grad" id="student-grad-mini"></div>
           <div class="role" id="student-role-mini">Upload to get started</div>
         </div>
       </div>
@@ -149,6 +152,7 @@
 
           <div class="snap-student">
             <div class="name">No audit uploaded</div>
+            <div class="grad" id="snap-grad"></div>
             <div class="role"></div>
             <div class="programs"></div>
           </div>
@@ -194,6 +198,22 @@
               <svg class="icon icon-moon"><use href="#i-moon"/></svg>
             </button>
           </div>
+        </div>
+
+        <!-- Catalog search: add a course to a chosen semester (see SECTION 12c in app.js) -->
+        <div class="catalog-search" id="catalog-search" hidden>
+          <div class="cs-controls">
+            <div class="cs-input-wrap">
+              <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+              <input type="search" id="catalog-search-input" placeholder="Search the catalog — e.g. CSCI 303 or machine learning" autocomplete="off" aria-label="Search the course catalog" />
+            </div>
+            <label class="cs-semester">
+              <span>Add to</span>
+              <select id="catalog-search-semester"></select>
+            </label>
+          </div>
+          <div class="cs-status" id="catalog-search-status" aria-live="polite"></div>
+          <div class="cs-results" id="catalog-search-results"></div>
         </div>
 
         <!-- Semester View -->
@@ -290,13 +310,13 @@
 <div class="howto-modal grad-modal" id="grad-modal" role="dialog" aria-modal="true" aria-labelledby="grad-modal-title">
   <button class="drawer-close" id="grad-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
   <h2 id="grad-modal-title">When do you plan to graduate?</h2>
-  <p class="grad-modal-sub">Pick your target graduation term. This sets your class standing and the timeline your advisor plans around. You can change it anytime from My Roadmap.</p>
+  <p class="grad-modal-sub">Pick your target graduation term (Spring or Fall). This sets your class standing and the timeline your advisor plans around. You can change it anytime from My Roadmap.</p>
+  <p class="grad-earliest" id="grad-earliest"></p>
   <div class="grad-selects">
     <label class="grad-field">
       <span>Term</span>
       <select id="grad-term">
         <option value="Spring">Spring</option>
-        <option value="Summer">Summer</option>
         <option value="Fall">Fall</option>
       </select>
     </label>
@@ -305,6 +325,7 @@
       <select id="grad-year"></select>
     </label>
   </div>
+  <div class="grad-error" id="grad-error" aria-live="polite"></div>
   <div class="howto-actions grad-actions">
     <button class="btn" id="grad-skip" type="button">Skip for now</button>
     <button class="btn btn-primary" id="grad-save" type="button">Save</button>

@@ -11,12 +11,12 @@
    persisting it between requests.
    ========================================================================== */
 
-// Bumped to v2 when the parser stopped reading graduation/standing from the
-// audit and started flagging transfer credit. Older saved roadmaps (e.g. one
-// still showing a parsed "Spring 2029") are discarded so the student
-// re-uploads and gets the corrected data.
-const ROADMAP_STORAGE_KEY = "wm-cs-advisor-roadmap-v2";
-const LEGACY_ROADMAP_STORAGE_KEYS = ["wm-cs-advisor-roadmap"];
+// Bumped whenever the shape of the parsed roadmap changes, so the student
+// re-uploads and gets corrected data: v2 stopped reading graduation/standing
+// from the audit and started flagging transfer credit; v3 attaches real
+// catalog prerequisites to each course (older saves have none).
+const ROADMAP_STORAGE_KEY = "wm-cs-advisor-roadmap-v3";
+const LEGACY_ROADMAP_STORAGE_KEYS = ["wm-cs-advisor-roadmap", "wm-cs-advisor-roadmap-v2"];
 try {
   LEGACY_ROADMAP_STORAGE_KEYS.forEach((k) => localStorage.removeItem(k));
 } catch (err) {
@@ -68,6 +68,10 @@ try {
 let student = null;
 let courses = [];
 let requirementTotals = {};
+// Semester columns the student added themselves (Add Semester) or that an
+// advisor-generated roadmap introduced. Kept separately from `courses` so an
+// empty semester still shows up as a column the student can drop courses into.
+let plannedSemesters = [];
 
 function loadRoadmapFromStorage() {
   try {
@@ -77,6 +81,7 @@ function loadRoadmapFromStorage() {
     student = data.student;
     courses = data.courses;
     requirementTotals = data.requirementTotals;
+    plannedSemesters = Array.isArray(data.plannedSemesters) ? data.plannedSemesters : [];
     return true;
   } catch (err) {
     console.error("Failed to read saved roadmap from localStorage:", err);
@@ -86,7 +91,7 @@ function loadRoadmapFromStorage() {
 
 function saveRoadmapToStorage() {
   try {
-    localStorage.setItem(ROADMAP_STORAGE_KEY, JSON.stringify({ student, courses, requirementTotals }));
+    localStorage.setItem(ROADMAP_STORAGE_KEY, JSON.stringify({ student, courses, requirementTotals, plannedSemesters }));
   } catch (err) {
     console.error("Failed to save roadmap to localStorage:", err);
   }
@@ -144,6 +149,23 @@ function applyOnboardingState() {
     return wrap;
   }
 
+  // Small confirmation under an advisor reply whose roadmap was synced to the
+  // My Roadmap page, with a shortcut to go look at it.
+  function addSyncNotice(summary) {
+    const wrap = document.createElement("div");
+    wrap.className = "sync-notice";
+    const text = document.createElement("span");
+    text.textContent = summary;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "sync-notice-btn";
+    btn.textContent = "View on My Roadmap";
+    btn.addEventListener("click", () => document.querySelector('.nav-item[data-page="roadmap"]').click());
+    wrap.append(text, btn);
+    chatEl.appendChild(wrap);
+    chatEl.scrollTop = chatEl.scrollHeight;
+  }
+
   function addSuggestions(suggestions) {
     if (!suggestions || suggestions.length === 0) return;
     const wrap = document.createElement("div");
@@ -175,7 +197,7 @@ function applyOnboardingState() {
         headers: { "Content-Type": "application/json" },
         // The roadmap travels with every message since the server keeps no
         // memory of it between requests — see the note at the top of this file.
-        body: JSON.stringify({ history, roadmap: hasRoadmap() ? { student, courses, requirementTotals } : null }),
+        body: JSON.stringify({ history, roadmap: hasRoadmap() ? { student, courses, requirementTotals, plannedSemesters } : null }),
       });
       const data = await res.json();
       clearTyping();
@@ -187,6 +209,12 @@ function applyOnboardingState() {
 
       addMessage("model", data.reply);
       history.push({ role: "model", text: data.reply });
+      // A full multi-semester plan from the advisor comes back as structured
+      // data alongside the reply; sync it straight to My Roadmap.
+      if (data.roadmapPlan && hasRoadmap()) {
+        const summary = applyAdvisorRoadmapPlan(data.roadmapPlan);
+        if (summary) addSyncNotice(summary);
+      }
       addSuggestions(data.suggestions);
     } catch (err) {
       clearTyping();
@@ -306,6 +334,8 @@ function renderStudentIdentity() {
     document.getElementById("student-avatar").textContent = "?";
     document.getElementById("student-name-mini").textContent = "No audit uploaded";
     document.getElementById("student-role-mini").textContent = "Upload to get started";
+    document.getElementById("student-grad-mini").textContent = "";
+    document.getElementById("snap-grad").textContent = "";
     document.getElementById("advisor-greeting").textContent = "Good afternoon.";
     document.querySelector(".snap-student .name").textContent = "No audit uploaded";
     document.querySelector(".snap-student .role").textContent = "";
@@ -319,6 +349,9 @@ function renderStudentIdentity() {
   const programLabel = student.programs.join(" + ");
   const standing = deriveStanding(student.graduation);
   const yearLabel = [standing, student.gpa ? `GPA ${student.gpa.toFixed(2)}` : ""].filter(Boolean).join(" · ");
+  const gradLabel = student.graduation ? `Target graduation: ${student.graduation}` : "Target graduation: not set";
+  document.getElementById("student-grad-mini").textContent = student.graduation ? `Grad ${student.graduation}` : "Graduation not set";
+  document.getElementById("snap-grad").textContent = gradLabel;
 
   document.getElementById("student-avatar").textContent = initials;
   document.getElementById("student-name-mini").textContent = student.name;
@@ -379,17 +412,323 @@ function requirementProgress(reqName) {
 }
 
 /**
- * Whether `prereqCode` is satisfied as a prerequisite for a course being
- * placed in `destSemester`: either it's actually completed, or it's
- * scheduled in a semester strictly before the destination (the sequencing
- * works out even if neither course has "happened" yet in real life).
+ * Old catalog numbers that now refer to the same course (from the "formerly"
+ * notes in the W&M catalog). A student who completed the old number has
+ * satisfied a prerequisite that names the new one, and vice versa.
  */
-function prereqSatisfied(prereqCode, destSemester) {
-  const pc = courses.find((c) => c.code === prereqCode);
-  if (!pc) return false;
-  if (pc.status === "completed") return true;
-  if (!pc.semester || !destSemester) return false; // unassigned prereq can't come "before" anything
-  return semesterSort(pc.semester, destSemester) < 0;
+const FORMER_NUMBERS = { "MATH 211": "MATH 109", "DATA 310": "DATA 301", "DATA 311": "DATA 302" };
+function canonicalCode(code) {
+  return FORMER_NUMBERS[code] || code;
+}
+
+/**
+ * Whether a single course code is satisfied for a course being placed in
+ * `destSemester`: it's completed (including transfer/AP credit), or it's
+ * scheduled in a semester strictly before the destination. If the catalog
+ * says it "may be taken concurrently", the same semester also counts.
+ */
+function courseSatisfies(code, destSemester, concurrentOk) {
+  const want = canonicalCode(code);
+  return courses.some((pc) => {
+    if (canonicalCode(pc.code) !== want) return false;
+    if (pc.status === "completed") return true;
+    if (!pc.semester || !destSemester) return false; // unassigned prereq can't come "before" anything
+    const cmp = semesterSort(pc.semester, destSemester);
+    return cmp < 0 || (concurrentOk && cmp === 0);
+  });
+}
+
+/**
+ * Evaluates one catalog prerequisite entry, e.g. "CSCI 241",
+ * "CSCI 243 or MATH 214", "CSCI 241 (may be taken concurrently)", or
+ * "CSCI 415 or (CSCI 301 and CSCI 303 and CSCI 304)". "and" binds tighter
+ * than "or", matching how data/build_catalog.py writes these. Entries with
+ * no course codes at all (e.g. "To be determined by topic each term") can't
+ * be checked, so they're treated as satisfied rather than blocking a move.
+ */
+function prereqSatisfied(entry, destSemester) {
+  const tokens = entry.match(/\(may be taken concurrently\)|[A-Z]{2,4} \d{3}[A-Z]?|\(|\)|\band\b|\bor\b/g) || [];
+  if (!tokens.some((t) => /^[A-Z]{2,4} \d{3}/.test(t))) return true;
+
+  let pos = 0;
+  const peek = () => tokens[pos];
+  function primary() {
+    const t = tokens[pos++];
+    if (t === "(") {
+      const v = orExpr();
+      if (peek() === ")") pos++;
+      return v;
+    }
+    let concurrentOk = false;
+    if (peek() === "(may be taken concurrently)") {
+      pos++;
+      concurrentOk = true;
+    }
+    return courseSatisfies(t, destSemester, concurrentOk);
+  }
+  function andExpr() {
+    let v = primary();
+    while (peek() === "and") {
+      pos++;
+      v = primary() && v;
+    }
+    return v;
+  }
+  function orExpr() {
+    let v = andExpr();
+    while (peek() === "or") {
+      pos++;
+      v = andExpr() || v;
+    }
+    return v;
+  }
+  try {
+    return orExpr();
+  } catch (err) {
+    console.warn("Couldn't evaluate prerequisite:", entry, err);
+    return true;
+  }
+}
+
+/* ==========================================================================
+   SECTION 5b — terms, catalog, locking, and plan-editing helpers
+   ========================================================================== */
+
+/** Completed and in-progress courses are part of the student's record, not
+ *  the plan — they can't be moved or removed. */
+function isLocked(c) {
+  return c.status === "completed" || c.status === "current";
+}
+
+function findCourse(code) {
+  const want = canonicalCode(code);
+  return courses.find((c) => canonicalCode(c.code) === want);
+}
+
+/** The regular term (Fall/Spring) that follows `term`. Summer and Winter
+ *  sessions roll forward to the next regular term. */
+function nextRegularTerm(term) {
+  const [season, yearStr] = term.split(" ");
+  const year = Number(yearStr);
+  if (season === "Fall") return `Spring ${year + 1}`;
+  if (season === "Winter") return `Spring ${year}`;
+  return `Fall ${year}`; // Spring or Summer
+}
+
+/** The term in progress right now: the student's in-progress (IP) term if
+ *  the audit has one, otherwise estimated from today's date. */
+function currentTerm() {
+  const inProgress = courses.filter((c) => c.status === "current" && c.semester).map((c) => c.semester).sort(semesterSort);
+  if (inProgress.length) return inProgress[0];
+  const now = new Date();
+  const m = now.getMonth(); // 0 = Jan
+  const y = now.getFullYear();
+  if (m <= 4) return `Spring ${y}`;
+  if (m <= 6) return `Summer ${y}`;
+  return `Fall ${y}`;
+}
+
+/** First term that can still be planned (anything after the current one). */
+function firstOpenTerm() {
+  return nextRegularTerm(currentTerm());
+}
+
+function isOpenTerm(term) {
+  return !!term && semesterSort(term, firstOpenTerm()) >= 0;
+}
+
+// --- Catalog (served by /api/catalog, the same data the advisor sees) ---
+let catalog = [];
+let catalogByCode = new Map();
+
+async function loadCatalog() {
+  try {
+    const res = await fetch("/api/catalog");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    catalog = await res.json();
+    catalogByCode = new Map(catalog.map((c) => [c.code, c]));
+  } catch (err) {
+    console.error("Couldn't load the course catalog:", err);
+    catalog = [];
+    catalogByCode = new Map();
+  }
+}
+
+function catalogEntry(code) {
+  return catalogByCode.get(code) || catalogByCode.get(canonicalCode(code)) || null;
+}
+
+/** Catalog credits can be a range like "1-3"; plan with the top of it. */
+function creditsFromCatalog(entry) {
+  if (typeof entry.credits === "number") return entry.credits;
+  const nums = String(entry.credits || "").match(/\d+/g);
+  return nums ? Number(nums[nums.length - 1]) : 3;
+}
+
+/** Which requirement bucket (a requirementTotals key) a new course lands in. */
+function requirementBucketFor(entry) {
+  const majorBucket = Object.keys(requirementTotals).find((k) => k !== "COLL" && k !== "Electives");
+  const roles = (entry && entry.cs_major_roles) || [];
+  const countsForMajor = roles.length > 0 && !roles.includes("does_not_count_toward_major");
+  if (countsForMajor && majorBucket) return majorBucket;
+  return requirementTotals.Electives !== undefined ? "Electives" : (majorBucket || "Electives");
+}
+
+function makePlannedCourse(entry, semester, source) {
+  return {
+    code: entry.code,
+    title: entry.title,
+    credits: creditsFromCatalog(entry),
+    semester,
+    status: "planned",
+    transfer: false,
+    requirements: [requirementBucketFor(entry)],
+    prerequisites: [...(entry.prerequisites || [])],
+    source,
+  };
+}
+
+/**
+ * Moves an unlocked course to `destSemester`. Returns the prerequisite entry
+ * that blocks the move (and makes no change), or null on success.
+ */
+function moveCourse(course, destSemester) {
+  if (!course || isLocked(course)) return null;
+  const blocking = (course.prerequisites || []).find((p) => !prereqSatisfied(p, destSemester));
+  if (blocking) return blocking;
+  course.semester = destSemester;
+  if (course.status === "unassigned") course.status = "planned";
+  return null;
+}
+
+function removeCourseFromPlan(code) {
+  const course = courses.find((c) => c.code === code);
+  if (!course || isLocked(course)) return;
+  courses = courses.filter((c) => c !== course);
+}
+
+/** Every semester column shown in the plan, oldest first. */
+function allSemesters() {
+  const set = new Set(plannedSemesters);
+  courses.forEach((c) => {
+    if (c.semester && !c.transfer) set.add(c.semester);
+  });
+  return Array.from(set).sort(semesterSort);
+}
+
+/** Semesters a course can be added or moved to: open (future) columns, or
+ *  the first open term if the plan has none yet. */
+function openSemesters() {
+  const open = allSemesters().filter(isOpenTerm);
+  return open.length ? open : [firstOpenTerm()];
+}
+
+function refreshAllRoadmapViews() {
+  renderStudentIdentity();
+  renderSnapshotBars();
+  renderSemesterView();
+  if (document.getElementById("requirement-view").classList.contains("active")) renderRequirementView();
+}
+
+// --- Earliest realistic graduation ---
+const MAX_CREDITS_PER_TERM = 18;
+const DEGREE_CREDITS = 120;
+// Each group is one requirement; any option in it satisfies it.
+const REQUIRED_COURSE_GROUPS = [
+  ["CSCI 141"], ["CSCI 241"], ["CSCI 243", "MATH 214"], ["CSCI 301"], ["CSCI 303"],
+  ["CSCI 304"], ["CSCI 312"], ["CSCI 423"],
+  ["MATH 111", "MATH 131"], ["MATH 112", "MATH 132"], ["MATH 109"],
+];
+
+/**
+ * Earliest term the student could realistically graduate: enough regular
+ * (Fall/Spring) terms to cover the remaining credits at 18 per term, and
+ * enough terms to work through the longest remaining prerequisite chain in
+ * the CS core and math proficiency. Completed and in-progress courses count
+ * as done. Summer sessions aren't counted, since graduation can't be in
+ * Summer.
+ */
+function earliestGraduation() {
+  const done = (code) => courses.some((c) => canonicalCode(c.code) === canonicalCode(code) && isLocked(c));
+  const earned = courses.filter(isLocked).reduce((s, c) => s + c.credits, 0);
+  const remainingCredits = Math.max(0, DEGREE_CREDITS - earned);
+  const creditTerms = Math.ceil(remainingCredits / MAX_CREDITS_PER_TERM);
+
+  // finishTerm(code): how many terms from now until `code` can be finished.
+  const memo = new Map();
+  function finishTerm(code, stack = new Set()) {
+    if (done(code)) return 0;
+    const key = canonicalCode(code);
+    if (memo.has(key)) return memo.get(key);
+    if (stack.has(key)) return 1; // guard against catalog cycles
+    stack.add(key);
+    const entry = catalogEntry(code);
+    let before = 0;
+    (entry ? entry.prerequisites : []).forEach((p) => {
+      const opts = [...p.matchAll(/([A-Z]{2,4} \d{3}[A-Z]?)( \(may be taken concurrently\))?/g)];
+      if (!opts.length) return;
+      const best = Math.min(
+        ...opts.map(([, optCode, concurrent]) => {
+          const t = finishTerm(optCode, stack);
+          return concurrent ? Math.max(0, t - 1) : t;
+        })
+      );
+      before = Math.max(before, best);
+    });
+    stack.delete(key);
+    memo.set(key, before + 1);
+    return before + 1;
+  }
+  const chainTerms = catalog.length
+    ? Math.max(0, ...REQUIRED_COURSE_GROUPS.map((g) => Math.min(...g.map((code) => finishTerm(code)))))
+    : 0;
+
+  const termsNeeded = Math.max(creditTerms, chainTerms);
+  let term = currentTerm();
+  if (term.startsWith("Summer") || term.startsWith("Winter")) term = nextRegularTerm(term);
+  for (let i = 0; i < termsNeeded; i++) term = nextRegularTerm(term);
+  return { term, remainingCredits, termsNeeded, chainTerms };
+}
+
+// --- Advisor roadmap sync ---
+/**
+ * Applies a full multi-semester plan the advisor produced in chat (see
+ * extractRoadmapPlan in server.js) to My Roadmap. Courses from the previous
+ * advisor sync are replaced; completed/in-progress courses are never touched;
+ * a course the student already planned is moved to the advisor's term.
+ * Returns a one-line summary, or null if nothing changed.
+ */
+function applyAdvisorRoadmapPlan(plan) {
+  if (!plan || !Array.isArray(plan.semesters)) return null;
+  courses = courses.filter((c) => c.source !== "advisor" || isLocked(c));
+
+  let added = 0;
+  let moved = 0;
+  const terms = new Set();
+  plan.semesters.forEach((sem) => {
+    if (!isOpenTerm(sem.term)) return;
+    (sem.courses || []).forEach((entry) => {
+      const existing = findCourse(entry.code);
+      if (existing) {
+        if (isLocked(existing) || existing.semester === sem.term) return;
+        existing.semester = sem.term;
+        if (existing.status === "unassigned") existing.status = "planned";
+        moved++;
+      } else {
+        courses.push(makePlannedCourse(entry, sem.term, "advisor"));
+        added++;
+      }
+      terms.add(sem.term);
+    });
+  });
+
+  saveRoadmapToStorage();
+  refreshAllRoadmapViews();
+  if (!added && !moved) return null;
+  const parts = [];
+  if (added) parts.push(`added ${added} course${added === 1 ? "" : "s"}`);
+  if (moved) parts.push(`moved ${moved}`);
+  return `Synced to My Roadmap: ${parts.join(", ")} across ${terms.size} semester${terms.size === 1 ? "" : "s"}.`;
 }
 
 let editing = false;
@@ -423,10 +762,11 @@ function renderSnapshotBars() {
    ========================================================================== */
 function groupBySemester() {
   const groups = {};
+  allSemesters().forEach((sem) => (groups[sem] = []));
   courses.forEach((c) => {
     if (!c.semester) return;
     if (c.transfer) return; // transfer/AP credit gets its own table — see renderTransferTable()
-    (groups[c.semester] = groups[c.semester] || []).push(c);
+    groups[c.semester].push(c);
   });
   return Object.keys(groups).sort(semesterSort).map((sem) => ({ semester: sem, list: groups[sem] }));
 }
@@ -436,11 +776,15 @@ function courseCardHTML(c) {
   // its own nested remove <button> — real <button> elements cannot legally
   // contain another <button>; browsers silently split such markup, which
   // used to produce stray empty boxes in edit mode.
-  const removable = editing ? `<button type="button" class="remove-course-x" data-remove="${c.code}" aria-label="Remove course">×</button>` : "";
+  const locked = isLocked(c);
+  const removable = editing && !locked ? `<button type="button" class="remove-course-x" data-remove="${c.code}" aria-label="Remove ${c.code} from plan">×</button>` : "";
+  const lock = locked
+    ? `<span class="cc-lock" title="${c.status === "completed" ? "Completed" : "In progress"} — locked"><svg class="icon"><use href="#i-lock"/></svg></span>`
+    : "";
   return `
-    <div class="course-card" data-code="${c.code}" role="button" tabindex="0" ${editing && c.status !== "completed" ? 'draggable="true"' : ""}>
+    <div class="course-card${locked ? " locked" : ""}" data-code="${c.code}" role="button" tabindex="0" ${editing && !locked ? 'draggable="true"' : ""}>
       ${removable}
-      <div class="cc-top">${statusIconHTML(c.status)}<span class="cc-code">${c.code}</span></div>
+      <div class="cc-top">${statusIconHTML(c.status)}<span class="cc-code">${c.code}</span>${lock}</div>
       <div class="cc-title">${c.title}</div>
       <span class="tag cc-tag">${c.requirements[0] || "Elective"}</span>
     </div>`;
@@ -496,17 +840,36 @@ function renderSemesterView() {
   const wrap = document.getElementById("semester-scroll");
   const groups = groupBySemester();
   wrap.className = "semester-scroll" + (editing ? " editing" : "");
-  wrap.innerHTML = groups
-    .map(
-      (g) => `
-      <div class="semester-col" data-semester="${g.semester}">
-        <div class="semester-col-head"><h3>${g.semester}</h3><span class="credits">${g.list.reduce((s, c) => s + c.credits, 0)} credits</span></div>
-        <div class="semester-cards" data-drop="${g.semester}">
-          ${g.list.map(courseCardHTML).join("")}
+  wrap.innerHTML =
+    groups
+      .map((g) => {
+        const removableSemester = g.list.length === 0 && plannedSemesters.includes(g.semester);
+        return `
+      <div class="semester-col${isOpenTerm(g.semester) ? "" : " past"}" data-semester="${g.semester}">
+        <div class="semester-col-head">
+          <h3>${g.semester}</h3>
+          <span class="credits">${g.list.reduce((s, c) => s + c.credits, 0)} credits</span>
+          ${removableSemester ? `<button type="button" class="remove-semester-x" data-remove-semester="${g.semester}" aria-label="Remove ${g.semester}">×</button>` : ""}
         </div>
-      </div>`
-    )
-    .join("");
+        <div class="semester-cards" data-drop="${g.semester}">
+          ${g.list.length ? g.list.map(courseCardHTML).join("") : `<div class="semester-empty">No courses yet — search the catalog above to add one.</div>`}
+        </div>
+      </div>`;
+      })
+      .join("") +
+    (hasRoadmap()
+      ? `<button type="button" class="add-semester-col" id="add-semester-btn"><svg class="icon"><use href="#i-plus"/></svg><span>Add Semester</span></button>`
+      : "");
+
+  const addSemBtn = document.getElementById("add-semester-btn");
+  if (addSemBtn) addSemBtn.addEventListener("click", addSemester);
+  wrap.querySelectorAll(".remove-semester-x").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      plannedSemesters = plannedSemesters.filter((t) => t !== btn.dataset.removeSemester);
+      saveRoadmapToStorage();
+      renderSemesterView();
+    });
+  });
 
   // Degree progress summary
   const overall = overallProgress();
@@ -528,8 +891,22 @@ function renderSemesterView() {
   roadmapRing.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - overall / 100);
 
   renderTransferTable();
+  renderCatalogSemesterOptions();
   attachCourseCardHandlers();
   if (editing) attachDragHandlers();
+}
+
+/** Adds the next regular (Fall/Spring) term after the last one in the plan. */
+function addSemester() {
+  const all = allSemesters();
+  const last = all.length ? all[all.length - 1] : currentTerm();
+  let next = nextRegularTerm(last);
+  if (!isOpenTerm(next)) next = firstOpenTerm();
+  if (!plannedSemesters.includes(next)) plannedSemesters.push(next);
+  saveRoadmapToStorage();
+  renderSemesterView();
+  const col = document.querySelector(`.semester-col[data-semester="${next}"]`);
+  if (col) col.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
 }
 
 /* ==========================================================================
@@ -580,8 +957,15 @@ function renderRequirementView() {
 /* ==========================================================================
    SECTION 10 — course details drawer
    ========================================================================== */
-function openDrawer(course) {
+/**
+ * Opens the course details drawer. `options.preview` marks a course that
+ * isn't in the plan (e.g. a catalog search result whose prerequisites block
+ * adding it) — it gets no move/remove controls.
+ */
+function openDrawer(course, options = {}) {
   if (!course) return;
+  const preview = !!options.preview;
+  const locked = !preview && isLocked(course);
   const backdrop = document.getElementById("drawer-backdrop");
   const drawer = document.getElementById("course-drawer");
   const content = document.getElementById("drawer-content");
@@ -608,18 +992,35 @@ function openDrawer(course) {
     <div class="drawer-section-label">Prerequisites</div>
     ${prereqRows}
 
-    <div class="drawer-section-label">Planned</div>
+    <div class="drawer-section-label">${preview ? "Trying to add to" : locked ? (course.status === "completed" ? "Completed" : "In progress") : "Planned"}</div>
     <div class="drawer-planned">${course.semester || "Not scheduled"}</div>
 
     ${
-      missingPrereq && (course.status === "planned" || course.status === "unassigned")
-        ? `<div class="drawer-warning"><svg class="icon" style="width:15px;height:15px;flex-shrink:0"><use href="#i-warning"/></svg><span>Missing prerequisite: ${missingPrereq} must be completed before ${course.code}.</span></div>`
+      missingPrereq && (preview || course.status === "planned" || course.status === "unassigned")
+        ? `<div class="drawer-warning"><svg class="icon" style="width:15px;height:15px;flex-shrink:0"><use href="#i-warning"/></svg><span>Missing prerequisite: ${missingPrereq} must be completed before ${course.code}${course.semester ? ` can be taken in ${course.semester}` : ""}.</span></div>`
+        : ""
+    }
+
+    ${
+      locked
+        ? `<div class="drawer-locked"><svg class="icon" style="width:15px;height:15px;flex-shrink:0"><use href="#i-lock"/></svg><span>${course.status === "completed" ? "Completed" : "In-progress"} courses are part of your record, so they can't be moved or removed.</span></div>`
         : ""
     }
 
     <div class="drawer-actions">
+      ${
+        !preview && !locked
+          ? `<div class="drawer-move-row">
+              <select id="drawer-move-select" aria-label="Move to semester">
+                ${openSemesters().map((t) => `<option value="${t}" ${t === course.semester ? "selected" : ""}>${t}</option>`).join("")}
+              </select>
+              <button class="btn" id="drawer-move">Move</button>
+            </div>
+            <div class="drawer-move-error" id="drawer-move-error" aria-live="polite"></div>`
+          : ""
+      }
       <button class="btn" id="drawer-ask">Ask AI About This</button>
-      <button class="btn" id="drawer-move" ${course.status === "completed" ? "disabled" : ""}>Move Course</button>
+      ${!preview && !locked ? `<button class="btn btn-danger" id="drawer-remove">Remove from Plan</button>` : ""}
     </div>
   `;
 
@@ -628,10 +1029,31 @@ function openDrawer(course) {
     document.querySelector('.nav-item[data-page="advisor"]').click();
     window.__advisorSendMessage(`Tell me more about ${course.code}.`);
   });
-  content.querySelector("#drawer-move").addEventListener("click", () => {
-    if (!editing) document.getElementById("edit-plan-btn").click();
-    closeDrawer();
-  });
+  const moveBtn = content.querySelector("#drawer-move");
+  if (moveBtn) {
+    moveBtn.addEventListener("click", () => {
+      const dest = content.querySelector("#drawer-move-select").value;
+      if (dest === course.semester) return closeDrawer();
+      const real = courses.find((c) => c.code === course.code);
+      const blocking = moveCourse(real, dest);
+      if (blocking) {
+        content.querySelector("#drawer-move-error").textContent = `Can't move to ${dest}: ${blocking} must come first.`;
+        return;
+      }
+      saveRoadmapToStorage();
+      closeDrawer();
+      refreshAllRoadmapViews();
+    });
+  }
+  const removeBtn = content.querySelector("#drawer-remove");
+  if (removeBtn) {
+    removeBtn.addEventListener("click", () => {
+      removeCourseFromPlan(course.code);
+      saveRoadmapToStorage();
+      closeDrawer();
+      refreshAllRoadmapViews();
+    });
+  }
 
   backdrop.classList.add("open");
   drawer.classList.add("open");
@@ -664,13 +1086,9 @@ function attachCourseCardHandlers() {
   document.querySelectorAll(".remove-course-x").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
-      const c = courses.find((c) => c.code === btn.dataset.remove);
-      if (c) {
-        c.semester = "";
-        c.status = "unassigned";
-        saveRoadmapToStorage();
-      }
-      renderSemesterView();
+      removeCourseFromPlan(btn.dataset.remove); // no-op for locked courses
+      saveRoadmapToStorage();
+      refreshAllRoadmapViews();
     });
   });
 }
@@ -721,6 +1139,7 @@ function applyImportedRoadmap(roadmap) {
   student = roadmap.student;
   courses = roadmap.courses;
   requirementTotals = roadmap.requirementTotals;
+  plannedSemesters = []; // a fresh audit starts a fresh plan
   saveRoadmapToStorage();
   editing = false; // fresh import — don't stay in a stale edit session
 
@@ -849,26 +1268,61 @@ const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…
   const skipBtn = document.getElementById("grad-skip");
   const closeBtn = document.getElementById("grad-close");
   const editBtn = document.getElementById("dp-grad-date");
+  const earliestEl = document.getElementById("grad-earliest");
+  const errorEl = document.getElementById("grad-error");
 
-  const thisYear = new Date().getFullYear();
-  for (let y = thisYear; y <= thisYear + 6; y++) {
-    const opt = document.createElement("option");
-    opt.value = String(y);
-    opt.textContent = String(y);
-    yearSelect.appendChild(opt);
+  // Graduation happens in Spring or Fall only — no Summer graduation.
+  const GRAD_TERMS = ["Spring", "Fall"];
+  let earliest = null;
+
+  const selected = () => `${termSelect.value} ${yearSelect.value}`;
+  const isTooEarly = (term) => earliest && semesterSort(term, earliest.term) < 0;
+
+  function fillYears(minYear, maxYear) {
+    yearSelect.innerHTML = "";
+    for (let y = minYear; y <= maxYear; y++) {
+      const opt = document.createElement("option");
+      opt.value = String(y);
+      opt.textContent = String(y);
+      yearSelect.appendChild(opt);
+    }
+  }
+
+  // Disable term options that would land before the earliest realistic term.
+  function syncTermOptions() {
+    Array.from(termSelect.options).forEach((o) => {
+      o.disabled = isTooEarly(`${o.value} ${yearSelect.value}`);
+    });
+    if (termSelect.selectedOptions[0] && termSelect.selectedOptions[0].disabled) {
+      const firstOk = Array.from(termSelect.options).find((o) => !o.disabled);
+      if (firstOk) termSelect.value = firstOk.value;
+    }
+    errorEl.textContent = "";
   }
 
   function open() {
     if (!hasRoadmap()) return;
+    earliest = earliestGraduation();
+    const earliestYear = Number(earliest.term.split(" ")[1]);
+    const thisYear = new Date().getFullYear();
+    fillYears(Math.min(thisYear, earliestYear), Math.max(thisYear + 6, earliestYear + 4));
+    Array.from(yearSelect.options).forEach((o) => {
+      o.disabled = Number(o.value) < earliestYear;
+    });
+
+    const creditsNote = earliest.remainingCredits
+      ? `${earliest.remainingCredits} credits left at up to ${MAX_CREDITS_PER_TERM} per semester`
+      : "your credit total is covered";
+    const chainNote = earliest.chainTerms ? `, and ${earliest.chainTerms} semester${earliest.chainTerms === 1 ? "" : "s"} of CS/math prerequisite chain still to go` : "";
+    earliestEl.textContent = `Earliest realistic graduation: ${earliest.term} (${creditsNote}${chainNote}).`;
+
     const [term, year] = (student.graduation || "").split(" ");
-    termSelect.value = ["Spring", "Summer", "Fall"].includes(term) ? term : "Spring";
-    if (year && !Array.from(yearSelect.options).some((o) => o.value === year)) {
-      const opt = document.createElement("option");
-      opt.value = year;
-      opt.textContent = year;
-      yearSelect.appendChild(opt);
-    }
-    yearSelect.value = year || String(thisYear + (new Date().getMonth() >= 5 ? 1 : 0));
+    const current = GRAD_TERMS.includes(term) && year && !isTooEarly(student.graduation) ? student.graduation : earliest.term;
+    const [cTerm, cYear] = current.split(" ");
+    yearSelect.value = cYear;
+    termSelect.value = cTerm;
+    syncTermOptions();
+
     backdrop.classList.add("open");
     modal.classList.add("open");
     termSelect.focus();
@@ -877,11 +1331,24 @@ const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…
   function close() {
     backdrop.classList.remove("open");
     modal.classList.remove("open");
+    errorEl.textContent = "";
   }
+
+  yearSelect.addEventListener("change", syncTermOptions);
+  termSelect.addEventListener("change", () => (errorEl.textContent = ""));
 
   saveBtn.addEventListener("click", () => {
     if (!hasRoadmap()) return close();
-    student.graduation = `${termSelect.value} ${yearSelect.value}`;
+    const choice = selected();
+    if (!GRAD_TERMS.includes(termSelect.value)) {
+      errorEl.textContent = "Graduation must be in a Spring or Fall term.";
+      return;
+    }
+    if (isTooEarly(choice)) {
+      errorEl.textContent = `${choice} is earlier than your remaining requirements allow. The earliest realistic term is ${earliest.term}.`;
+      return;
+    }
+    student.graduation = choice;
     // Keep student.year in sync so the AI sees the same standing the UI shows.
     student.year = deriveStanding(student.graduation);
     saveRoadmapToStorage();
@@ -898,6 +1365,133 @@ const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…
   });
 
   window.__openGradPrompt = open;
+})();
+
+/* ==========================================================================
+   SECTION 12c — catalog search (add a course to a chosen semester)
+   ========================================================================== */
+function renderCatalogSemesterOptions() {
+  const select = document.getElementById("catalog-search-semester");
+  if (!select) return;
+  const prev = select.value;
+  const terms = openSemesters();
+  select.innerHTML = terms.map((t) => `<option value="${t}">${t}</option>`).join("");
+  select.value = terms.includes(prev) ? prev : terms[0];
+  document.getElementById("catalog-search").hidden = !hasRoadmap();
+}
+
+(function catalogSearchModule() {
+  const input = document.getElementById("catalog-search-input");
+  const select = document.getElementById("catalog-search-semester");
+  const results = document.getElementById("catalog-search-results");
+  const statusEl = document.getElementById("catalog-search-status");
+  const MAX_RESULTS = 8;
+
+  const norm = (str) => str.toLowerCase().replace(/\s+/g, " ").trim();
+
+  function search(query) {
+    const q = norm(query);
+    if (q.length < 2) return [];
+    const compact = q.replace(/ /g, "");
+    const words = q.split(" ");
+    return catalog
+      .filter((c) => creditsFromCatalog(c) > 0) // skip 0-credit labs / W sections
+      .map((c) => {
+        const code = c.code.toLowerCase();
+        const title = c.title.toLowerCase();
+        let score = 0;
+        if (code === q || code.replace(" ", "") === compact) score = 100;
+        else if (code.startsWith(q) || code.replace(" ", "").startsWith(compact)) score = 80;
+        else if (words.every((w) => title.includes(w))) score = 50;
+        else if (words.every((w) => `${code} ${title}`.includes(w))) score = 30;
+        return { c, score };
+      })
+      .filter((r) => r.score > 0)
+      .sort((a, b) => b.score - a.score || a.c.code.localeCompare(b.c.code))
+      .slice(0, MAX_RESULTS)
+      .map((r) => r.c);
+  }
+
+  function actionFor(entry) {
+    const existing = findCourse(entry.code);
+    if (!existing) return { label: "Add", disabled: false };
+    if (existing.status === "completed") return { label: "Completed", disabled: true };
+    if (existing.status === "current") return { label: "In progress", disabled: true };
+    if (existing.semester === select.value) return { label: "In plan", disabled: true };
+    return { label: `Move here`, disabled: false };
+  }
+
+  function render() {
+    const list = search(input.value);
+    if (!input.value.trim()) {
+      results.innerHTML = "";
+      return;
+    }
+    if (!catalog.length) {
+      results.innerHTML = `<div class="cs-empty">The course catalog couldn't be loaded.</div>`;
+      return;
+    }
+    if (!list.length) {
+      results.innerHTML = `<div class="cs-empty">No catalog courses match “${input.value.trim()}”.</div>`;
+      return;
+    }
+    results.innerHTML = list
+      .map((c) => {
+        const action = actionFor(c);
+        const existing = findCourse(c.code);
+        const where = existing && existing.semester && !isLocked(existing) ? `<span class="cs-where">Planned ${existing.semester}</span>` : "";
+        return `
+        <div class="cs-result">
+          <div class="cs-info">
+            <div class="cs-line"><span class="cs-code">${c.code}</span><span class="cs-title">${c.title}</span></div>
+            <div class="cs-meta">${c.credits} credits${c.prerequisites.length ? ` · Prereqs: ${c.prerequisites.join("; ")}` : ""} ${where}</div>
+          </div>
+          <button type="button" class="btn cs-add" data-add="${c.code}" ${action.disabled ? "disabled" : ""}>${action.label}</button>
+        </div>`;
+      })
+      .join("");
+    results.querySelectorAll(".cs-add").forEach((btn) => btn.addEventListener("click", () => addFromCatalog(btn.dataset.add)));
+  }
+
+  function addFromCatalog(code) {
+    const entry = catalogByCode.get(code);
+    const dest = select.value;
+    if (!entry || !dest) return;
+    const existing = findCourse(code);
+    if (existing && isLocked(existing)) return;
+
+    let blocking;
+    if (existing) {
+      blocking = moveCourse(existing, dest);
+    } else {
+      const candidate = makePlannedCourse(entry, dest, "manual");
+      blocking = candidate.prerequisites.find((p) => !prereqSatisfied(p, dest));
+      if (!blocking) courses.push(candidate);
+    }
+    if (blocking) {
+      statusEl.textContent = `Can't add ${code} to ${dest} yet: ${blocking} has to come first.`;
+      openDrawer(existing ? { ...existing, semester: dest } : makePlannedCourse(entry, dest, "manual"), { preview: true });
+      return;
+    }
+    if (!plannedSemesters.includes(dest) && !allSemesters().includes(dest)) plannedSemesters.push(dest);
+    saveRoadmapToStorage();
+    statusEl.textContent = `${existing ? "Moved" : "Added"} ${code} to ${dest}.`;
+    refreshAllRoadmapViews();
+    render();
+  }
+
+  input.addEventListener("input", () => {
+    statusEl.textContent = "";
+    render();
+  });
+  select.addEventListener("change", render);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      input.value = "";
+      render();
+    }
+  });
+  window.__renderCatalogSearch = render;
 })();
 
 /* ==========================================================================
@@ -934,24 +1528,19 @@ function attachDragHandlers() {
       if (!draggedCode) return;
       const course = courses.find((c) => c.code === draggedCode);
       const destSemester = col.dataset.semester;
-      if (!course || course.status === "completed") return;
+      draggedCode = null;
+      if (!course || isLocked(course)) return; // completed / in-progress courses are locked
+      if (!isOpenTerm(destSemester)) return; // can't plan into a term that's already underway or over
 
-      const blocking = course.prerequisites.find((p) => !prereqSatisfied(p, destSemester));
+      const blocking = moveCourse(course, destSemester);
       if (blocking) {
-        // Pass a copy with the attempted semester so the drawer's own
-        // missing-prerequisite check (which reads course.semester) explains
-        // the block in terms of where the student just tried to drop it,
-        // not wherever it happened to be sitting before the drag.
-        openDrawer({ ...course, semester: destSemester });
-        draggedCode = null;
+        // Show the block in terms of where the student just tried to drop it,
+        // not wherever the course happened to be sitting before the drag.
+        openDrawer({ ...course, semester: destSemester }, { preview: true });
         return;
       }
-
-      course.semester = destSemester;
-      if (course.status === "unassigned") course.status = "planned";
       saveRoadmapToStorage();
-      draggedCode = null;
-      renderSemesterView(); // credits, progress, and status recompute from the single source of truth
+      refreshAllRoadmapViews(); // credits, progress, and status recompute from the single source of truth
     });
   });
 }
@@ -964,3 +1553,9 @@ applyOnboardingState();
 renderStudentIdentity();
 renderSnapshotBars();
 renderSemesterView();
+// The catalog powers search and the earliest-graduation estimate; re-render
+// once it arrives so anything that depends on it is up to date.
+loadCatalog().then(() => {
+  renderSemesterView();
+  window.__renderCatalogSearch();
+});
