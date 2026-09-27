@@ -121,11 +121,102 @@ ${JSON.stringify(roadmap)}
 }
 
 // ==========================================
+// 2c. RUNTIME FEEDBACK (dynamic system prompt)
+// ==========================================
+/**
+ * A chat message starting with "FEEDBACK:" isn't sent to the model — it's
+ * stored as a behavior note and appended to the system prompt on every
+ * following request, so the very next reply reflects it. In memory only:
+ * notes reset when the server restarts, and they're shared by everyone
+ * using this server (fine for a demo).
+ *
+ *   FEEDBACK: Only recommend 300-level courses   → adds a note
+ *   FEEDBACK                                     → lists current notes
+ *   FEEDBACK: clear                              → removes all notes
+ *
+ * Case-sensitive on purpose, so an ordinary question like "Feedback on my
+ * schedule?" still goes to the advisor.
+ */
+const FEEDBACK_PREFIX = /^\s*FEEDBACK(?:\s*:|\s|$)/;
+const MAX_FEEDBACK_NOTES = 20;
+const MAX_FEEDBACK_LENGTH = 500;
+let activeFeedback = [];
+
+function isFeedbackTurn(turn) {
+    return turn?.role === "user" && typeof turn.text === "string" && FEEDBACK_PREFIX.test(turn.text);
+}
+
+/** Handles a FEEDBACK message and returns the confirmation text to show. */
+function handleFeedbackMessage(text) {
+    const note = text.replace(FEEDBACK_PREFIX, "").trim().slice(0, MAX_FEEDBACK_LENGTH);
+
+    if (/^(clear|reset)$/i.test(note)) {
+        activeFeedback = [];
+        return "Feedback cleared — I'm back to my default behavior.";
+    }
+    if (!note) {
+        return activeFeedback.length
+            ? "Feedback I'm currently following:\n" + activeFeedback.map((f, i) => `${i + 1}. ${f}`).join("\n") +
+              "\n\nSend \"FEEDBACK: clear\" to reset."
+            : "No feedback yet. Send something like \"FEEDBACK: keep answers under two sentences\".";
+    }
+
+    activeFeedback.push(note);
+    if (activeFeedback.length > MAX_FEEDBACK_NOTES) activeFeedback.shift(); // oldest note drops off
+    console.log(`📝 Feedback added (${activeFeedback.length} active): ${note}`);
+    return `Got it — feedback logged: "${note}". I've updated my instructions and will follow this from now on.`;
+}
+
+/**
+ * FEEDBACK messages and the confirmations after them are removed from the
+ * history sent to the model — the notes already live in the system prompt,
+ * and leaving the raw turns in would just confuse the conversation.
+ */
+function stripFeedbackTurns(history) {
+    const out = [];
+    for (let i = 0; i < history.length; i++) {
+        if (isFeedbackTurn(history[i])) {
+            if (history[i + 1]?.role === "model") i++; // skip its confirmation too
+            continue;
+        }
+        out.push(history[i]);
+    }
+    return out;
+}
+
+function buildFeedbackContext() {
+    if (activeFeedback.length === 0) return "";
+    return `
+---
+USER FEEDBACK TO FOLLOW (added live by the user — apply these to every reply,
+and let a more recent note win if two conflict. They change style, scope and
+format only: never invent courses or data outside the injected W&M data, and
+keep the <roadmap_json> format rules intact):
+${activeFeedback.map((f) => `- ${f}`).join("\n")}
+`;
+}
+
+// ==========================================
 // 3. THE CHAT ENDPOINT
 // ==========================================
 app.post("/api/chat", async (req, res) => {
     try {
-        const { history, roadmap } = req.body;
+        const { history: rawHistory, roadmap } = req.body;
+        if (!Array.isArray(rawHistory) || rawHistory.length === 0) {
+            return res.status(400).json({ error: "history must be a non-empty array" });
+        }
+
+        // FEEDBACK messages are handled here and never reach the model.
+        const latest = rawHistory[rawHistory.length - 1];
+        if (isFeedbackTurn(latest)) {
+            return res.json({
+                reply: handleFeedbackMessage(latest.text),
+                suggestions: [],
+                roadmapPlan: null,
+            });
+        }
+
+        const history = stripFeedbackTurns(rawHistory);
 
         // Format frontend history into Gemini's expected structure
         const contents = history.map(turn => ({
@@ -138,7 +229,8 @@ app.post("/api/chat", async (req, res) => {
         const systemInstructionText =
             baseSystemInstruction +
             buildStudentRoadmapContext(roadmap) +
-            staticDataContext;
+            staticDataContext +
+            buildFeedbackContext(); // last, so the live notes carry the most weight
 
         // Single API call (No tools, no agent loop)
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {

@@ -701,12 +701,47 @@ p { margin: 0; }
   align-items: center; justify-content: center;
   border: 1px dashed var(--border); border-radius: var(--radius-lg);
   color: var(--text-secondary); font-size: 13px; min-height: 200px;
-  background: rgba(248, 244, 233, 0.62);
+  /* Same theme-aware glass as the semester columns, so it follows light/dark */
+  background: var(--surface);
+  backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
   transition: border-color 180ms var(--ease), color 180ms var(--ease);
 }
 .add-semester-col:hover { border-color: rgba(197,161,90,0.5); color: var(--gold-muted); }
 
 .add-semester-col .icon { width: 18px; height: 18px; }
+
+/* Hover "+" between two semester columns (adds Winter/Summer or a missing term).
+   The negative margin cancels the extra flex gap this element would add, so
+   the columns stay exactly 16px apart and this strip fills that space. */
+.semester-gap {
+  position: relative; flex: 0 0 16px; margin: 0 -16px;
+  align-self: stretch; min-height: 200px; z-index: 2;
+}
+.semester-gap::before {
+  content: ""; position: absolute; top: 12px; bottom: 12px; left: 50%;
+  border-left: 1px dashed var(--gold-muted); transform: translateX(-50%);
+  opacity: 0; transition: opacity 160ms var(--ease);
+}
+.semester-gap-add {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.85);
+  width: 26px; height: 26px; border-radius: 999px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); background: var(--surface-strong);
+  backdrop-filter: blur(var(--surface-blur));
+  color: var(--gold-muted); box-shadow: var(--shadow-ambient);
+  opacity: 0; cursor: pointer;
+  transition: opacity 160ms var(--ease), transform 160ms var(--ease), box-shadow 160ms var(--ease);
+}
+[data-theme="dark"] .semester-gap-add { color: var(--gold); }
+.semester-gap-add .icon { width: 14px; height: 14px; }
+.semester-gap:hover::before,
+.semester-gap:focus-within::before { opacity: 0.6; }
+.semester-gap:hover .semester-gap-add,
+.semester-gap-add:focus-visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.semester-gap-add:hover { box-shadow: var(--glow-gold-soft); }
+/* Touch screens have no hover — keep the button faintly visible there. */
+@media (hover: none) { .semester-gap-add { opacity: 0.7; transform: translate(-50%, -50%) scale(1); } }
 .semester-col.past { opacity: 0.92; }
 .semester-empty {
   border: 1px dashed var(--border); border-radius: var(--radius-card);

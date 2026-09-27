@@ -533,8 +533,11 @@ function firstOpenTerm() {
   return nextRegularTerm(currentTerm());
 }
 
+/** A term can be planned if it comes after the current one. That includes
+ *  the Winter/Summer session right after it (e.g. Winter 2027 when the
+ *  current term is Fall 2026), not just the next regular term. */
 function isOpenTerm(term) {
-  return !!term && semesterSort(term, firstOpenTerm()) >= 0;
+  return !!term && semesterSort(term, currentTerm()) > 0;
 }
 
 // --- Catalog (served by /api/catalog, the same data the advisor sees) ---
@@ -842,19 +845,30 @@ function renderSemesterView() {
   wrap.className = "semester-scroll" + (editing ? " editing" : "");
   wrap.innerHTML =
     groups
-      .map((g) => {
-        const removableSemester = g.list.length === 0 && plannedSemesters.includes(g.semester);
+      .map((g, i) => {
+        // Hover "+" between this column and the next one, when there's a
+        // future term that belongs there (Winter/Summer session, or a
+        // regular term that was deleted and left a gap).
+        const next = groups[i + 1];
+        const between = next ? termBetween(g.semester, next.semester) : null;
+        const gapHTML =
+          between && hasRoadmap()
+            ? `<div class="semester-gap"><button type="button" class="semester-gap-add" data-insert-semester="${between}" aria-label="Add ${between}" title="Add ${between}"><svg class="icon"><use href="#i-plus"/></svg></button></div>`
+            : "";
+        const removeX = canRemoveSemester(g)
+          ? `<button type="button" class="remove-semester-x" data-remove-semester="${g.semester}" aria-label="Remove ${g.semester}">×</button>`
+          : "";
         return `
       <div class="semester-col${isOpenTerm(g.semester) ? "" : " past"}" data-semester="${g.semester}">
         <div class="semester-col-head">
           <h3>${g.semester}</h3>
           <span class="credits">${g.list.reduce((s, c) => s + c.credits, 0)} credits</span>
-          ${removableSemester ? `<button type="button" class="remove-semester-x" data-remove-semester="${g.semester}" aria-label="Remove ${g.semester}">×</button>` : ""}
+          ${removeX}
         </div>
         <div class="semester-cards" data-drop="${g.semester}">
           ${g.list.length ? g.list.map(courseCardHTML).join("") : `<div class="semester-empty">No courses yet — search the catalog above to add one.</div>`}
         </div>
-      </div>`;
+      </div>${gapHTML}`;
       })
       .join("") +
     (hasRoadmap()
@@ -864,11 +878,10 @@ function renderSemesterView() {
   const addSemBtn = document.getElementById("add-semester-btn");
   if (addSemBtn) addSemBtn.addEventListener("click", addSemester);
   wrap.querySelectorAll(".remove-semester-x").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      plannedSemesters = plannedSemesters.filter((t) => t !== btn.dataset.removeSemester);
-      saveRoadmapToStorage();
-      renderSemesterView();
-    });
+    btn.addEventListener("click", () => removeSemester(btn.dataset.removeSemester));
+  });
+  wrap.querySelectorAll(".semester-gap-add").forEach((btn) => {
+    btn.addEventListener("click", () => insertSemester(btn.dataset.insertSemester));
   });
 
   // Degree progress summary
@@ -902,11 +915,63 @@ function addSemester() {
   const last = all.length ? all[all.length - 1] : currentTerm();
   let next = nextRegularTerm(last);
   if (!isOpenTerm(next)) next = firstOpenTerm();
-  if (!plannedSemesters.includes(next)) plannedSemesters.push(next);
+  insertSemester(next);
+}
+
+/** Adds `term` as a (possibly empty) plan column and scrolls to it. Past
+ *  and in-progress terms can't be added — they're part of the record. */
+function insertSemester(term) {
+  if (!term || !isOpenTerm(term)) return;
+  if (!plannedSemesters.includes(term)) plannedSemesters.push(term);
   saveRoadmapToStorage();
   renderSemesterView();
-  const col = document.querySelector(`.semester-col[data-semester="${next}"]`);
+  const col = document.querySelector(`.semester-col[data-semester="${term}"]`);
   if (col) col.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
+}
+
+/**
+ * The term the "+" between two adjacent columns would add, or null if
+ * nothing belongs there (or it wouldn't be a future term):
+ *  - a gap (e.g. Fall 2026 → Fall 2027 after Spring 2027 was deleted)
+ *    adds the missing regular term right after `left`
+ *  - Fall → the next Spring adds the Winter session in between
+ *  - Spring → the same year's Fall adds the Summer session in between
+ */
+function termBetween(left, right) {
+  let candidate = null;
+  const nextReg = nextRegularTerm(left);
+  if (semesterSort(nextReg, right) < 0) {
+    candidate = nextReg;
+  } else {
+    const [season, yearStr] = left.split(" ");
+    const year = Number(yearStr);
+    if (season === "Fall" && right === `Spring ${year + 1}`) candidate = `Winter ${year + 1}`;
+    else if (season === "Spring" && right === `Fall ${year}`) candidate = `Summer ${year}`;
+  }
+  return candidate && isOpenTerm(candidate) ? candidate : null;
+}
+
+/** Future semesters can be removed: empty ones any time, ones with planned
+ *  courses only in edit mode. Past/in-progress semesters never. */
+function canRemoveSemester(group) {
+  if (!hasRoadmap() || !isOpenTerm(group.semester)) return false;
+  if (group.list.some(isLocked)) return false;
+  return group.list.length === 0 || editing;
+}
+
+/** Deletes a future semester along with the planned courses in it. */
+function removeSemester(term) {
+  if (!isOpenTerm(term)) return;
+  const inTerm = courses.filter((c) => c.semester === term && !c.transfer);
+  if (inTerm.some(isLocked)) return;
+  if (inTerm.length) {
+    const list = inTerm.map((c) => c.code).join(", ");
+    if (!confirm(`Remove ${term} and its ${inTerm.length} planned course${inTerm.length === 1 ? "" : "s"} (${list})?`)) return;
+  }
+  courses = courses.filter((c) => !(c.semester === term && !c.transfer));
+  plannedSemesters = plannedSemesters.filter((t) => t !== term);
+  saveRoadmapToStorage();
+  refreshAllRoadmapViews();
 }
 
 /* ==========================================================================
