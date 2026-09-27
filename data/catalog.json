@@ -44,10 +44,7 @@
     "credits": 3,
     "description": "Introduces data structures and their use in efficient software development, including structured data abstraction, arrays, linked lists, stacks, queues, deques, balanced search trees, heaps, hash tables, and related algorithms and applications.",
     "prerequisites": [
-      "CSCI 141",
-      "DATA 141",
-      "CSCI 140",
-      "DATA 140"
+      "CSCI 141 or DATA 141 or CSCI 140 or DATA 140"
     ],
     "corequisites": [],
     "coll_attribute": "",
@@ -61,11 +58,7 @@
     "credits": 3,
     "description": "Covers theoretical foundations of computer science, including propositional and predicate logic, sets, functions, Boolean algebra, proof techniques, counting, discrete probability, relations, trees, and graphs.",
     "prerequisites": [
-      "CSCI 141",
-      "CSCI 142",
-      "CSCI 140",
-      "DATA 140",
-      "DATA 141"
+      "CSCI 141 or CSCI 142 or CSCI 140 or DATA 140 or DATA 141"
     ],
     "corequisites": [],
     "coll_attribute": "",
@@ -303,10 +296,7 @@
     "credits": 3,
     "description": "Reasoning with Generative AI examines how modern generative systems can be used to support disciplined reasoning grounded in evidence. Students learn to move from raw inputs to reasoned outputs by combining traditional analytic thinking with contemporary generative AI tools, while learning how data is represented, how generative models process data, and how to use these tools responsibly.",
     "prerequisites": [
-      "CSCI 140",
-      "CSCI 141",
-      "DATA 141",
-      "AAI 101"
+      "CSCI 140 or CSCI 141 or DATA 141 or AAI 101"
     ],
     "corequisites": [],
     "coll_attribute": "NQR",
@@ -320,11 +310,7 @@
     "credits": 3,
     "description": "Prepares students to design credible analyses in a world where information is often incomplete, algorithmically mediated, or partially generated. Students learn about major AI approaches, evaluate their appropriate uses, judge quality, and recognize when generative tools can extend an analysis or introduce risks and distortions.",
     "prerequisites": [
-      "CSCI 140",
-      "CSCI 141",
-      "DATA 141",
-      "DATA 101",
-      "AAI 101"
+      "CSCI 140 or CSCI 141 or DATA 141 or DATA 101 or AAI 101"
     ],
     "corequisites": [],
     "coll_attribute": "NQR",
@@ -350,9 +336,7 @@
     "credits": 3,
     "description": "Introduces core mathematical foundations of artificial intelligence and computing, including linear algebra, matrix decompositions, calculus, and differential equations with direct application to machine learning, optimization, and simulation.",
     "prerequisites": [
-      "DATA 101",
-      "CSCI 140",
-      "CSCI 141"
+      "DATA 101 or CSCI 140 or CSCI 141"
     ],
     "corequisites": [],
     "coll_attribute": "",

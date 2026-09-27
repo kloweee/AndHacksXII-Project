@@ -38,6 +38,29 @@ def strip_comment(d):
     return {code: data for code, data in d.items() if not code.startswith("_")}
 
 
+# Courses whose catalog_scraped.json prerequisite list is really ONE
+# "any one of these satisfies it" choice, not a list of separately required
+# courses. The scrape stores these alternatives as separate array entries,
+# but prompts/model_spec.txt tells the model every array entry is required,
+# so they must be merged into a single "X or Y or Z" entry (the same format
+# the rest of the catalog already uses for alternatives, e.g.
+# "CSCI 243 or MATH 214").
+ANY_ONE_OF_PREREQS = {
+    "CSCI 241",
+    "CSCI 243",
+    "DATA 101",
+    "DATA 201",
+    "DATA 209",
+}
+
+
+def normalize_prerequisites(code, prereqs):
+    prereqs = list(prereqs or [])
+    if code in ANY_ONE_OF_PREREQS and len(prereqs) > 1:
+        return [" or ".join(prereqs)]
+    return prereqs
+
+
 def build_entry(code, scraped, overrides):
     """
     scraped (real catalog.wm.edu data) wins on any field it provides;
@@ -53,7 +76,7 @@ def build_entry(code, scraped, overrides):
             "department": department,
             "credits": s.get("credits"),
             "description": s.get("description", ""),
-            "prerequisites": s.get("prerequisites", []),
+            "prerequisites": normalize_prerequisites(code, s.get("prerequisites", [])),
             "corequisites": s.get("corequisites", []),
             "coll_attribute": s.get("domain", ""),
             "coll_curriculum": s.get("coll_curriculum", ""),
@@ -67,7 +90,7 @@ def build_entry(code, scraped, overrides):
         "department": department,
         "credits": o.get("credits"),
         "description": o.get("description", ""),
-        "prerequisites": o.get("prerequisites", []),
+        "prerequisites": normalize_prerequisites(code, o.get("prerequisites", [])),
         "corequisites": [],
         "coll_attribute": o.get("coll_attribute", ""),
         "coll_curriculum": "",

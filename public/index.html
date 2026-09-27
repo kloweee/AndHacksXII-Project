@@ -73,12 +73,6 @@
 
   <!-- ============ MAIN ============ -->
   <div class="main">
-    <div class="topbar">
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
-        <svg class="icon icon-sun"><use href="#i-sun"/></svg>
-        <svg class="icon icon-moon"><use href="#i-moon"/></svg>
-      </button>
-    </div>
 
     <!-- ============ ADVISOR PAGE ============ -->
     <section class="page active" id="page-advisor">
@@ -142,9 +136,15 @@
         <aside id="academic-snapshot">
           <div class="snapshot-header">
             <h2>Academic Snapshot</h2>
-            <button class="snapshot-collapse-btn" id="snapshot-collapse" aria-label="Collapse panel">
-              <svg class="icon" style="width:14px;height:14px"><use href="#i-chevron-right"/></svg>
-            </button>
+            <div class="snapshot-header-actions">
+              <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+                <svg class="icon icon-sun"><use href="#i-sun"/></svg>
+                <svg class="icon icon-moon"><use href="#i-moon"/></svg>
+              </button>
+              <button class="snapshot-collapse-btn" id="snapshot-collapse" aria-label="Collapse panel">
+                <svg class="icon" style="width:14px;height:14px"><use href="#i-chevron-right"/></svg>
+              </button>
+            </div>
           </div>
 
           <div class="snap-student">
@@ -189,6 +189,10 @@
               <button class="btn" id="upload-degreeworks-btn">Upload DegreeWorks Audit</button>
               <button class="btn btn-primary" id="edit-plan-btn">Edit Plan</button>
             </div>
+            <button class="theme-toggle" id="theme-toggle-roadmap" aria-label="Toggle light and dark mode">
+              <svg class="icon icon-sun"><use href="#i-sun"/></svg>
+              <svg class="icon icon-moon"><use href="#i-moon"/></svg>
+            </button>
           </div>
         </div>
 
@@ -207,7 +211,29 @@
               </div>
             </div>
             <div class="dp-bars" id="dp-bars"></div>
-            <div class="dp-grad">Expected Graduation<strong id="dp-grad-date">—</strong></div>
+            <div class="dp-grad">Expected Graduation<button type="button" class="dp-grad-edit" id="dp-grad-date" title="Change expected graduation" disabled>—</button></div>
+          </div>
+
+          <!-- Transfer / AP credit (DegreeWorks grade "T"), filled by renderTransferTable() in app.js -->
+          <div class="transfer-panel" id="transfer-panel" hidden>
+            <div class="transfer-head">
+              <h3>Transfer &amp; AP Credit</h3>
+              <span class="transfer-total" id="transfer-total"></span>
+            </div>
+            <div class="transfer-table-wrap">
+              <table class="transfer-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Course</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Credits</th>
+                    <th scope="col">Term Posted</th>
+                    <th scope="col">Applies To</th>
+                  </tr>
+                </thead>
+                <tbody id="transfer-table-body"></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -235,7 +261,7 @@
   <div class="howto-step active" data-step="0">
     <div class="howto-step-label">Step 1 of 3</div>
     <p>Click this link below to open DegreeWorks.</p>
-    <a class="btn btn-primary" href="https://degreeworks.wm.edu/ResponsiveDashboard/worksheets/WEB31" target="_blank" rel="noopener">Open DegreeWorks</a>
+    <a class="btn btn-primary howto-open-dw" href="https://degreeworks.wm.edu/ResponsiveDashboard/worksheets/WEB31" target="_blank" rel="noopener">Open DegreeWorks</a>
   </div>
 
   <div class="howto-step" data-step="1">
@@ -256,6 +282,32 @@
   <div class="howto-actions">
     <button class="btn btn-primary" id="howto-next">Next</button>
     <button class="btn btn-primary" id="howto-done" style="display:none">Done</button>
+  </div>
+</div>
+
+<!-- Target graduation term prompt (shown after upload, and from the Roadmap page's Expected Graduation date) -->
+<div class="drawer-backdrop" id="grad-backdrop"></div>
+<div class="howto-modal grad-modal" id="grad-modal" role="dialog" aria-modal="true" aria-labelledby="grad-modal-title">
+  <button class="drawer-close" id="grad-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+  <h2 id="grad-modal-title">When do you plan to graduate?</h2>
+  <p class="grad-modal-sub">Pick your target graduation term. This sets your class standing and the timeline your advisor plans around. You can change it anytime from My Roadmap.</p>
+  <div class="grad-selects">
+    <label class="grad-field">
+      <span>Term</span>
+      <select id="grad-term">
+        <option value="Spring">Spring</option>
+        <option value="Summer">Summer</option>
+        <option value="Fall">Fall</option>
+      </select>
+    </label>
+    <label class="grad-field">
+      <span>Year</span>
+      <select id="grad-year"></select>
+    </label>
+  </div>
+  <div class="howto-actions grad-actions">
+    <button class="btn" id="grad-skip" type="button">Skip for now</button>
+    <button class="btn btn-primary" id="grad-save" type="button">Save</button>
   </div>
 </div>
 

@@ -214,6 +214,7 @@ function validateCourse(course, index) {
     if (!VALID_STATUSES.includes(course.status)) errors.push(`${label}.status must be one of: ${VALID_STATUSES.join(", ")}`);
     if (!isStringArray(course.requirements)) errors.push(`${label}.requirements must be an array of strings`);
     if (!isStringArray(course.prerequisites)) errors.push(`${label}.prerequisites must be an array of strings`);
+    if (course.transfer !== undefined && typeof course.transfer !== "boolean") errors.push(`${label}.transfer must be a boolean if present`);
     return errors;
 }
 
@@ -229,8 +230,11 @@ function validateRoadmapPayload(body) {
         errors.push("student must be an object");
     } else {
         if (!isNonEmptyString(student.name)) errors.push("student.name must be a non-empty string");
-        if (!isNonEmptyString(student.year)) errors.push("student.year must be a non-empty string");
-        if (!isNonEmptyString(student.graduation)) errors.push("student.graduation must be a non-empty string");
+        // year and graduation are allowed to be empty: the parser no longer
+        // reads them from the audit, and the student sets their target
+        // graduation term in the browser after upload.
+        if (typeof student.year !== "string") errors.push("student.year must be a string (can be empty)");
+        if (typeof student.graduation !== "string") errors.push("student.graduation must be a string (can be empty)");
         if (!isStringArray(student.programs)) errors.push("student.programs must be an array of strings");
     }
 

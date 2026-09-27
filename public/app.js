@@ -11,7 +11,17 @@
    persisting it between requests.
    ========================================================================== */
 
-const ROADMAP_STORAGE_KEY = "wm-cs-advisor-roadmap";
+// Bumped to v2 when the parser stopped reading graduation/standing from the
+// audit and started flagging transfer credit. Older saved roadmaps (e.g. one
+// still showing a parsed "Spring 2029") are discarded so the student
+// re-uploads and gets the corrected data.
+const ROADMAP_STORAGE_KEY = "wm-cs-advisor-roadmap-v2";
+const LEGACY_ROADMAP_STORAGE_KEYS = ["wm-cs-advisor-roadmap"];
+try {
+  LEGACY_ROADMAP_STORAGE_KEYS.forEach((k) => localStorage.removeItem(k));
+} catch (err) {
+  /* storage unavailable — nothing to clean up */
+}
 
 // Decorative cursor trail across the page; the normal cursor stays visible.
 (function cursorFireflies() {
@@ -122,6 +132,18 @@ function applyOnboardingState() {
     markHasChat();
   }
 
+  // Animated "..." bubble shown while waiting on /api/chat. Returns the
+  // element so the caller can remove it on every exit path.
+  function addTypingIndicator() {
+    const wrap = document.createElement("div");
+    wrap.className = "msg model typing";
+    wrap.setAttribute("aria-label", "Advisor is typing");
+    wrap.innerHTML = `<span class="bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>`;
+    chatEl.appendChild(wrap);
+    chatEl.scrollTop = chatEl.scrollHeight;
+    return wrap;
+  }
+
   function addSuggestions(suggestions) {
     if (!suggestions || suggestions.length === 0) return;
     const wrap = document.createElement("div");
@@ -144,6 +166,8 @@ function applyOnboardingState() {
     addMessage("user", text);
     history.push({ role: "user", text });
     sendBtn.disabled = true;
+    const typingEl = addTypingIndicator();
+    const clearTyping = () => typingEl.remove();
 
     try {
       const res = await fetch("/api/chat", {
@@ -154,6 +178,7 @@ function applyOnboardingState() {
         body: JSON.stringify({ history, roadmap: hasRoadmap() ? { student, courses, requirementTotals } : null }),
       });
       const data = await res.json();
+      clearTyping();
 
       if (!res.ok) {
         addMessage("model", "Error: " + JSON.stringify(data.error));
@@ -164,8 +189,10 @@ function applyOnboardingState() {
       history.push({ role: "model", text: data.reply });
       addSuggestions(data.suggestions);
     } catch (err) {
+      clearTyping();
       addMessage("model", "Network error — is the server running?");
     } finally {
+      clearTyping();
       sendBtn.disabled = false;
       inputEl.focus();
     }
@@ -193,16 +220,20 @@ function applyOnboardingState() {
    ========================================================================== */
 (function themeModule() {
   const root = document.body;
-  const toggle = document.getElementById("theme-toggle");
+  // There is one toggle in the Academic Snapshot header and one in the
+  // Roadmap header, so bind every .theme-toggle rather than a single ID.
+  const toggles = document.querySelectorAll(".theme-toggle");
   const stored = localStorage.getItem("wm-theme");
   const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   const initial = stored || (prefersDark ? "dark" : "light");
   root.setAttribute("data-theme", initial);
 
-  toggle.addEventListener("click", () => {
-    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    localStorage.setItem("wm-theme", next);
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      localStorage.setItem("wm-theme", next);
+    });
   });
 })();
 
@@ -241,6 +272,31 @@ function applyOnboardingState() {
 })();
 
 /**
+ * Class standing derived from the student's chosen graduation term (the
+ * audit's own "Classification" is credit-based and unreliable — AP credit
+ * can make a first-year look like a sophomore). Compares the academic year
+ * the student graduates in against the current academic year (Aug–Jul).
+ */
+function deriveStanding(graduation) {
+  if (!graduation) return "";
+  const [term, yearStr] = graduation.split(" ");
+  const gradYear = Number(yearStr);
+  if (!term || !gradYear) return "";
+
+  // Academic years are named by the calendar year they end in.
+  const gradAcademicYearEnd = term === "Fall" ? gradYear + 1 : gradYear;
+  const now = new Date();
+  const currentAcademicYearEnd = now.getMonth() >= 7 ? now.getFullYear() + 1 : now.getFullYear();
+  const yearsLeft = gradAcademicYearEnd - currentAcademicYearEnd;
+
+  if (yearsLeft < 0) return "";
+  if (yearsLeft === 0) return "Senior";
+  if (yearsLeft === 1) return "Junior";
+  if (yearsLeft === 2) return "Sophomore";
+  return "First-Year";
+}
+
+/**
  * Renders the student's name/programs into the bits of static HTML that
  * describe them. Falls back to neutral placeholder text when no roadmap
  * has been uploaded yet, rather than showing stale or fake data.
@@ -261,7 +317,8 @@ function renderStudentIdentity() {
   const initials = student.name.split(" ").map((n) => n[0] || "").join("").slice(0, 2).toUpperCase();
   const firstName = student.name.split(" ")[0];
   const programLabel = student.programs.join(" + ");
-  const yearLabel = student.gpa ? `${student.year} · GPA ${student.gpa.toFixed(2)}` : student.year;
+  const standing = deriveStanding(student.graduation);
+  const yearLabel = [standing, student.gpa ? `GPA ${student.gpa.toFixed(2)}` : ""].filter(Boolean).join(" · ");
 
   document.getElementById("student-avatar").textContent = initials;
   document.getElementById("student-name-mini").textContent = student.name;
@@ -368,6 +425,7 @@ function groupBySemester() {
   const groups = {};
   courses.forEach((c) => {
     if (!c.semester) return;
+    if (c.transfer) return; // transfer/AP credit gets its own table — see renderTransferTable()
     (groups[c.semester] = groups[c.semester] || []).push(c);
   });
   return Object.keys(groups).sort(semesterSort).map((sem) => ({ semester: sem, list: groups[sem] }));
@@ -386,6 +444,52 @@ function courseCardHTML(c) {
       <div class="cc-title">${c.title}</div>
       <span class="tag cc-tag">${c.requirements[0] || "Elective"}</span>
     </div>`;
+}
+
+/**
+ * Transfer / AP credit (DegreeWorks grade "T") in its own table below the
+ * semester columns, instead of being lumped into the first semester. These
+ * still count toward credits and requirement progress like any completed
+ * course; they're only displayed separately.
+ */
+function renderTransferTable() {
+  const panel = document.getElementById("transfer-panel");
+  const body = document.getElementById("transfer-table-body");
+  const totalEl = document.getElementById("transfer-total");
+  const transfers = courses.filter((c) => c.transfer).sort((a, b) => a.code.localeCompare(b.code));
+
+  if (transfers.length === 0) {
+    panel.hidden = true;
+    body.innerHTML = "";
+    totalEl.textContent = "";
+    return;
+  }
+
+  panel.hidden = false;
+  totalEl.textContent = `${transfers.reduce((s, c) => s + c.credits, 0)} credits`;
+  body.innerHTML = transfers
+    .map(
+      (c) => `
+      <tr class="transfer-row" data-code="${c.code}" tabindex="0">
+        <td class="tt-code">${c.code}</td>
+        <td class="tt-title">${c.title}</td>
+        <td class="tt-credits">${c.credits}</td>
+        <td class="tt-term">${c.semester || "—"}</td>
+        <td class="tt-req">${c.requirements.join(", ") || "Elective"}</td>
+      </tr>`
+    )
+    .join("");
+
+  body.querySelectorAll(".transfer-row").forEach((row) => {
+    const open = () => openDrawer(courses.find((c) => c.code === row.dataset.code));
+    row.addEventListener("click", open);
+    row.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        open();
+      }
+    });
+  });
 }
 
 function renderSemesterView() {
@@ -409,7 +513,9 @@ function renderSemesterView() {
   const { earned, target } = totalCredits();
   document.getElementById("dp-pct").textContent = overall + "%";
   document.getElementById("dp-frac").textContent = `${earned} / ${target} credits`;
-  document.getElementById("dp-grad-date").textContent = hasRoadmap() ? (student.graduation || "—") : "—";
+  const gradBtn = document.getElementById("dp-grad-date");
+  gradBtn.textContent = hasRoadmap() ? (student.graduation || "Set date") : "—";
+  gradBtn.disabled = !hasRoadmap();
   document.getElementById("dp-bars").innerHTML = Object.keys(requirementTotals)
     .map((n) => {
       const { pct } = requirementProgress(n);
@@ -421,6 +527,7 @@ function renderSemesterView() {
   roadmapRing.style.strokeDasharray = RING_CIRCUMFERENCE;
   roadmapRing.style.strokeDashoffset = RING_CIRCUMFERENCE * (1 - overall / 100);
 
+  renderTransferTable();
   attachCourseCardHandlers();
   if (editing) attachDragHandlers();
 }
@@ -622,6 +729,9 @@ function applyImportedRoadmap(roadmap) {
   renderSnapshotBars();
   renderSemesterView();
   if (document.getElementById("requirement-view").classList.contains("active")) renderRequirementView();
+
+  // The parser no longer guesses graduation from the audit — ask for it.
+  if (!student.graduation) window.__openGradPrompt();
 }
 
 const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…", "Analyzing your current degree progress…"];
@@ -721,6 +831,73 @@ const PROGRESS_PHRASES = ["Configuring settings…", "Adding your information…
   backdrop.addEventListener("click", close);
   nextBtn.addEventListener("click", () => showStep(Math.min(current + 1, steps.length - 1)));
   doneBtn.addEventListener("click", close);
+})();
+
+/* ==========================================================================
+   SECTION 12b — target graduation term prompt
+   ==========================================================================
+   Shown right after an upload (the audit's own graduation field is
+   unreliable, so the parser leaves it blank) and whenever the student clicks
+   the Expected Graduation date on the Roadmap page to change it.
+   ========================================================================== */
+(function gradPromptModule() {
+  const backdrop = document.getElementById("grad-backdrop");
+  const modal = document.getElementById("grad-modal");
+  const termSelect = document.getElementById("grad-term");
+  const yearSelect = document.getElementById("grad-year");
+  const saveBtn = document.getElementById("grad-save");
+  const skipBtn = document.getElementById("grad-skip");
+  const closeBtn = document.getElementById("grad-close");
+  const editBtn = document.getElementById("dp-grad-date");
+
+  const thisYear = new Date().getFullYear();
+  for (let y = thisYear; y <= thisYear + 6; y++) {
+    const opt = document.createElement("option");
+    opt.value = String(y);
+    opt.textContent = String(y);
+    yearSelect.appendChild(opt);
+  }
+
+  function open() {
+    if (!hasRoadmap()) return;
+    const [term, year] = (student.graduation || "").split(" ");
+    termSelect.value = ["Spring", "Summer", "Fall"].includes(term) ? term : "Spring";
+    if (year && !Array.from(yearSelect.options).some((o) => o.value === year)) {
+      const opt = document.createElement("option");
+      opt.value = year;
+      opt.textContent = year;
+      yearSelect.appendChild(opt);
+    }
+    yearSelect.value = year || String(thisYear + (new Date().getMonth() >= 5 ? 1 : 0));
+    backdrop.classList.add("open");
+    modal.classList.add("open");
+    termSelect.focus();
+  }
+
+  function close() {
+    backdrop.classList.remove("open");
+    modal.classList.remove("open");
+  }
+
+  saveBtn.addEventListener("click", () => {
+    if (!hasRoadmap()) return close();
+    student.graduation = `${termSelect.value} ${yearSelect.value}`;
+    // Keep student.year in sync so the AI sees the same standing the UI shows.
+    student.year = deriveStanding(student.graduation);
+    saveRoadmapToStorage();
+    renderStudentIdentity();
+    renderSemesterView();
+    close();
+  });
+  skipBtn.addEventListener("click", close);
+  closeBtn.addEventListener("click", close);
+  backdrop.addEventListener("click", close);
+  editBtn.addEventListener("click", open);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("open")) close();
+  });
+
+  window.__openGradPrompt = open;
 })();
 
 /* ==========================================================================
