@@ -137,8 +137,8 @@
 })();
 
 /* ==========================================================================
-   SECTION 2 — theme toggle
-   ========================================================================== */
+    SECTION 2 — theme toggle
+    ========================================================================== */
 (function themeModule() {
   const root = document.body;
   const toggle = document.getElementById("theme-toggle");
@@ -155,11 +155,11 @@
 })();
 
 /* ==========================================================================
-   SECTION 2b — optional ambient background parallax (art-direction pass)
-   Purely decorative: shifts the fixed .atmosphere background by a few px
-   toward the pointer via CSS custom properties. Off entirely when the user
-   prefers reduced motion, and never touches any interactive element.
-   ========================================================================== */
+    SECTION 2b — optional ambient background parallax (art-direction pass)
+    Purely decorative: shifts the fixed .atmosphere background by a few px
+    toward the pointer via CSS custom properties. Off entirely when the user
+    prefers reduced motion, and never touches any interactive element.
+    ========================================================================== */
 (function parallaxModule() {
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduceMotion || !window.matchMedia("(pointer: fine)").matches) return;
@@ -182,8 +182,8 @@
 })();
 
 /* ==========================================================================
-   SECTION 3 — tab navigation
-   ========================================================================== */
+    SECTION 3 — tab navigation
+    ========================================================================== */
 (function navModule() {
   const navButtons = document.querySelectorAll(".nav-item");
   const pages = { advisor: document.getElementById("page-advisor"), roadmap: document.getElementById("page-roadmap") };
@@ -198,8 +198,8 @@
 })();
 
 /* ==========================================================================
-   SECTION 4 — academic snapshot collapse
-   ========================================================================== */
+    SECTION 4 — academic snapshot collapse
+    ========================================================================== */
 (function snapshotModule() {
   const panel = document.getElementById("academic-snapshot");
   const collapseBtn = document.getElementById("snapshot-collapse");
@@ -216,56 +216,85 @@
 })();
 
 /* ==========================================================================
-   SECTION 5 — roadmap data model
-   ==========================================================================
-   INTEGRATION POINT: this is mock data standing in for a real backend.
-   There is currently no /api/roadmap (or similar) endpoint — only /api/chat
-   exists server-side. When that endpoint exists, replace `student` and
-   `courses` below with a fetch() call that returns the same shapes, and
-   everything downstream (grouping, rendering, progress math) keeps working
-   unchanged, since Semester View and Requirement View both derive from this
-   one array, per spec §24.
-   ========================================================================== */
-const student = {
+    SECTION 5 — roadmap data model (NOW FETCHED FROM BACKEND)
+    ==========================================================================
+    INTEGRATION POINT: replaced hardcoded mock data with /api/roadmap fetch.
+    When the roadmap page loads, it fetches the current student + courses
+    from the backend. All downstream grouping, rendering, and progress math
+    work unchanged since they operate on the same shapes.
+    ========================================================================== */
+let student = {
   name: "Sophie Lin",
   year: "Sophomore",
   graduation: "Spring 2029",
   programs: ["Data Science", "Finance"],
 };
 
-const courses = [
-  { code: "CSCI 141", title: "Computer Science I", credits: 4, semester: "Fall 2025", status: "completed", requirements: ["Data Science"], prerequisites: [] },
-  { code: "MATH 111", title: "Calculus I", credits: 4, semester: "Fall 2025", status: "completed", requirements: ["Electives"], prerequisites: [] },
-  { code: "COLL 100", title: "Community, Change & Choice", credits: 3, semester: "Fall 2025", status: "completed", requirements: ["COLL"], prerequisites: [] },
-  { code: "ECON 101", title: "Principles of Microeconomics", credits: 3, semester: "Fall 2025", status: "completed", requirements: ["Finance"], prerequisites: [] },
-
-  { code: "CSCI 241", title: "Data Structures", credits: 4, semester: "Spring 2026", status: "completed", requirements: ["Data Science"], prerequisites: ["CSCI 141"] },
-  { code: "DATA 201", title: "Intro to Data Science", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["Data Science"], prerequisites: [] },
-  { code: "COLL 200 NQR", title: "Numeracy, Quantitative & Computational Reasoning", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["COLL"], prerequisites: [] },
-  { code: "MATH 301", title: "Linear Algebra", credits: 3, semester: "Spring 2026", status: "completed", requirements: ["Electives"], prerequisites: ["MATH 111"] },
-
-  { code: "DATA 301", title: "Data Management", credits: 3, semester: "Fall 2026", status: "current", requirements: ["Data Science"], prerequisites: ["DATA 201"] },
-  { code: "BUAD 327", title: "Corporate Finance", credits: 3, semester: "Fall 2026", status: "current", requirements: ["Finance"], prerequisites: ["ECON 101"] },
-  { code: "BIOL 203", title: "Genetics", credits: 4, semester: "Fall 2026", status: "completed", requirements: ["Electives"], prerequisites: [] },
-
-  { code: "DATA 325", title: "Statistical Learning", credits: 3, semester: "Spring 2027", status: "planned", requirements: ["Data Science"], prerequisites: ["DATA 301"] },
-  { code: "FIN 301", title: "Investments", credits: 3, semester: "Spring 2027", status: "planned", requirements: ["Finance"], prerequisites: ["BUAD 327"] },
-  { code: "COLL 300", title: "Vision, Voice & Vocation", credits: 3, semester: "", status: "unassigned", requirements: ["COLL"], prerequisites: [] },
-
-  { code: "DATA 440", title: "Machine Learning", credits: 3, semester: "", status: "unassigned", requirements: ["Data Science"], prerequisites: ["DATA 325"] },
-  { code: "FIN 341", title: "Financial Modeling", credits: 3, semester: "", status: "unassigned", requirements: ["Finance"], prerequisites: ["FIN 301"] },
-];
-
-const requirementTotals = {
+let courses = [];
+let requirementTotals = {
   "Data Science": 11,
   "Finance": 8,
   "COLL": 6,
   "Electives": 8,
 };
 
+/**
+ * Fetch the roadmap from the backend
+ */
+async function loadRoadmap() {
+  try {
+    const res = await fetch("/api/roadmap");
+    if (!res.ok) throw new Error(`Failed to load roadmap: ${res.status}`);
+    const data = await res.json();
+    
+    student = data.student;
+    courses = data.courses;
+    requirementTotals = data.requirementTotals;
+    
+    console.log("✅ Loaded roadmap from backend");
+  } catch (err) {
+    console.error("❌ Failed to load roadmap, using fallback:", err);
+    // Fallback to defaults (already defined above)
+  }
+}
+
+/**
+ * Save the full roadmap to the backend
+ */
+async function saveRoadmap() {
+  try {
+    const res = await fetch("/api/roadmap", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ student, courses, requirementTotals })
+    });
+    if (!res.ok) throw new Error(`Failed to save roadmap: ${res.status}`);
+    console.log("✅ Saved roadmap to backend");
+  } catch (err) {
+    console.error("❌ Failed to save roadmap:", err);
+  }
+}
+
+/**
+ * Update a single course on the backend
+ */
+async function updateCourse(code, updates) {
+  try {
+    const res = await fetch(`/api/roadmap/courses/${code}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates)
+    });
+    if (!res.ok) throw new Error(`Failed to update course: ${res.status}`);
+    console.log(`✅ Updated course ${code} on backend`);
+  } catch (err) {
+    console.error(`❌ Failed to update course ${code}:`, err);
+  }
+}
+
 /* ==========================================================================
-   SECTION 6 — shared helpers
-   ========================================================================== */
+    SECTION 6 — shared helpers
+    ========================================================================== */
 const STATUS_ICON = { completed: "i-check-circle", current: "i-dot", planned: "i-circle", unassigned: "i-warning", problem: "i-warning" };
 const STATUS_CLASS = { completed: "completed", current: "current", planned: "planned", unassigned: "problem", problem: "problem" };
 
@@ -301,23 +330,23 @@ function totalCredits() {
 let editing = false;
 
 /* ==========================================================================
-   SECTION 7 — snapshot rendering (advisor page)
-   ========================================================================== */
+    SECTION 7 — snapshot rendering (advisor page)
+    ========================================================================== */
 function renderSnapshotBars() {
   const el = document.getElementById("snap-bars");
   const names = Object.keys(requirementTotals);
   el.innerHTML = names
     .map((n) => {
       const { pct } = requirementProgress(n);
-      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`;
+      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`
     })
     .join("");
   document.getElementById("snap-overall-pct").textContent = overallProgress() + "%";
 }
 
 /* ==========================================================================
-   SECTION 8 — semester view rendering
-   ========================================================================== */
+    SECTION 8 — semester view rendering
+    ========================================================================== */
 function groupBySemester() {
   const groups = {};
   courses.forEach((c) => {
@@ -368,7 +397,7 @@ function renderSemesterView() {
   document.getElementById("dp-bars").innerHTML = Object.keys(requirementTotals)
     .map((n) => {
       const { pct } = requirementProgress(n);
-      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`;
+      return `<div class="bar-row"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${pct}%"></span></span><span class="bar-pct">${pct}%</span></div>`
     })
     .join("");
 
@@ -409,8 +438,8 @@ function renderStillNeedsHome() {
 }
 
 /* ==========================================================================
-   SECTION 9 — requirement view rendering
-   ========================================================================== */
+    SECTION 9 — requirement view rendering
+    ========================================================================== */
 function renderRequirementView() {
   const grid = document.getElementById("requirement-grid");
   const names = Object.keys(requirementTotals);
@@ -432,8 +461,8 @@ function renderRequirementView() {
 }
 
 /* ==========================================================================
-   SECTION 10 — view toggle (semester / requirement)
-   ========================================================================== */
+    SECTION 10 — view toggle (semester / requirement)
+    ========================================================================== */
 (function viewToggleModule() {
   const semBtn = document.getElementById("view-semester");
   const reqBtn = document.getElementById("view-requirement");
@@ -454,8 +483,8 @@ function renderRequirementView() {
 })();
 
 /* ==========================================================================
-   SECTION 11 — course details drawer
-   ========================================================================== */
+    SECTION 11 — course details drawer
+    ========================================================================== */
 function openDrawer(course) {
   if (!course) return;
   const backdrop = document.getElementById("drawer-backdrop");
@@ -493,7 +522,7 @@ function openDrawer(course) {
 
     ${
       missingPrereq && (course.status === "planned" || course.status === "unassigned")
-        ? `<div class="drawer-warning"><svg class="icon" style="width:15px;height:15px;flex-shrink:0"><use href="#i-warning"/></svg><span>Missing prerequisite: ${missingPrereq} must be completed before ${course.code}.</span></div>`
+        ? `<div class="drawer-warning"><svg class="icon" style="width:15px;height:15px;flex-shrink:0"><use href="#i-warning"/></svg><span>Missing prerequisite: ${missingPrereq} must be completed first</span></div>`
         : ""
     }
 
@@ -542,12 +571,13 @@ function attachCourseCardHandlers() {
     });
   });
   document.querySelectorAll(".remove-course-x").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       e.stopPropagation();
       const c = courses.find((c) => c.code === btn.dataset.remove);
       if (c) {
         c.semester = "";
         c.status = "unassigned";
+        await updateCourse(c.code, { semester: "", status: "unassigned" });
       }
       renderSemesterView();
     });
@@ -560,20 +590,26 @@ function attachCourseCardHandlers() {
       const pick = unassigned[0]; // simple hackathon-grade picker: first eligible course
       pick.semester = target;
       pick.status = "planned";
+      updateCourse(pick.code, { semester: target, status: "planned" });
       renderSemesterView();
     });
   });
 }
 
 /* ==========================================================================
-   SECTION 12 — edit mode + drag and drop
-   ========================================================================== */
+    SECTION 12 — edit mode + drag and drop
+    ========================================================================== */
 document.getElementById("edit-plan-btn").addEventListener("click", function () {
   editing = !editing;
   this.textContent = editing ? "Save Plan" : "Edit Plan";
   this.classList.toggle("editing", editing);
   renderSemesterView();
   if (document.getElementById("requirement-view").classList.contains("active")) renderRequirementView();
+  
+  // Save when exiting edit mode
+  if (!editing) {
+    saveRoadmap();
+  }
 });
 
 let draggedCode = null;
@@ -593,7 +629,7 @@ function attachDragHandlers() {
       col.classList.add("drop-hover");
     });
     col.addEventListener("dragleave", () => col.classList.remove("drop-hover"));
-    col.addEventListener("drop", (e) => {
+    col.addEventListener("drop", async (e) => {
       e.preventDefault();
       col.classList.remove("drop-hover");
       if (!draggedCode) return;
@@ -613,6 +649,7 @@ function attachDragHandlers() {
 
       course.semester = destSemester;
       if (course.status === "unassigned") course.status = "planned";
+      await updateCourse(course.code, { semester: destSemester, status: course.status });
       draggedCode = null;
       renderSemesterView(); // credits, progress, and status recompute from the single source of truth
     });
@@ -620,7 +657,11 @@ function attachDragHandlers() {
 }
 
 /* ==========================================================================
-   SECTION 13 — initial render
-   ========================================================================== */
-renderSnapshotBars();
-renderSemesterView();
+    SECTION 13 — initial load and render
+    ========================================================================== */
+(async function initializeApp() {
+  await loadRoadmap();
+  renderSnapshotBars();
+  renderSemesterView();
+  console.log("✅ App initialized with roadmap from backend");
+})();
