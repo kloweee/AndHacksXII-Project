@@ -1,46 +1,42 @@
-[
-  {
+{
+  "AAI 301": {
     "code": "AAI 301",
     "title": "Designing AI Agents",
-    "department": "AAI",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "artificial_intelligence"
+    "track": "artificial_intelligence",
+    "domain": ""
   },
-  {
+  "AAI 302": {
     "code": "AAI 302",
     "title": "Agentic Coordination",
-    "department": "AAI",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "artificial_intelligence"
+    "track": "artificial_intelligence",
+    "domain": ""
   },
-  {
+  "CSCI 141": {
     "code": "CSCI 141",
     "title": "Modern Programming Fundamentals",
-    "department": "CSCI",
     "credits": 4,
     "description": "Introduces students to the foundational principles of programming through algorithmic problem solving and Python programming, including values, variables, data types, expressions, conditionals, loops, functions, standard libraries, and an introduction to object-oriented programming.",
     "prerequisites": [],
     "corequisites": [
       "CSCI 141L"
     ],
-    "coll_attribute": "NQR",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": "NQR"
   },
-  {
+  "CSCI 241": {
     "code": "CSCI 241",
     "title": "Data Structures",
-    "department": "CSCI",
     "credits": 3,
     "description": "Introduces data structures and their use in efficient software development, including structured data abstraction, arrays, linked lists, stacks, queues, deques, balanced search trees, heaps, hash tables, and related algorithms and applications.",
     "prerequisites": [
@@ -50,14 +46,13 @@
       "DATA 140"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "algorithms"
+    "track": "algorithms",
+    "domain": ""
   },
-  {
+  "CSCI 243": {
     "code": "CSCI 243",
     "title": "Logic and Discrete Structures",
-    "department": "CSCI",
     "credits": 3,
     "description": "Covers theoretical foundations of computer science, including propositional and predicate logic, sets, functions, Boolean algebra, proof techniques, counting, discrete probability, relations, trees, and graphs.",
     "prerequisites": [
@@ -68,28 +63,26 @@
       "DATA 141"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "algorithms"
+    "track": "algorithms",
+    "domain": ""
   },
-  {
+  "CSCI 301": {
     "code": "CSCI 301",
     "title": "Software Development",
-    "department": "CSCI",
     "credits": 3,
     "description": "An introduction to principled software development, emphasizing design at the module level as well as tools and techniques. Topics include object-oriented class design and implementation, abstraction techniques, debugging techniques, defensive programming, development and analysis tools, and testing. Emphasizes the role of the individual programmer in large software development projects.",
     "prerequisites": [
       "CSCI 241"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "CSCI 303": {
     "code": "CSCI 303",
     "title": "Algorithms",
-    "department": "CSCI",
     "credits": 3,
     "description": "A systematic study of algorithms and their complexity, including searching, sorting, selecting, graph algorithms, algorithm design methods such as greedy algorithms, divide-and-conquer, dynamic programming, and backtracking, and an introduction to NP-complete problems.",
     "prerequisites": [
@@ -97,28 +90,26 @@
       "CSCI 243 or MATH 214"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "algorithms"
+    "track": "algorithms",
+    "domain": ""
   },
-  {
+  "CSCI 304": {
     "code": "CSCI 304",
     "title": "Computer Organization",
-    "department": "CSCI",
     "credits": 3,
     "description": "Organization of computer hardware and software; virtual machines, computer systems organization, machine language, assembler language and microprogramming.",
     "prerequisites": [
       "CSCI 241"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "CSCI 312": {
     "code": "CSCI 312",
     "title": "Principles of Programming Languages",
-    "department": "CSCI",
     "credits": 3,
     "description": "A study of programming language principles and paradigms. Formal syntax, including grammars, and semantics. Paradigms, including: imperative, object oriented, functional, logic, event-driven, and concurrent. Run-time implementation issues, including: memory management, parameter passing, and event handling.",
     "prerequisites": [
@@ -126,28 +117,26 @@
       "CSCI 243 or MATH 214"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "CSCI 356": {
     "code": "CSCI 356",
     "title": "Large Language Models",
-    "department": "CSCI",
     "credits": 3,
     "description": "This course dives into the realm of large language models (LLMs), the engines driving today's natural language processing revolution. Students will master the theory, architecture, and real-world applications of LLMs, preparing to harness our future AI applications. Blending lectures, hands-on coding, and critical analysis, this course equips students with the skills to build, apply, and interrogate these linguistic models.",
     "prerequisites": [
       "CSCI 141"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "ai/ml"
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
+  "CSCI 416": {
     "code": "CSCI 416",
     "title": "Fundamentals of Artificial Intelligence/Machine Learning",
-    "department": "CSCI",
     "credits": 3,
     "description": "This course will give an overview of important concepts, techniques, and algorithms in artificial intelligence with emphasis on machine learning, beginning with topics such as linear regression and ending up with more recent topics such as boosting, support vector machines, and expectation maximization. The course will give the student the basic ideas and intuition behind modern methods as well as a bit more formal understanding of how, why, and when they work.",
     "prerequisites": [
@@ -156,42 +145,39 @@
       "MATH 211 or MATH 109"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "ai/ml"
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
+  "CSCI 421": {
     "code": "CSCI 421",
     "title": "Database Systems",
-    "department": "CSCI",
     "credits": 3,
     "description": "Design, organization and implementation of database management systems: file organization and processing, hierarchical, network, and relational models of database structure, data definition and data manipulation languages, security and integrity of databases, and the study of existing database implementations.",
     "prerequisites": [
       "CSCI 303"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "ai/ml"
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
+  "CSCI 423": {
     "code": "CSCI 423",
     "title": "Finite Automata and Theory of Computation",
-    "department": "CSCI",
     "credits": 3,
     "description": "Theory of sequential machines, finite automata, Turing machines, recursive functions, computability of functions.",
     "prerequisites": [
       "CSCI 303"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "CSCI 436": {
     "code": "CSCI 436",
     "title": "Data Mining",
-    "department": "CSCI",
     "credits": 3,
     "description": "Introduction to fundamental concepts and techniques in data mining, specifically, basic data mining concepts, graph mining, traditional clustering and classification methods, as well as recent deep learning techniques.",
     "prerequisites": [
@@ -200,14 +186,13 @@
       "MATH 212 or MATH 213"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "ai/ml"
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
+  "CSCI 444": {
     "code": "CSCI 444",
     "title": "Principles of Operating Systems",
-    "department": "CSCI",
     "credits": 3,
     "description": "The conceptual view of an operating system as a collection of concurrent processes; semaphores, monitors and rendezvous. Real and virtual memory organization and management, processor allocation and management, and external device management.",
     "prerequisites": [
@@ -216,14 +201,13 @@
       "CSCI 304"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "cybersecurity"
+    "track": "cybersecurity",
+    "domain": ""
   },
-  {
+  "CSCI 446": {
     "code": "CSCI 446",
     "title": "Neural Networks for Machine Learning",
-    "department": "CSCI",
     "credits": 3,
     "description": "Machine learning enables computers to learn from experience. The first part of the course will cover foundational topics in pattern recognition and machine learning such as probability distributions, linear models for regression, and linear models for classification. The second part of the course will examine nonlinear models for regression and classification, focusing on artificial neural networks. Neural networks are being used to achieve state-of-the-art performance at applications in different modalities and domains. Students will be required to analyze and present relevant research papers.",
     "prerequisites": [
@@ -232,14 +216,13 @@
       "MATH 212 or MATH 213"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "ai/ml"
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
+  "CSCI 454": {
     "code": "CSCI 454",
     "title": "Computer and Network Security",
-    "department": "CSCI",
     "credits": 3,
     "description": "An introduction to the principles and practices of cryptography, network security, and secure software. Cryptography topics includes: basic methods, key distribution, and protocols for authenticated and confidential communications. The practice of network security includes: Kerberos, PGP, public key infrastructures, SSL/TLS. IP security, intrusion detection, password management, firewalls, viruses and worms, and Denial of Service (DoS) attacks.",
     "prerequisites": [
@@ -247,14 +230,13 @@
       "CSCI 304"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "cybersecurity"
+    "track": "cybersecurity",
+    "domain": ""
   },
-  {
+  "CSCI 455": {
     "code": "CSCI 455",
     "title": "Generative Artificial Intelligence for Software Development",
-    "department": "CSCI",
     "credits": 3,
     "description": "GenAI for Software Development provides students with a strong foundation in the principles and technical expertise needed to develop and apply Deep Learning (DL)-based systems, with a particular emphasis on Generative AI methods. The course focuses on leveraging advanced techniques to enhance software development processes, addressing practices such as source code generation, automated documentation, and other key aspects of modern software engineering. By the end of the course, students will possess a comprehensive understanding of Generative AI methods for software development. This includes the ability to design and implement new DL-based approaches to address challenges in the software engineering domain, critically analyze the latest advancements in the field, and propose innovative solutions to refine Generative AI techniques.",
     "prerequisites": [
@@ -262,14 +244,13 @@
       "CSCI 416"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "ai/ml"
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
+  "CSCI 464": {
     "code": "CSCI 464",
     "title": "Penetration Testing",
-    "department": "CSCI",
     "credits": 3,
     "description": "This course introduces computer network vulnerability assessments and penetration testing. The course explores how malicious actors and hackers attack computers and networks and how to protect against these threats. This is a hands-on learning course where students will be exposed to and perform various types of vulnerability assessments and explore penetration testing techniques in order to understand how to defend against cyber-attacks. Legal implications and ethical issues will also be addressed.",
     "prerequisites": [
@@ -277,14 +258,13 @@
       "CSCI 304"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "cybersecurity"
+    "track": "cybersecurity",
+    "domain": ""
   },
-  {
+  "CSCI 466": {
     "code": "CSCI 466",
     "title": "Applied Topology Data Science",
-    "department": "CSCI",
     "credits": 3,
     "description": "This course introduces applied topology\u2014new algorithms for probing the shape and structure of complex data arising in computing, data science, and physics. We begin with foundational concepts of topology such as topological spaces, continuous maps, and connectedness. Then we examine tools of topological data analysis, including simplicial complexes, persistent homology, persistence diagrams, and stability. The course emphasizes the idea that data are not only points to be fit or classified but also objects with multiscale structure that can reveal loops, voids, and connectivity patterns. These patterns elude traditional machine learning approaches, particularly in noisy, high-dimensional settings. Students will work with real datasets, compute topological invariants, and use these features in artificial intelligence and machine learning models, while also learning where topological methods succeed and where they break down.",
     "prerequisites": [
@@ -292,14 +272,13 @@
       "MATH 109 or MATH 211"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "ai/ml"
+    "track": "ai/ml",
+    "domain": ""
   },
-  {
+  "DATA 101": {
     "code": "DATA 101",
     "title": "Reasoning with Generative AI",
-    "department": "DATA",
     "credits": 3,
     "description": "Reasoning with Generative AI examines how modern generative systems can be used to support disciplined reasoning grounded in evidence. Students learn to move from raw inputs to reasoned outputs by combining traditional analytic thinking with contemporary generative AI tools, while learning how data is represented, how generative models process data, and how to use these tools responsibly.",
     "prerequisites": [
@@ -309,14 +288,13 @@
       "AAI 101"
     ],
     "corequisites": [],
-    "coll_attribute": "NQR",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": "NQR"
   },
-  {
+  "DATA 201": {
     "code": "DATA 201",
     "title": "Data in the Age of AI",
-    "department": "DATA",
     "credits": 3,
     "description": "Prepares students to design credible analyses in a world where information is often incomplete, algorithmically mediated, or partially generated. Students learn about major AI approaches, evaluate their appropriate uses, judge quality, and recognize when generative tools can extend an analysis or introduce risks and distortions.",
     "prerequisites": [
@@ -327,26 +305,24 @@
       "AAI 101"
     ],
     "corequisites": [],
-    "coll_attribute": "NQR",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": "NQR"
   },
-  {
+  "DATA 202": {
     "code": "DATA 202",
     "title": "AI & Data Ethics",
-    "department": "DATA",
     "credits": 3,
     "description": "Introduces critical, ethical, and moral issues surrounding data, AI, and society. The course blends social and historical perspectives on data and algorithmic systems with ethics, policy, and case examples and examines privacy, surveillance, discrimination, transparency, responsibility, and trust across the data and AI lifecycle.",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "CSI",
     "coll_curriculum": "C200",
-    "track": "general"
+    "track": "general",
+    "domain": "CSI"
   },
-  {
+  "DATA 209": {
     "code": "DATA 209",
     "title": "Applied Linear Algebra & Calculus",
-    "department": "DATA",
     "credits": 3,
     "description": "Introduces core mathematical foundations of artificial intelligence and computing, including linear algebra, matrix decompositions, calculus, and differential equations with direct application to machine learning, optimization, and simulation.",
     "prerequisites": [
@@ -355,14 +331,13 @@
       "CSCI 141"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "DATA 210": {
     "code": "DATA 210",
     "title": "Research Design and Statistics",
-    "department": "DATA",
     "credits": 3,
     "description": "Introduces principles of empirical inquiry, statistical modeling, and computational experimentation in data-rich and AI-supported environments, including research design, simulation-based inference, likelihood-based estimation, confidence intervals, model comparison, Bayesian updating, and reproducible workflows.",
     "prerequisites": [
@@ -371,14 +346,13 @@
       "CSCI 141"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "DATA 301": {
     "code": "DATA 301",
     "title": "Applied Machine Learning",
-    "department": "DATA",
     "credits": 3,
     "description": "Focuses on the technical application of machine learning algorithms, their nature, and the potential drawbacks and advantages of different classes of algorithms. Topics include probability, distributions, Monte-Carlo simulations, reinforcement learning, association rules, nonlinear regression, support vector machines, model selection, diagnostics, neural networks and deep learning, natural language processing, and related approaches.",
     "prerequisites": [
@@ -387,54 +361,50 @@
       "DATA 210 or MATH 352"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "DATA 302": {
     "code": "DATA 302",
     "title": "Databases",
-    "department": "DATA",
     "credits": 3,
     "description": "Students learn relational database design and SQL programming using Python and SQLite, creating relational databases from real and synthetic data and querying and updating data with an emphasis on validation techniques.",
     "prerequisites": [
       "DATA 201"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "DATA 303": {
     "code": "DATA 303",
     "title": "Data Visualization",
-    "department": "DATA",
     "credits": 3,
     "description": "Provides an overview of data visualization theory and develops the ability to select effective visualization approaches, identify outcomes for data challenges, and create visualizations using industry-standard software and artificial intelligence tools.",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "NQR",
     "coll_curriculum": "C200",
-    "track": "general"
+    "track": "general",
+    "domain": "NQR"
   },
-  {
+  "DATA 340": {
     "code": "DATA 340",
     "title": "Special Topics in Data Application",
-    "department": "DATA",
     "credits": 3,
     "description": "Selected topics in Data Science that count toward the Data Applications track. The topic is announced before the semester; the course may be repeated only when covering a separate topic.",
     "prerequisites": [
       "To be determined by topic each term"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "data_application"
+    "track": "data_application",
+    "domain": ""
   },
-  {
+  "DATA 405": {
     "code": "DATA 405",
     "title": "Trustworthy AI",
-    "department": "DATA",
     "credits": 3,
     "description": "Explores ethical, legal, and technical dimensions of building trustworthy artificial intelligence systems, including fairness, accountability, transparency, explainability, robustness, privacy-preserving machine learning, and algorithmic bias.",
     "prerequisites": [
@@ -443,28 +413,26 @@
       "CSCI 141"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 415": {
     "code": "DATA 415",
     "title": "Agentic Coordination",
-    "department": "DATA",
     "credits": 3,
     "description": "Examines the design, implementation, and deployment of teams of AI agents powered by large language models and related technologies. Topics include advanced prompt engineering, tool use, retrieval-augmented generation, agent architectures, memory systems, evaluation, safety, and human-in-the-loop design.",
     "prerequisites": [
       "DATA 305"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 431": {
     "code": "DATA 431",
     "title": "Spatial Data Discovery",
-    "department": "DATA",
     "credits": 3,
     "description": "A capstone course focused on spatial data discovery using Python programming, large data repositories, data harmonization, processing, modeling, visualization, and open-source GIS software.",
     "prerequisites": [
@@ -472,14 +440,13 @@
       "GIS 201"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "data_application_or_spatial"
+    "track": "data_application_or_spatial",
+    "domain": ""
   },
-  {
+  "DATA 440": {
     "code": "DATA 440",
     "title": "Special Topics",
-    "department": "DATA",
     "credits": "1-4",
     "description": "Selected topics in Data Science. The course is designed to meet the capstone requirement; topics are announced before the semester and instructors may require prior approval. Students complete a project to fulfill the capstone requirement.",
     "prerequisites": [
@@ -488,14 +455,13 @@
       "CSCI 141"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone_or_track"
+    "track": "capstone_or_track",
+    "domain": ""
   },
-  {
+  "DATA 441": {
     "code": "DATA 441",
     "title": "Advanced Applications of AI",
-    "department": "DATA",
     "credits": 3,
     "description": "Focuses on data discovery and analysis using disparate open-access data sources and advanced analytical and machine learning methods including variable selection, nonparametric regression, functional data analysis, and deep learning. Students communicate findings through an HTML data science paper.",
     "prerequisites": [
@@ -503,42 +469,39 @@
       "MATH 211 or MATH 109"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 442": {
     "code": "DATA 442",
     "title": "Neural Networks & Deep Learning",
-    "department": "DATA",
     "credits": 3,
     "description": "Teaches the foundations of neural networks and deep learning, including data preprocessing, neural network building blocks, RNNs, convolutional networks, computer vision, backpropagation, transfer approaches, and technical implementations using common machine learning frameworks.",
     "prerequisites": [
       "DATA 301 or DATA 310"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 444": {
     "code": "DATA 444",
     "title": "Agent-Based Modeling",
-    "department": "DATA",
     "credits": 3,
     "description": "Uses openly accessible satellite, household survey, and other data with machine learning and spatial statistics to construct agent-based models of human development processes. Students use Python, Java, and R to build modules and simulations.",
     "prerequisites": [
       "DATA 301 or DATA 310"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone_or_data_application"
+    "track": "capstone_or_data_application",
+    "domain": ""
   },
-  {
+  "DATA 445": {
     "code": "DATA 445",
     "title": "Network Analysis",
-    "department": "DATA",
     "credits": 3,
     "description": "Surveys fundamental topics in network science, including social networks, hubs, directed and weighted networks, and the spread of information and misinformation in social media.",
     "prerequisites": [
@@ -546,84 +509,78 @@
       "MATH 351"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone_or_data_application"
+    "track": "capstone_or_data_application",
+    "domain": ""
   },
-  {
+  "DATA 446": {
     "code": "DATA 446",
     "title": "Generative AI",
-    "department": "DATA",
     "credits": 3,
     "description": "Explores foundational theories and practical applications of generative AI, including GANs, VAEs, and transformer models, with hands-on training, tuning, and deployment of generative models in Python using machine learning libraries.",
     "prerequisites": [
       "DATA 301 or DATA 310"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 447": {
     "code": "DATA 447",
     "title": "Bayesian Reasoning in Data Science",
-    "department": "DATA",
     "credits": 3,
     "description": "Introduces conditional probability and Bayesian reasoning in data science, using real-world examples and computational implementations to connect Bayesian concepts with programming.",
     "prerequisites": [
       "DATA 301 or DATA 310"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 448": {
     "code": "DATA 448",
     "title": "Reinforcement Learning",
-    "department": "DATA",
     "credits": 3,
     "description": "Introduces reinforcement learning fundamentals, including Markov decision processes, planning, function approximation, Q-learning, and policy-gradient methods, with hands-on Python projects.",
     "prerequisites": [
       "DATA 301 or DATA 310"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 449": {
     "code": "DATA 449",
     "title": "Web Science",
-    "department": "DATA",
     "credits": 3,
     "description": "Provides an overview of the World Wide Web and associated decentralized information structures, focusing on web architecture, web analysis, web archiving, social networks, search engines, web mining, information diffusion, and the Semantic Web.",
     "prerequisites": [
       "DATA 301 or DATA 310"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone_or_data_application"
+    "track": "capstone_or_data_application",
+    "domain": ""
   },
-  {
+  "DATA 451": {
     "code": "DATA 451",
     "title": "Artificial Intelligence Systems",
-    "department": "DATA",
     "credits": 3,
     "description": "Introduces foundational principles of automation in artificial intelligence and data science, emphasizing repeatable, scalable, production-ready workflows, automated data pipelines, quality assurance, scheduling, monitoring, and AI deployment.",
     "prerequisites": [
       "DATA 301"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "capstone_or_ai"
+    "track": "capstone_or_ai",
+    "domain": ""
   },
-  {
+  "DATA 460": {
     "code": "DATA 460",
     "title": "Automation & Workflows",
-    "department": "DATA",
     "credits": 3,
     "description": "Focuses on automation and documented workflows for reproducible, efficient, and maintainable data analyses. Students develop program prototypes and documentation for peer testing and critique, culminating in a final project with written documentation and a working demonstration.",
     "prerequisites": [
@@ -631,140 +588,129 @@
       "DATA 303 or DATA 301"
     ],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone_or_data_application"
+    "track": "capstone_or_data_application",
+    "domain": ""
   },
-  {
+  "DATA 490": {
     "code": "DATA 490",
     "title": "Independent Research in Data Science",
-    "department": "DATA",
     "credits": "1-4",
     "description": "Allows students with a focus in Data Science to engage in independent research under the supervision of a program faculty member. Students conduct a substantial research project involving synthesis and critical analysis and communicate their work to diverse audiences. May be repeated for credit.",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone"
+    "track": "capstone",
+    "domain": ""
   },
-  {
+  "DATA 496": {
     "code": "DATA 496",
     "title": "Honors - Data Science",
-    "department": "DATA",
     "credits": 3,
     "description": "Honors thesis research conducted by Data Science majors under the supervision of a faculty member. Students in the DATA 495/DATA 496 sequence write an honors thesis based on a literature review and findings from their research project.",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "C400",
-    "track": "capstone"
+    "track": "capstone",
+    "domain": ""
   },
-  {
+  "DATA 498": {
     "code": "DATA 498",
     "title": "Internship",
-    "department": "DATA",
     "credits": "1-6",
     "description": "Provides first-hand knowledge through practical experience in real-world settings. Students are supervised by and meet regularly with department faculty members during the course. Academic credit requires faculty approval prior to participation.",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "capstone"
+    "track": "capstone",
+    "domain": ""
   },
-  {
+  "GIS 201": {
     "code": "GIS 201",
     "title": "Introduction to Geographic Information Systems and Spatial Analysis",
-    "department": "GIS",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "spatial_data_analytics"
+    "track": "spatial_data_analytics",
+    "domain": ""
   },
-  {
+  "GIS 405": {
     "code": "GIS 405",
     "title": "Geovisualization & Cartographic Design",
-    "department": "GIS",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "spatial_data_analytics"
+    "track": "spatial_data_analytics",
+    "domain": ""
   },
-  {
+  "GIS 410": {
     "code": "GIS 410",
     "title": "Introduction to Remotely Sensed Imagery and Analysis",
-    "department": "GIS",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "spatial_data_analytics"
+    "track": "spatial_data_analytics",
+    "domain": ""
   },
-  {
+  "GIS 420": {
     "code": "GIS 420",
     "title": "Advanced GIS Analysis & Programming",
-    "department": "GIS",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "spatial_data_analytics"
+    "track": "spatial_data_analytics",
+    "domain": ""
   },
-  {
+  "MATH 109": {
     "code": "MATH 109",
     "title": "Calculus I",
-    "department": "MATH",
     "credits": 4,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "MATH 111": {
     "code": "MATH 111",
     "title": "Calculus II",
-    "department": "MATH",
     "credits": 4,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   },
-  {
+  "MATH 214": {
     "code": "MATH 214",
     "title": "Foundations of Mathematics",
-    "department": "MATH",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "algorithms"
+    "track": "algorithms",
+    "domain": ""
   },
-  {
+  "MATH 352": {
     "code": "MATH 352",
     "title": "Statistical Data Analysis",
-    "department": "MATH",
     "credits": 3,
     "description": "",
     "prerequisites": [],
     "corequisites": [],
-    "coll_attribute": "",
     "coll_curriculum": "",
-    "track": "general"
+    "track": "general",
+    "domain": ""
   }
-]
+}

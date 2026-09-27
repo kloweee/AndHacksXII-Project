@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
-import { randomUUID } from "crypto";
+import multer from "multer";
+import { extractPdfText, parseDegreeWorksAudit } from "./lib/degreeworksParser.js";
 
 dotenv.config();
 const app = express();
@@ -17,70 +18,13 @@ if (!GEMINI_API_KEY) {
     process.exit(1);
 }
 
-// ==========================================
-// 0. PER-SESSION ROADMAP STORE (TODO: replace with a real database)
-// ==========================================
-// Each browser gets its own roadmap, keyed by an anonymous session cookie,
-// instead of everyone sharing one global object — so two people using the
-// demo at the same time (e.g. two hackathon judges) don't overwrite each
-// other's edits. This is still in-memory (a server restart wipes every
-// session), which is an acceptable trade-off for a demo; swap the Map
-// below for a real datastore, keyed the same way, when this goes further.
-
-const SESSION_COOKIE = "wm_advisor_sid";
-const roadmapStores = new Map(); // sessionId -> { student, courses, requirementTotals }
-
-// The starting roadmap every new session gets is fictional demo data for
-// "Sophie Lin" — see data/mock/sophie-lin-roadmap.json. That file (and this
-// one require line) can be deleted once real student data is wired up.
-const mockRoadmapSeed = JSON.parse(readFileSync("./data/mock/sophie-lin-roadmap.json", "utf-8"));
-
-function cloneSeedRoadmap() {
-    // Every session needs its own independent copy — mutating one
-    // session's courses array must never leak into another's.
-    return {
-        student: structuredClone(mockRoadmapSeed.student),
-        courses: structuredClone(mockRoadmapSeed.courses),
-        requirementTotals: structuredClone(mockRoadmapSeed.requirementTotals),
-    };
-}
-
-function parseCookies(header) {
-    const out = {};
-    if (!header) return out;
-    header.split(";").forEach((pair) => {
-        const idx = pair.indexOf("=");
-        if (idx === -1) return;
-        const key = pair.slice(0, idx).trim();
-        const val = pair.slice(idx + 1).trim();
-        if (key) out[key] = decodeURIComponent(val);
-    });
-    return out;
-}
-
-// Assigns/reads an anonymous session id on every request and exposes the
-// matching roadmap as req.roadmap (get returns it, set replaces it). Every
-// route below relies on this middleware having already run.
-app.use((req, res, next) => {
-    const cookies = parseCookies(req.headers.cookie);
-    let sid = cookies[SESSION_COOKIE];
-
-    if (!sid || !roadmapStores.has(sid)) {
-        sid = randomUUID();
-        roadmapStores.set(sid, cloneSeedRoadmap());
-        res.setHeader("Set-Cookie", `${SESSION_COOKIE}=${sid}; HttpOnly; Path=/; SameSite=Lax`);
-    }
-
-    req.sessionId = sid;
-    Object.defineProperty(req, "roadmap", {
-        get() {
-            return roadmapStores.get(sid);
-        },
-        set(value) {
-            roadmapStores.set(sid, value);
-        },
-    });
-    next();
+// Kept in memory only for the length of one request — a DegreeWorks audit
+// PDF is parsed and its result returned directly in the response; the
+// server never stores it anywhere afterward. Persistence is the client's
+// job (localStorage) — see the note above the chat endpoint below for why.
+const degreeworksUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB is generous for a multi-page text PDF
 });
 
 // ==========================================
@@ -98,65 +42,95 @@ try {
     console.log("✅ Loaded behavioral prompts from /prompts folder.");
 } catch (err) {
     console.warn("⚠️ Could not load prompts folder. Using fallback.");
-    baseSystemInstruction = "You are a helpful W&M academic advisor.";
+    baseSystemInstruction = "You are a helpful W&M Computer Science course advisor.";
 }
 
 // ==========================================
-// 2. LOAD & INJECT THE MOCK DATA
+// 2. LOAD THE STATIC COURSE DATA (CS catalog + CS major requirements only)
 // ==========================================
-function buildFinalSystemInstruction() {
+// This app now focuses exclusively on Computer Science course planning, so
+// there's a single major file and a catalog built only from real,
+// hand-verified CS (and CS-prerequisite) course data — no more
+// current-semester section scrape, since this app doesn't track when
+// classes meet or who teaches them anymore.
+const courseCatalog = JSON.parse(readFileSync('./data/catalog.json', 'utf-8'));
+
+function buildStaticDataContext() {
     try {
-        // Read the JSON files directly from the data/ folder
-        const catalog = JSON.parse(readFileSync('./data/catalog.json', 'utf-8'));
-        const sections = JSON.parse(readFileSync('./data/sections.json', 'utf-8'));
-        
-        // Read all major requirement files
         const majorsDir = './data/majors';
         const majorFiles = readdirSync(majorsDir).filter(f => f.endsWith('.json'));
-        let majorsData = [];
-        for (const file of majorFiles) {
-            majorsData.push(JSON.parse(readFileSync(join(majorsDir, file), 'utf-8')));
-        }
+        const majorsData = majorFiles.map(file => JSON.parse(readFileSync(join(majorsDir, file), 'utf-8')));
 
-        // Format the data into a readable string for the AI
-        const dataContext = `
+        // No indent: 2 here on purpose — pretty-printing this much JSON adds
+        // a large amount of pure whitespace to something that's re-sent on
+        // every single chat message. Minifying it is a direct, verifiable
+        // cut to the per-message payload size.
+        return `
 ---
 INJECTED W&M DATA (USE ONLY THIS DATA, DO NOT INVENT OUTSIDE OF IT):
 
 COURSE CATALOG:
-${JSON.stringify(catalog, null, 2)}
-
-CURRENT SEMESTER SECTIONS:
-${JSON.stringify(sections, null, 2)}
+${JSON.stringify(courseCatalog)}
 
 MAJOR REQUIREMENTS:
-${JSON.stringify(majorsData, null, 2)}
+${JSON.stringify(majorsData)}
 `;
-        // Combine the behavioral rules with the raw data
-        return baseSystemInstruction + dataContext;
-
     } catch (err) {
-        console.error("❌ Failed to read mock data:", err.message);
-        return baseSystemInstruction + "\n\n[ERROR: Could not load course data]";
+        console.error("❌ Failed to read static course data:", err.message);
+        return "\n\n[ERROR: Could not load course data]";
     }
 }
 
-// Build the instruction once at startup (or you could move this inside the route if you want it to reload on every message)
-const finalSystemInstruction = buildFinalSystemInstruction();
-console.log("✅ Injected mock data into system instruction.");
+const staticDataContext = buildStaticDataContext();
+console.log("✅ Loaded static course data.");
 
 // ==========================================
-// 3. THE CHAT ENDPOINT (Enhanced)
+// 2b. PER-REQUEST STUDENT ROADMAP CONTEXT
+// ==========================================
+/**
+ * There is no server-side student data store: the student's roadmap lives
+ * only in their own browser's localStorage (populated by parsing their
+ * DegreeWorks audit — see the import endpoint below), and the client sends
+ * it along with each chat request. This keeps the server from ever holding
+ * a persistent, cross-request copy of any student's personal academic
+ * record — it only ever sees it for the duration of handling one request.
+ */
+function buildStudentRoadmapContext(roadmap) {
+    if (!roadmap) {
+        return `
+---
+STUDENT ROADMAP: none provided yet. Follow the ONBOARDING & CONTEXT
+GATHERING rule above — tell the student to upload their DegreeWorks audit.
+`;
+    }
+    return `
+---
+STUDENT ROADMAP (this is the student you are currently advising — see the
+ONBOARDING & CONTEXT GATHERING rule above: use this instead of asking
+onboarding questions it already answers):
+${JSON.stringify(roadmap)}
+`;
+}
+
+// ==========================================
+// 3. THE CHAT ENDPOINT
 // ==========================================
 app.post("/api/chat", async (req, res) => {
     try {
-        const { history } = req.body;
-        
+        const { history, roadmap } = req.body;
+
         // Format frontend history into Gemini's expected structure
         const contents = history.map(turn => ({
             role: turn.role,
             parts: [{ text: turn.text }]
         }));
+
+        // Built per-request from whatever roadmap the client sent (its own
+        // localStorage copy) — see buildStudentRoadmapContext above.
+        const systemInstructionText =
+            baseSystemInstruction +
+            buildStudentRoadmapContext(roadmap) +
+            staticDataContext;
 
         // Single API call (No tools, no agent loop)
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
@@ -164,12 +138,24 @@ app.post("/api/chat", async (req, res) => {
             headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_API_KEY },
             body: JSON.stringify({
                 contents,
-                systemInstruction: { parts: [{ text: finalSystemInstruction }] }
+                systemInstruction: { parts: [{ text: systemInstructionText }] },
+                // Gemini 3.5 Flash defaults to "medium" internal reasoning
+                // depth if this is left unset, which is paid for in both
+                // latency and output tokens on every single message. This
+                // advisor's job is mostly "read the injected context and
+                // format a reply, occasionally sequence a prerequisite
+                // chain" — not multi-step reasoning — so "low" is a direct,
+                // real cut to per-message latency and cost. Bump to
+                // "medium" if answers start looking shallow; drop to
+                // "minimal" for max speed if "low" still looks solid.
+                generationConfig: {
+                    thinkingConfig: { thinkingLevel: "low" }
+                }
             })
         });
 
         const data = await response.json();
-        
+
         if (!response.ok) {
             console.error("Gemini API error:", data);
             return res.status(response.status).json({ error: data });
@@ -178,18 +164,17 @@ app.post("/api/chat", async (req, res) => {
         // Extract final text response
         const rawReply = data.candidates?.[0]?.content?.parts?.map(p => p.text).join("") ?? "(no response)";
 
-        // model_spec.txt requires every model reply to end with a numbered
-        // 3-4 item follow-up list. We split that list out of the reply text
+        // model_spec.txt requires every reply to end with a numbered 3-4
+        // item follow-up list. We split that list out of the reply text
         // here and send it back as its own `suggestions` array, which the
         // frontend renders as clickable pills — see splitReplyAndSuggestions
         // below. Without this split, the numbered list would show up both
         // inside the chat bubble AND as pills underneath it.
         const { cleanReply, suggestions } = splitReplyAndSuggestions(rawReply);
 
-        res.json({ 
+        res.json({
             reply: cleanReply,
             suggestions: suggestions,
-            courses: [] // TODO: extract course recommendations from reply if needed
         });
 
     } catch (err) {
@@ -199,7 +184,7 @@ app.post("/api/chat", async (req, res) => {
 });
 
 // ==========================================
-// 4. ROADMAP ENDPOINTS
+// 4. DEGREEWORKS IMPORT (stateless — parses and returns, stores nothing)
 // ==========================================
 
 const VALID_STATUSES = ["completed", "current", "planned", "unassigned", "problem"];
@@ -274,154 +259,47 @@ function validateRoadmapPayload(body) {
 }
 
 /**
- * GET /api/roadmap
- * Returns the full roadmap for this session: student info, courses, and
- * requirement totals.
+ * POST /api/roadmap/import-degreeworks
+ * Parses an uploaded DegreeWorks audit PDF and returns the resulting
+ * roadmap directly in the response — see lib/degreeworksParser.js. The
+ * server does not store this anywhere: the client is responsible for
+ * saving the returned roadmap to its own localStorage, which is what makes
+ * this "local to the student's computer" rather than a shared server-side
+ * record.
  */
-app.get("/api/roadmap", (req, res) => {
+app.post("/api/roadmap/import-degreeworks", degreeworksUpload.single("file"), async (req, res) => {
     try {
-        res.json(req.roadmap);
-    } catch (err) {
-        console.error("❌ Error fetching roadmap:", err);
-        res.status(500).json({ error: "Failed to fetch roadmap" });
-    }
-});
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded — expected a PDF under the 'file' field." });
+        }
+        const isPdf = req.file.mimetype === "application/pdf" || req.file.originalname.toLowerCase().endsWith(".pdf");
+        if (!isPdf) {
+            return res.status(400).json({ error: "Please upload your DegreeWorks audit as a PDF." });
+        }
 
-/**
- * PUT /api/roadmap
- * Replaces this session's entire roadmap. Every field is validated —
- * courses in particular must be a well-formed array, not just "truthy" —
- * so a malformed request can't corrupt the stored roadmap.
- */
-app.put("/api/roadmap", (req, res) => {
-    try {
-        const errors = validateRoadmapPayload(req.body);
+        const text = await extractPdfText(req.file.buffer);
+        const parsed = parseDegreeWorksAudit(text, courseCatalog);
+
+        const errors = validateRoadmapPayload(parsed);
         if (errors.length) {
-            return res.status(400).json({ error: "Invalid roadmap payload", details: errors });
+            console.error("Parsed DegreeWorks audit failed schema validation:", errors);
+            return res.status(422).json({
+                error: "Couldn't fully read this audit — it may be in an unexpected format.",
+                details: errors,
+            });
+        }
+        if (parsed.courses.length === 0) {
+            return res.status(422).json({
+                error: "No courses were found in this PDF. Please upload an unmodified DegreeWorks audit export.",
+            });
         }
 
-        const { student, courses, requirementTotals } = req.body;
-        req.roadmap = { student, courses, requirementTotals };
-        console.log(`✅ Roadmap updated (session ${req.sessionId.slice(0, 8)}…)`);
-        res.json({ success: true, roadmap: req.roadmap });
-        
+        console.log(`✅ Parsed DegreeWorks audit for ${parsed.student.name}: ${parsed.courses.length} courses`);
+        res.json({ success: true, roadmap: parsed });
+
     } catch (err) {
-        console.error("❌ Error updating roadmap:", err);
-        res.status(500).json({ error: "Failed to update roadmap" });
-    }
-});
-
-/**
- * PATCH /api/roadmap/courses/:code
- * Updates a single course by code, in this session's roadmap.
- */
-app.patch("/api/roadmap/courses/:code", (req, res) => {
-    try {
-        const { code } = req.params;
-        const updates = req.body || {};
-
-        const course = req.roadmap.courses.find(c => c.code === code);
-        if (!course) {
-            return res.status(404).json({ error: `Course ${code} not found` });
-        }
-
-        // Only allow updating specific fields, and validate each one that's present
-        const allowedFields = ["semester", "status", "title", "credits", "requirements", "prerequisites"];
-        const errors = [];
-        if ("semester" in updates && typeof updates.semester !== "string") errors.push("semester must be a string (can be empty)");
-        if ("status" in updates && !VALID_STATUSES.includes(updates.status)) errors.push(`status must be one of: ${VALID_STATUSES.join(", ")}`);
-        if ("title" in updates && !isNonEmptyString(updates.title)) errors.push("title must be a non-empty string");
-        if ("credits" in updates && (typeof updates.credits !== "number" || updates.credits <= 0)) errors.push("credits must be a positive number");
-        if ("requirements" in updates && !isStringArray(updates.requirements)) errors.push("requirements must be an array of strings");
-        if ("prerequisites" in updates && !isStringArray(updates.prerequisites)) errors.push("prerequisites must be an array of strings");
-        if (errors.length) {
-            return res.status(400).json({ error: "Invalid course update", details: errors });
-        }
-
-        allowedFields.forEach(field => {
-            if (field in updates) {
-                course[field] = updates[field];
-            }
-        });
-        
-        console.log(`✅ Course ${code} updated`);
-        res.json({ success: true, course });
-        
-    } catch (err) {
-        console.error("❌ Error updating course:", err);
-        res.status(500).json({ error: "Failed to update course" });
-    }
-});
-
-/**
- * POST /api/roadmap/courses
- * Adds a new course to this session's roadmap.
- */
-app.post("/api/roadmap/courses", (req, res) => {
-    try {
-        const courseData = req.body || {};
-
-        if (!isNonEmptyString(courseData.code) || !isNonEmptyString(courseData.title)) {
-            return res.status(400).json({ error: "Missing required fields: code, title" });
-        }
-        if ("credits" in courseData && (typeof courseData.credits !== "number" || courseData.credits <= 0)) {
-            return res.status(400).json({ error: "credits must be a positive number" });
-        }
-        if ("requirements" in courseData && !isStringArray(courseData.requirements)) {
-            return res.status(400).json({ error: "requirements must be an array of strings" });
-        }
-        if ("prerequisites" in courseData && !isStringArray(courseData.prerequisites)) {
-            return res.status(400).json({ error: "prerequisites must be an array of strings" });
-        }
-        if ("status" in courseData && !VALID_STATUSES.includes(courseData.status)) {
-            return res.status(400).json({ error: `status must be one of: ${VALID_STATUSES.join(", ")}` });
-        }
-
-        // Check if course already exists
-        if (req.roadmap.courses.find(c => c.code === courseData.code)) {
-            return res.status(409).json({ error: `Course ${courseData.code} already exists` });
-        }
-        
-        const newCourse = {
-            code: courseData.code,
-            title: courseData.title,
-            credits: courseData.credits || 3,
-            semester: courseData.semester || "",
-            status: courseData.status || "unassigned",
-            requirements: courseData.requirements || [],
-            prerequisites: courseData.prerequisites || []
-        };
-        
-        req.roadmap.courses.push(newCourse);
-        console.log(`✅ Course ${courseData.code} added`);
-        res.status(201).json({ success: true, course: newCourse });
-        
-    } catch (err) {
-        console.error("❌ Error adding course:", err);
-        res.status(500).json({ error: "Failed to add course" });
-    }
-});
-
-/**
- * DELETE /api/roadmap/courses/:code
- * Removes a course from this session's roadmap.
- */
-app.delete("/api/roadmap/courses/:code", (req, res) => {
-    try {
-        const { code } = req.params;
-        const index = req.roadmap.courses.findIndex(c => c.code === code);
-        
-        if (index === -1) {
-            return res.status(404).json({ error: `Course ${code} not found` });
-        }
-        
-        const removed = req.roadmap.courses.splice(index, 1);
-        console.log(`✅ Course ${code} removed`);
-        res.json({ success: true, course: removed[0] });
-        
-    } catch (err) {
-        console.error("❌ Error deleting course:", err);
-        res.status(500).json({ error: "Failed to delete course" });
+        console.error("❌ Error importing DegreeWorks PDF:", err);
+        res.status(500).json({ error: "Failed to parse the uploaded PDF. Please make sure it's an unmodified DegreeWorks audit export." });
     }
 });
 
@@ -472,5 +350,5 @@ function splitReplyAndSuggestions(replyText) {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 TribeAdvisor (Direct Injection Mode) running at http://localhost:${PORT}`);
+    console.log(`🚀 TribeAdvisor (CS Schedule Advisor) running at http://localhost:${PORT}`);
 });

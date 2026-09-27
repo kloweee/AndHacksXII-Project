@@ -263,6 +263,41 @@ p { margin: 0; }
   pointer-events: none;
 }
 
+/* Onboarding state: shown instead of the hero/chat/quick-actions until a
+   roadmap exists in localStorage. Toggled via .onboarding-mode on
+   #advisor-main — see applyOnboardingState() in app.js. */
+.advisor-onboarding {
+  display: none;
+  flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 14px;
+  max-width: 420px; margin: 0 auto;
+  padding: 40px 0;
+}
+.advisor-onboarding h1 { font-size: 32px; color: var(--text-primary); }
+.advisor-onboarding p { color: var(--text-secondary); font-size: 15px; margin: 0; }
+.onboarding-upload-btn { margin-top: 6px; }
+.onboarding-status {
+  font-size: 13px; color: var(--text-secondary);
+  min-height: 0; opacity: 0;
+  transition: opacity 200ms var(--ease);
+}
+.onboarding-status.visible { opacity: 1; min-height: 18px; }
+.howto-link {
+  border: none; background: transparent; padding: 0;
+  font-size: 12.5px; color: var(--text-secondary);
+  text-decoration: underline; text-underline-offset: 2px;
+  margin-top: 4px;
+}
+.howto-link:hover { color: var(--gold-muted); }
+
+.advisor-main.onboarding-mode .advisor-onboarding { display: flex; }
+.advisor-main.onboarding-mode .advisor-hero,
+.advisor-main.onboarding-mode #chat,
+.advisor-main.onboarding-mode #chat-form-wrap,
+.advisor-main.onboarding-mode .quick-actions {
+  display: none;
+}
+
 #chat {
   flex: 1; min-height: 0; overflow-y: auto;
   display: flex; flex-direction: column;
@@ -488,17 +523,6 @@ p { margin: 0; }
 [data-theme="dark"] .bar-fill { background: var(--gold); }
 .bar-row .bar-pct { width: 32px; text-align: right; font-weight: 600; }
 
-.quick-links { display: flex; flex-direction: column; }
-.quick-link {
-  display: flex; justify-content: space-between; align-items: center;
-  border: none; background: transparent; padding: 9px 2px;
-  font-size: 13.5px; color: var(--text-primary);
-  border-bottom: 1px solid var(--border);
-  transition: color 180ms var(--ease);
-}
-.quick-link:last-child { border-bottom: none; }
-.quick-link:hover { color: var(--gold-muted); }
-
 /* ==========================================================================
    Roadmap page
    ========================================================================== */
@@ -610,14 +634,6 @@ p { margin: 0; }
 .dp-grad { font-size: 12.5px; color: var(--text-secondary); text-align: right; }
 .dp-grad strong { display: block; color: var(--text-primary); font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin-top: 2px; }
 
-.still-needs-home { margin-top: 14px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); backdrop-filter: blur(var(--surface-blur)); padding: 14px 18px; }
-.snh-title { display: flex; align-items: center; gap: 7px; color: var(--warning); font-size: 13px; font-weight: 600; margin-bottom: 10px; }
-.snh-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 4px; border-top: 1px solid var(--border); font-size: 13px; }
-.snh-item:first-of-type { border-top: none; }
-.snh-item .snh-actions { display: flex; gap: 6px; }
-.snh-item .snh-actions button { font-size: 11.5px; padding: 5px 9px; border-radius: 999px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); transition: border-color 180ms var(--ease), color 180ms var(--ease); }
-.snh-item .snh-actions button:hover { border-color: rgba(197,161,90,0.5); color: var(--gold-muted); }
-
 /* Requirement view */
 #requirement-view { display: none; flex: 1; }
 #requirement-view.active { display: block; }
@@ -651,48 +667,31 @@ p { margin: 0; }
 .drawer-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 22px; }
 .drawer-warning { display: flex; gap: 8px; align-items: flex-start; background: rgba(183,106,69,0.12); color: var(--warning); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 12.5px; margin-top: 12px; }
 
-/* Add-course search modal */
-.course-search-modal {
+/* "How to download your DegreeWorks audit" instructions popup */
+.howto-modal {
   position: fixed; top: 50%; left: 50%;
-  width: min(440px, 92vw); max-height: min(560px, 80vh);
+  width: min(480px, 92vw); max-height: min(560px, 85vh);
   display: flex; flex-direction: column;
   background: var(--surface-strong); backdrop-filter: blur(20px) saturate(var(--surface-saturate));
   border: 1px solid var(--border); border-radius: var(--radius-lg);
   box-shadow: var(--shadow-ambient-lg);
-  padding: 24px 22px 18px;
-  z-index: 21;
+  padding: 26px 24px 20px;
+  z-index: 22;
   opacity: 0; pointer-events: none;
   transform: translate(-50%, -50%) scale(0.96);
   transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+  overflow-y: auto;
 }
-.course-search-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
-.cs-title { font-family: var(--font-serif); font-size: 22px; font-weight: 600; padding-right: 24px; }
-.cs-sub { font-size: 12.5px; color: var(--text-secondary); margin-top: 3px; margin-bottom: 16px; }
-
-.cs-search-wrap {
-  display: flex; align-items: center; gap: 8px;
-  border: 1px solid var(--border); border-radius: 999px;
-  background: var(--surface); padding: 10px 16px;
-  transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
-  flex-shrink: 0;
-}
-.cs-search-wrap:focus-within { border-color: rgba(197,161,90,0.5); box-shadow: var(--glow-gold-soft); }
-[data-theme="dark"] .cs-search-wrap:focus-within { border-color: rgba(210,172,97,0.55); }
-#cs-search-input { flex: 1; border: none; background: transparent; outline: none; font-size: 14px; color: var(--text-primary); }
-#cs-search-input::placeholder { color: var(--text-secondary); }
-
-.cs-results { overflow-y: auto; margin-top: 12px; padding-right: 2px; }
-.cs-result {
-  width: 100%; text-align: left; display: block;
-  border: 1px solid transparent; background: transparent;
-  border-radius: var(--radius-card);
-  padding: 10px 12px; margin-bottom: 4px;
-  transition: background-color 160ms var(--ease), border-color 160ms var(--ease);
-}
-.cs-result:hover, .cs-result:focus-visible { background: var(--surface); border-color: var(--border); }
-.cs-result .cs-code { font-size: 13.5px; font-weight: 600; }
-.cs-result .cs-course-title { font-size: 12px; color: var(--text-secondary); margin: 1px 0 6px; }
-.cs-empty { font-size: 13px; color: var(--text-secondary); padding: 18px 4px; text-align: center; }
+.howto-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+.howto-step { display: none; flex-direction: column; gap: 14px; }
+.howto-step.active { display: flex; }
+.howto-step-label { font-size: 12px; letter-spacing: 0.02em; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; }
+.howto-step p { font-size: 15px; color: var(--text-primary); margin: 0; }
+.howto-step .btn { align-self: flex-start; }
+.howto-img { width: 100%; border-radius: var(--radius-md); border: 1px solid var(--border); display: block; }
+.howto-img-row { display: flex; gap: 10px; }
+.howto-img-row .howto-img { flex: 1; min-width: 0; }
+.howto-actions { display: flex; justify-content: flex-end; margin-top: 20px; }
 
 /* Prerequisite hover chain (advisor / drawer contexts, lightweight) */
 .prereq-chain { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-secondary); }

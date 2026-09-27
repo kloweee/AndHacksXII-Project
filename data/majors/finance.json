@@ -1,7 +1,0 @@
-{
-  "major_name": "Finance",
-  "department_code": "FIN",
-  "required_core": ["ECON 101", "BUAD 327", "FIN 301", "FIN 341"],
-  "electives_required": 2,
-  "notes": "Students must also complete the COLL curriculum requirements."
-}

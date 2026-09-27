@@ -1,7 +1,16 @@
 {
   "major_name": "Computer Science",
   "department_code": "CSCI",
-  "required_core": ["CSCI 141", "CSCI 241", "CSCI 301"],
-  "electives_required": 3,
-  "notes": "Students must also complete the COLL curriculum requirements."
+  "credits_required": 37,
+  "required_core": ["CSCI 141", "CSCI 241", "CSCI 243", "CSCI 301", "CSCI 303", "CSCI 304", "CSCI 312", "CSCI 423"],
+  "major_writing_requirement": "Two classes from CSCI 301, 303, 304, or 312",
+  "concentrations": {
+    "AI/Machine Learning": {
+      "proficiency_required": "MATH 351 or MATH 451",
+      "electives_required_credits": 12,
+      "elective_options": ["CSCI 356", "CSCI 416", "CSCI 421", "CSCI 436", "CSCI 446", "CSCI 455", "CSCI 456", "CSCI 466", "CSCI 420", "DATA 441"],
+      "notes": "Elective courses must carry the AIML attribute (or be DATA 441) to count toward this concentration."
+    }
+  },
+  "notes": "Students must also complete the College Curriculum (COLL) requirements. This implementation does not track COLL — see catalog.wm.edu or an academic advisor for COLL guidance."
 }

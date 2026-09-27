@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>W&amp;M AI Academic Advisor</title>
+<title>W&amp;M CS Schedule Advisor</title>
 <link rel="stylesheet" href="style.css" />
 </head>
 <body data-theme="light">
@@ -31,6 +31,7 @@
   <symbol id="i-external" viewBox="0 0 24 24"><path d="M9 6H5.5A1.5 1.5 0 0 0 4 7.5v11A1.5 1.5 0 0 0 5.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15M14 4h6v6M20 4l-9 9"/></symbol>
   <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c8-1 13-6 14-14-8 1-13 6-14 14z"/><path d="M6 18c2-4 5-7 9-9"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
 </svg>
 
 <div class="atmosphere" aria-hidden="true"></div>
@@ -43,7 +44,7 @@
       <svg class="icon leaf" aria-hidden="true"><use href="#i-leaf"/></svg>
       <div class="brand-text">
         <span class="mark">W&amp;M</span>
-        <span class="sub">AI Academic Advisor</span>
+        <span class="sub">CS Schedule Advisor</span>
       </div>
     </div>
 
@@ -60,10 +61,10 @@
 
     <div class="sidebar-bottom">
       <div class="student-mini">
-        <div class="avatar" id="student-avatar">SL</div>
+        <div class="avatar" id="student-avatar">?</div>
         <div>
-          <div class="name" id="student-name-mini">Sophie Lin</div>
-          <div class="role">Data Science + Finance</div>
+          <div class="name" id="student-name-mini">No audit uploaded</div>
+          <div class="role" id="student-role-mini">Upload to get started</div>
         </div>
       </div>
     </div>
@@ -83,16 +84,30 @@
       <div class="advisor-layout">
         <div class="advisor-main" id="advisor-main">
 
-          <div class="advisor-hero">
-            <h1 id="advisor-greeting">Good afternoon, <span class="name-accent">Sophie</span>.</h1>
-            <p>Ask about courses, requirements, or your academic path.</p>
+          <!-- Shown only when no roadmap is saved in this browser yet -->
+          <div class="advisor-onboarding" id="advisor-onboarding">
+            <h1>Welcome!</h1>
+            <p>To get started, please upload your DegreeWorks audit.</p>
+            <input type="file" id="onboarding-file-input" accept="application/pdf" hidden />
+            <button class="btn btn-primary onboarding-upload-btn" id="onboarding-upload-btn">
+              <svg class="icon" style="width:16px;height:16px"><use href="#i-upload"/></svg>
+              Upload DegreeWorks Audit
+            </button>
+            <div class="onboarding-status" id="onboarding-status" aria-live="polite"></div>
+            <button class="howto-link" id="howto-open-btn" type="button">How to download your DegreeWorks audit</button>
+          </div>
+
+          <!-- Shown once a roadmap exists (uploaded this session or before) -->
+          <div class="advisor-hero" id="advisor-hero-default">
+            <h1 id="advisor-greeting">Good afternoon.</h1>
+            <p>Ask about CS courses, prerequisites, or your path through the major.</p>
           </div>
 
           <div id="chat" aria-live="polite"></div>
 
           <div id="chat-form-wrap">
             <form id="chat-form">
-              <input id="input" type="text" placeholder="Ask your academic advisor..." autocomplete="off" required />
+              <input id="input" type="text" placeholder="Ask your CS schedule advisor..." autocomplete="off" required />
               <button type="submit" id="send-btn" aria-label="Send">
                 <svg class="icon" style="stroke:currentColor"><use href="#i-send"/></svg>
               </button>
@@ -100,22 +115,22 @@
           </div>
 
           <div class="quick-actions" id="quick-actions">
-            <button class="quick-action" data-prompt="Help me explore majors, electives, or new interests.">
-              <span class="qa-tooltip">Explore majors, electives, or new interests</span>
+            <button class="quick-action" data-prompt="Help me explore Computer Science concentrations or electives.">
+              <span class="qa-tooltip">Explore CS concentrations or electives</span>
               <span class="qa-icon"><svg class="icon"><use href="#i-compass"/></svg></span>
               <span class="qa-label">Explore</span>
             </button>
-            <button class="quick-action" data-prompt="Help me plan my next semester.">
+            <button class="quick-action" data-prompt="Help me plan my next semester of CS courses.">
               <span class="qa-tooltip">Build out your next term</span>
               <span class="qa-icon"><svg class="icon"><use href="#i-calendar"/></svg></span>
               <span class="qa-label">Plan Next Semester</span>
             </button>
-            <button class="quick-action" data-prompt="Check my progress on my degree requirements.">
+            <button class="quick-action" data-prompt="Check my progress on my Computer Science major requirements.">
               <span class="qa-tooltip">See what's left to satisfy</span>
               <span class="qa-icon"><svg class="icon"><use href="#i-check-sq"/></svg></span>
               <span class="qa-label">Check Requirements</span>
             </button>
-            <button class="quick-action" data-prompt="Help me build my full academic roadmap.">
+            <button class="quick-action" data-prompt="Help me build my full path through the CS major.">
               <span class="qa-tooltip">Lay out your path to graduation</span>
               <span class="qa-icon"><svg class="icon"><use href="#i-route"/></svg></span>
               <span class="qa-label">Build My Roadmap</span>
@@ -132,9 +147,9 @@
           </div>
 
           <div class="snap-student">
-            <div class="name">Sophie Lin</div>
-            <div class="role">Sophomore</div>
-            <div class="programs">Data Science + Finance</div>
+            <div class="name">No audit uploaded</div>
+            <div class="role"></div>
+            <div class="programs"></div>
           </div>
 
           <div class="snap-divider"></div>
@@ -145,18 +160,9 @@
               <circle class="ring-track" cx="60" cy="60" r="52" />
               <circle class="ring-progress" id="snap-ring-progress" cx="60" cy="60" r="52" />
             </svg>
-            <div class="progress-ring-label" id="snap-overall-pct">68%</div>
+            <div class="progress-ring-label" id="snap-overall-pct">0%</div>
           </div>
           <div id="snap-bars"></div>
-
-          <div class="snap-divider"></div>
-
-          <div class="snap-section-title">Quick Links</div>
-          <div class="quick-links">
-            <button class="quick-link" data-url="https://catalog.wm.edu/">Course Catalog <svg class="icon" style="width:14px;height:14px"><use href="#i-external"/></svg></button>
-            <button class="quick-link" data-url="https://www.wm.edu/as/undergraduate/coll/coll-planning-guide/">COLL Requirements <svg class="icon" style="width:14px;height:14px"><use href="#i-external"/></svg></button>
-            <button class="quick-link" data-url="https://www.wm.edu/offices/registrar/catalogs-calendars-exams/ugcalendar/">Academic Calendar <svg class="icon" style="width:14px;height:14px"><use href="#i-external"/></svg></button>
-          </div>
         </aside>
         <button class="snapshot-reopen" id="snapshot-reopen" aria-label="Open academic snapshot">
           <svg class="icon" style="width:14px;height:14px"><use href="#i-chevron-left"/></svg>
@@ -170,7 +176,7 @@
         <div class="roadmap-header">
           <div class="roadmap-title">
             <h1>My Academic Roadmap</h1>
-            <div class="meta" id="roadmap-meta">Data Science + Finance · Expected Graduation: Spring 2029</div>
+            <div class="meta" id="roadmap-meta">Upload your DegreeWorks audit to see your roadmap.</div>
           </div>
           <div class="roadmap-controls">
             <div class="view-toggle">
@@ -178,6 +184,8 @@
               <button id="view-requirement" data-view="requirement">Requirement View</button>
             </div>
             <div class="roadmap-actions">
+              <input type="file" id="degreeworks-file-input" accept="application/pdf" hidden />
+              <button class="btn" id="upload-degreeworks-btn">Upload DegreeWorks Audit</button>
               <button class="btn btn-primary" id="edit-plan-btn">Edit Plan</button>
             </div>
           </div>
@@ -193,19 +201,12 @@
                 <circle class="ring-progress" id="roadmap-ring-progress" cx="60" cy="60" r="52" />
               </svg>
               <div class="dp-headline">
-                <div class="pct" id="dp-pct">68%</div>
-                <div class="frac" id="dp-frac">82 / 120 credits</div>
+                <div class="pct" id="dp-pct">0%</div>
+                <div class="frac" id="dp-frac">0 / 120 credits</div>
               </div>
             </div>
             <div class="dp-bars" id="dp-bars"></div>
-            <div class="dp-grad">Expected Graduation<strong id="dp-grad-date">Spring 2029</strong></div>
-          </div>
-          <div class="still-needs-home">
-            <div class="snh-title">
-              <svg class="icon" style="width:15px;height:15px"><use href="#i-warning"/></svg>
-              Still Needs a Home
-            </div>
-            <div id="snh-list"></div>
+            <div class="dp-grad">Expected Graduation<strong id="dp-grad-date">—</strong></div>
           </div>
         </div>
 
@@ -225,21 +226,36 @@
   <div id="drawer-content"></div>
 </aside>
 
-<!-- Add-course search (shared, opened from any "+ Add Course" control while editing) -->
-<div class="drawer-backdrop" id="course-search-backdrop"></div>
-<div class="course-search-modal" id="course-search-modal" role="dialog" aria-modal="true" aria-label="Add a course">
-  <button class="drawer-close" id="course-search-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
-  <div class="cs-title">What course would you like to add?</div>
-  <div class="cs-sub" id="cs-target-label"></div>
-  <div class="cs-search-wrap">
-    <svg class="icon" style="width:16px;height:16px;color:var(--text-secondary)"><use href="#i-search"/></svg>
-    <input id="cs-search-input" type="text" placeholder="Search by course code or title…" autocomplete="off" />
+<!-- "How to download your DegreeWorks audit" instructions popup -->
+<div class="drawer-backdrop" id="howto-backdrop"></div>
+<div class="howto-modal" id="howto-modal" role="dialog" aria-modal="true" aria-label="How to download your DegreeWorks audit">
+  <button class="drawer-close" id="howto-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+
+  <div class="howto-step active" data-step="0">
+    <div class="howto-step-label">Step 1 of 3</div>
+    <p>Click this link below to open DegreeWorks.</p>
+    <a class="btn btn-primary" href="https://degreeworks.wm.edu/ResponsiveDashboard/worksheets/WEB31" target="_blank" rel="noopener">Open DegreeWorks</a>
   </div>
-  <!-- INTEGRATION POINT: results currently come from a small mock
-       courseCatalog array in app.js. Swap that for a real catalog
-       lookup (e.g. GET /api/courses?q=) when the backend supports it —
-       the render/select logic below doesn't need to change. -->
-  <div class="cs-results" id="cs-results"></div>
+
+  <div class="howto-step" data-step="1">
+    <div class="howto-step-label">Step 2 of 3</div>
+    <p>Sign in with your W&amp;M account.</p>
+    <img class="howto-img" src="assets/degreeworks-instructions/signin-01.png" alt="DegreeWorks sign-in screen" />
+  </div>
+
+  <div class="howto-step" data-step="2">
+    <div class="howto-step-label">Step 3 of 3</div>
+    <p>In the top right of the page, click the Create PDF button and then the Open PDF button. Save the PDF.</p>
+    <div class="howto-img-row">
+      <img class="howto-img" src="assets/degreeworks-instructions/createpdf-02.png" alt="Create PDF button" />
+      <img class="howto-img" src="assets/degreeworks-instructions/createpdf-03.png" alt="Open PDF button" />
+    </div>
+  </div>
+
+  <div class="howto-actions">
+    <button class="btn btn-primary" id="howto-next">Next</button>
+    <button class="btn btn-primary" id="howto-done" style="display:none">Done</button>
+  </div>
 </div>
 
 <script src="app.js"></script>
