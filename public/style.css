@@ -245,29 +245,46 @@ p { margin: 0; }
 .advisor-main {
   flex: 1; min-width: 0;
   display: flex; flex-direction: column;
+  /* Landing state: center the hero+input+quick-actions group as one
+     composition in the available space. Chat state (.has-chat) switches
+     to a top-anchored layout so #chat (flex:1) can fill the column and
+     push the input to the bottom. */
+  justify-content: center;
   padding: 0 32px 24px;
 }
+.advisor-main.has-chat { justify-content: flex-start; }
 
-/* Landing (empty) state: hero + centered input */
+/* Landing (empty) state: hero sits above the input as part of the same
+   centered group — it no longer claims flex:1 for itself. */
 .advisor-hero {
-  flex: 1; display: flex; flex-direction: column;
+  display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   text-align: center; gap: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 28px;
+  max-height: 220px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 260ms var(--ease), opacity 220ms var(--ease), padding-bottom 260ms var(--ease), margin 260ms var(--ease);
 }
 .advisor-hero h1 { font-size: 40px; color: var(--text-primary); line-height: 1.15; }
 .advisor-hero h1 .name-accent { color: var(--gold-muted); font-style: italic; }
 [data-theme="dark"] .advisor-hero h1 .name-accent { color: var(--gold); }
 .advisor-hero p { color: var(--text-secondary); font-size: 15px; }
-.advisor-main.has-messages .advisor-hero { display: none; }
+.advisor-main.has-chat .advisor-hero {
+  max-height: 0; opacity: 0; padding-bottom: 0; margin: 0;
+  pointer-events: none;
+}
 
 #chat {
   flex: 1; min-height: 0; overflow-y: auto;
   display: flex; flex-direction: column;
   padding: 24px 4px 12px;
   max-width: 720px; width: 100%; margin: 0 auto;
+  opacity: 0;
+  transition: opacity 240ms var(--ease);
 }
-.advisor-main:not(.has-messages) #chat { display: none; }
+.advisor-main:not(.has-chat) #chat { display: none; }
+.advisor-main.has-chat #chat { opacity: 1; }
 
 .msg { display: flex; margin: 6px 0; }
 .msg.user { justify-content: flex-end; }
@@ -364,8 +381,17 @@ p { margin: 0; }
 [data-theme="dark"] #send-btn { background: var(--gold); color: var(--green-dark); }
 
 /* Quick actions — small, icon-first, tooltip on hover */
-.quick-actions { display: flex; justify-content: center; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
-.advisor-main.has-messages .quick-actions { display: none; }
+.quick-actions {
+  display: flex; justify-content: center; gap: 10px;
+  margin-top: 22px; flex-wrap: wrap;
+  max-height: 100px; opacity: 1;
+  overflow: hidden;
+  transition: max-height 260ms var(--ease), opacity 220ms var(--ease), margin-top 260ms var(--ease);
+}
+.advisor-main.has-chat .quick-actions {
+  max-height: 0; opacity: 0; margin-top: 0;
+  pointer-events: none;
+}
 .quick-action {
   position: relative;
   display: flex; flex-direction: column; align-items: center; gap: 7px;

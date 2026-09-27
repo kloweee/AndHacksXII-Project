@@ -20,10 +20,10 @@
   // Full conversation history, sent to the server on every request
   let history = [];
 
-  function markHasMessages() {
+  function markHasChat() {
     // Additive: swap landing hero/quick-actions for the docked chat layout.
     // Does not touch chat/history logic.
-    advisorMain.classList.add("has-messages");
+    advisorMain.classList.add("has-chat");
   }
 
   function addMessage(role, text) {
@@ -33,7 +33,7 @@
     wrap.querySelector(".bubble").textContent = text;
     chatEl.appendChild(wrap);
     chatEl.scrollTop = chatEl.scrollHeight;
-    markHasMessages();
+    markHasChat();
   }
 
   // Optional enhancement: if a future backend response includes a
