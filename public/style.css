@@ -46,7 +46,7 @@
   --snapshot-w: 300px;
 
   /* Atmosphere */
-  --bg-photo: url("assets/bg-light.jpg");
+  --bg-photo: url("assets/crimdell-light.png");
   --overlay-wash: radial-gradient(ellipse 85% 75% at 50% 42%, rgba(248,244,233,0.58) 0%, rgba(248,244,233,0.34) 55%, rgba(248,244,233,0.14) 100%);
   --overlay-illum: radial-gradient(ellipse 40% 30% at 50% 30%, rgba(255,247,225,0.22), transparent 70%);
 
@@ -80,7 +80,7 @@
 
   --border: rgba(211, 174, 99, 0.16);
 
-  --bg-photo: url("assets/bg-dark.jpg");
+  --bg-photo: url("assets/crimdell-dark.png");
   --overlay-wash: radial-gradient(ellipse 85% 75% at 50% 42%, rgba(10,25,19,0.66) 0%, rgba(10,25,19,0.46) 55%, rgba(10,25,19,0.20) 100%);
   --overlay-illum: radial-gradient(ellipse 40% 30% at 50% 28%, rgba(210,172,97,0.08), transparent 70%);
 
