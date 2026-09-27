@@ -1,29 +1,4981 @@
-[
-  {
-    "crn": "10001",
+{
+  "12": {
+    "key": "12",
+    "crn": "13561",
+    "code": "AFST 335",
+    "title": "History of Hip-Hop",
+    "section": "01",
+    "instructor": "C. Thelwell",
+    "meets": "MW 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "122": {
+    "key": "122",
+    "crn": "13880",
+    "code": "ANTH 200",
+    "title": "Contemporary Problems in Anthropological Perspective",
+    "section": "01",
+    "instructor": "M. Gallivan",
+    "meets": "MWF 9-9:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "314": {
+    "key": "314",
+    "crn": "12609",
+    "code": "ARAB 311",
+    "title": "Special Topics in Arabic Culture: Films in/on/of the Middle East",
+    "section": "02",
+    "instructor": "M. Zaki",
+    "meets": "MW 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "336": {
+    "key": "336",
+    "crn": "12106",
+    "code": "ART 309",
+    "title": "Life Drawing I",
+    "section": "01",
+    "instructor": "b. Kreydatus",
+    "meets": "MW 2-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "337": {
+    "key": "337",
+    "crn": "12367",
+    "code": "ART 309",
+    "title": "Life Drawing I",
+    "section": "03",
+    "instructor": "D. Campbell",
+    "meets": "TR 2-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "338": {
+    "key": "338",
+    "crn": "12107",
+    "code": "ART 310",
+    "title": "Life Drawing II",
+    "section": "01",
+    "instructor": "b. Kreydatus",
+    "meets": "MW 2-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "339": {
+    "key": "339",
+    "crn": "12368",
+    "code": "ART 310",
+    "title": "Life Drawing II",
+    "section": "03",
+    "instructor": "D. Campbell",
+    "meets": "TR 2-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "374": {
+    "key": "374",
+    "crn": "12563",
+    "code": "ARTH 257",
+    "title": "Asian Art",
+    "section": "01",
+    "instructor": "K. Ma",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "382": {
+    "key": "382",
+    "crn": "13870",
+    "code": "ARTH 353",
+    "title": "Early Christian and Byzantine Art and Architecture",
+    "section": "01",
+    "instructor": "C. Stancioiu",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "907": {
+    "key": "907",
+    "crn": "13698",
+    "code": "CHIN 250",
+    "title": "Introduction to Chinese Cultural Studies",
+    "section": "01",
+    "instructor": "C. Meng",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "909": {
+    "key": "909",
+    "crn": "11787",
+    "code": "CHIN 360",
+    "title": "Introduction to Chinese Cinema",
+    "section": "01",
+    "instructor": "C. Meng",
+    "meets": "TR 12:30-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "910": {
+    "key": "910",
+    "crn": "13700",
+    "code": "CHIN 360",
+    "title": "Introduction to Chinese Cinema",
+    "section": "02",
+    "instructor": "C. Meng",
+    "meets": "TR 2-3:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "917": {
+    "key": "917",
+    "crn": "13913",
+    "code": "CLCV 205",
+    "title": "Greek and Roman Mythology",
+    "section": "01",
+    "instructor": "P. Eberwine",
+    "meets": "MW 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "918": {
+    "key": "918",
+    "crn": "11587",
+    "code": "CLCV 207",
+    "title": "The Ancient Greeks",
+    "section": "01",
+    "instructor": "V. Panoussi",
+    "meets": "TR 12:30-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "919": {
+    "key": "919",
+    "crn": "12336",
+    "code": "CLCV 207",
+    "title": "The Ancient Greeks",
+    "section": "02",
+    "instructor": "M. Kovalchuk",
+    "meets": "TR 2-3:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "920": {
+    "key": "920",
+    "crn": "12043",
+    "code": "CLCV 217",
+    "title": "Greek Archaeology and Art",
+    "section": "01",
+    "instructor": "J. Paga",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "925": {
+    "key": "925",
+    "crn": "13916",
+    "code": "CLCV 349",
+    "title": "Etruscan Archaeology: Italy before the Romans",
+    "section": "01",
+    "instructor": "M. Swetnam-Burland",
+    "meets": "MWF 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "948": {
+    "key": "948",
+    "crn": "12863",
+    "code": "CONS 401",
+    "title": "Conservation Ethics",
+    "section": "01",
+    "instructor": "M. Dicenta Vilker",
+    "meets": "W 3:30-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI",
+      "NQR"
+    ]
+  },
+  "1207": {
+    "key": "1207",
+    "crn": "12917",
+    "code": "DANC 304",
+    "title": "Mind-Body Unity in a Fractured World: Introduction to Somatics and Social Justice",
+    "section": "01",
+    "instructor": "J. Gavaler",
+    "meets": "TR 11a-12:45p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "1208": {
+    "key": "1208",
+    "crn": "10005",
+    "code": "DANC 305",
+    "title": "Dance Comp Foundations",
+    "section": "01",
+    "instructor": "J. Gavaler",
+    "meets": "MW 3:30-5:30p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "1340": {
+    "key": "1340",
+    "crn": "11825",
+    "code": "EDUC 310",
+    "title": "Social, Philosophical, Cultural & Historical Foundations of American Education",
+    "section": "02",
+    "instructor": "D. Theisinger",
+    "meets": "W 3:30-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "1341": {
+    "key": "1341",
+    "crn": "11940",
+    "code": "EDUC 310",
+    "title": "Social, Philosophical, Cultural & Historical Foundations of American Education",
+    "section": "03",
+    "instructor": "L. Bentley",
+    "meets": "T 3:30-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "1515": {
+    "key": "1515",
+    "crn": "13890",
+    "code": "ENGL 200",
+    "title": "Interdisciplinary Approaches to Literature and Culture: Constructions of Crime",
+    "section": "03",
+    "instructor": "S. Joyce",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "1518": {
+    "key": "1518",
+    "crn": "13892",
+    "code": "ENGL 231",
+    "title": "Introduction to African Literature",
+    "section": "01",
+    "instructor": "C. Osakwe",
+    "meets": "TR 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "1539": {
+    "key": "1539",
+    "crn": "13909",
+    "code": "ENGL 465",
+    "title": "Special Topics in English: Game Studies",
+    "section": "01",
+    "instructor": "E. Losh",
+    "meets": "TR 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "1681": {
+    "key": "1681",
+    "crn": "10059",
+    "code": "FREN 314",
+    "title": "Uncertain Identities: Introduction to French Cultural Studies",
+    "section": "01",
+    "instructor": "M. Leruth",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "1898": {
+    "key": "1898",
+    "crn": "11600",
+    "code": "GRMN 207",
+    "title": "Introduction to German Cultural Studies (Taught in English)",
+    "section": "01",
+    "instructor": "R. Ellis",
+    "meets": "MW 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "1901": {
+    "key": "1901",
+    "crn": "12049",
+    "code": "GRMN 390",
+    "title": "Topics in German Studies (Taught in German): Exile and Migration",
+    "section": "01",
+    "instructor": "R. Ellis",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "1996": {
+    "key": "1996",
+    "crn": "12440",
+    "code": "HISP 240",
+    "title": "Introduction to Hispanic Studies",
+    "section": "02",
+    "instructor": "J. Terukina",
+    "meets": "T 12:30-1:50p; R 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2220": {
+    "key": "2220",
+    "crn": "12047",
+    "code": "ITAL 325",
+    "title": "The Mafia In Context: Cinematic Representations of Italian and Italian-American Organized Crime",
+    "section": "01",
+    "instructor": "S. Ferrarese",
+    "meets": "MW 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2230": {
+    "key": "2230",
+    "crn": "13714",
+    "code": "JAPN 220",
+    "title": "Japan's Ghosts and Demons",
+    "section": "01",
+    "instructor": "M. Cronin",
+    "meets": "MW 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2233": {
+    "key": "2233",
+    "crn": "14136",
+    "code": "JAPN 308",
+    "title": "Topics in Japanese Literature and Culture: Cultures of Catastrophe",
+    "section": "02",
+    "instructor": "M. Cronin",
+    "meets": "MW 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2234": {
+    "key": "2234",
+    "crn": "13716",
+    "code": "JAPN 311",
+    "title": "Japanese Cinema",
+    "section": "01",
+    "instructor": "T. Sasaki",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2729": {
+    "key": "2729",
+    "crn": "11620",
+    "code": "MUSC 213",
+    "title": "History of Western Music",
+    "section": "01",
+    "instructor": "M. Kwok",
+    "meets": "MW 12-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2731": {
+    "key": "2731",
+    "crn": "14491",
+    "code": "MUSC 241",
+    "title": "Worlds of Music",
+    "section": "02",
+    "instructor": "A. Rasmussen",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2733": {
+    "key": "2733",
+    "crn": "12545",
+    "code": "MUSC 273",
+    "title": "History of Jazz",
+    "section": "01",
+    "instructor": "G. Murchison",
+    "meets": "TR 11a-12:20p; F 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2734": {
+    "key": "2734",
+    "crn": "11817",
+    "code": "MUSC 281",
+    "title": "Introduction to Computer Music and Electroacoustics",
+    "section": "01",
+    "instructor": "B. Whiting",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "2737": {
+    "key": "2737",
+    "crn": "12520",
+    "code": "MUSC 363",
+    "title": "Interdisciplinary Topics in Music: Critical Arts Collective",
+    "section": "01",
+    "instructor": "Dominique/Iyanaga",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3353": {
+    "key": "3353",
+    "crn": "10075",
+    "code": "PHIL 215",
+    "title": "Right and Wrong in the Contemporary World",
+    "section": "01",
+    "instructor": "T. Sommers",
+    "meets": "MWF 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3354": {
+    "key": "3354",
+    "crn": "13668",
+    "code": "PHIL 215",
+    "title": "Right and Wrong in the Contemporary World",
+    "section": "04",
+    "instructor": "P. Swenson",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3355": {
+    "key": "3355",
+    "crn": "11753",
+    "code": "PHIL 220",
+    "title": "Philosophy of Race: Identity, Racism, and Justice",
+    "section": "01",
+    "instructor": "A. Griffith",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3357": {
+    "key": "3357",
+    "crn": "11438",
+    "code": "PHIL 252",
+    "title": "17th- and 18th-Century European Philosophy",
+    "section": "02",
+    "instructor": "T. Costelloe",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3359": {
+    "key": "3359",
+    "crn": "13670",
+    "code": "PHIL 303",
+    "title": "Ethics",
+    "section": "04",
+    "instructor": "T. Sommers",
+    "meets": "MWF 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3360": {
+    "key": "3360",
+    "crn": "13671",
+    "code": "PHIL 303",
+    "title": "Ethics",
+    "section": "05",
+    "instructor": "T. Sommers",
+    "meets": "MWF 9-9:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3362": {
+    "key": "3362",
+    "crn": "11754",
+    "code": "PHIL 305",
+    "title": "Social and Political Philosophy",
+    "section": "01",
+    "instructor": "V. Costa",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3364": {
+    "key": "3364",
+    "crn": "12766",
+    "code": "PHIL 325",
+    "title": "Neuroscience and Ethics",
+    "section": "01",
+    "instructor": "M. Haug",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "NQR"
+    ]
+  },
+  "3669": {
+    "key": "3669",
+    "crn": "11848",
+    "code": "RELG 201",
+    "title": "Religions of the World: The Human Religious Experience",
+    "section": "01",
+    "instructor": "P. Burchett",
+    "meets": "TR 11a-12:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3672": {
+    "key": "3672",
+    "crn": "11429",
+    "code": "RELG 210",
+    "title": "Introduction to the History of Christianity",
+    "section": "01",
+    "instructor": "A. Angelov",
+    "meets": "MW 5-6:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3673": {
+    "key": "3673",
+    "crn": "14217",
+    "code": "RELG 211",
+    "title": "Introduction to the History of Jewish Thought",
+    "section": "01",
+    "instructor": "G. Litt",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3674": {
+    "key": "3674",
+    "crn": "11243",
+    "code": "RELG 212",
+    "title": "Introduction to Islam",
+    "section": "01",
+    "instructor": "R. Fischbach",
+    "meets": "MWF 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3675": {
+    "key": "3675",
+    "crn": "12872",
+    "code": "RELG 212",
+    "title": "Introduction to Islam",
+    "section": "02",
+    "instructor": "R. Fischbach",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3676": {
+    "key": "3676",
+    "crn": "10651",
+    "code": "RELG 213",
+    "title": "Introduction to Hinduism",
+    "section": "01",
+    "instructor": "M. McLaughlin",
+    "meets": "TR 8-9:20a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3677": {
+    "key": "3677",
+    "crn": "11129",
+    "code": "RELG 213",
+    "title": "Introduction to Hinduism",
+    "section": "02",
+    "instructor": "P. Burchett",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3678": {
+    "key": "3678",
+    "crn": "11430",
+    "code": "RELG 214",
+    "title": "Buddhism",
+    "section": "01",
+    "instructor": "K. Vose",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3679": {
+    "key": "3679",
+    "crn": "12089",
+    "code": "RELG 221",
+    "title": "Religion and Ethics",
+    "section": "01",
+    "instructor": "F. Sheikh",
+    "meets": "TR 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3681": {
+    "key": "3681",
+    "crn": "12091",
+    "code": "RELG 308",
+    "title": "Topics in Religion: African Relgs of the Americas",
+    "section": "01",
+    "instructor": "E. Rainey",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3686": {
+    "key": "3686",
+    "crn": "13722",
+    "code": "RELG 311",
+    "title": "Modern European Jewish History",
+    "section": "01",
+    "instructor": "M. Kirsh",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3687": {
+    "key": "3687",
+    "crn": "13723",
+    "code": "RELG 311",
+    "title": "Modern European Jewish History",
+    "section": "02",
+    "instructor": "M. Kirsh",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3698": {
+    "key": "3698",
+    "crn": "13717",
+    "code": "RUSN 250",
+    "title": "Russian Myths & Legends",
+    "section": "01",
+    "instructor": "A. Prokhorov",
+    "meets": "MW 5-6:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3745": {
+    "key": "3745",
+    "crn": "12249",
+    "code": "THEA 200",
+    "title": "Introduction to Theatre and Performance",
+    "section": "01",
+    "instructor": "H. Peng",
+    "meets": "MWF 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3746": {
+    "key": "3746",
+    "crn": "12250",
+    "code": "THEA 200",
+    "title": "Introduction to Theatre and Performance",
+    "section": "02",
+    "instructor": "A. Cathcart",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3747": {
+    "key": "3747",
+    "crn": "14420",
+    "code": "THEA 200",
+    "title": "Introduction to Theatre and Performance",
+    "section": "03",
+    "instructor": "c. Francis",
+    "meets": "MWF 1-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV",
+      "CSI"
+    ]
+  },
+  "3759": {
+    "key": "3759",
+    "crn": "10720",
+    "code": "THEA 213",
+    "title": "Introduction to Stage Lighting",
+    "section": "01",
+    "instructor": "J. Rose",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "3777": {
+    "key": "3777",
+    "crn": "14519",
+    "code": "THEA 460",
+    "title": "Topics in Theatre Production and Performance: Teaching ESL & Latine Stories",
+    "section": "02",
+    "instructor": "S. Hart",
+    "meets": "F 2-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "ALV"
+    ]
+  },
+  "5": {
+    "key": "5",
+    "crn": "12181",
+    "code": "AFST 205",
+    "title": "Introduction to Africana Studies",
+    "section": "02",
+    "instructor": "D. Boyd",
+    "meets": "TR 12:30-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "6": {
+    "key": "6",
+    "crn": "13030",
+    "code": "AFST 205",
+    "title": "Introduction to Africana Studies",
+    "section": "03",
+    "instructor": "D. Boyd",
+    "meets": "TR 6:30-7:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "7": {
+    "key": "7",
+    "crn": "13558",
+    "code": "AFST 205",
+    "title": "Introduction to Africana Studies",
+    "section": "04",
+    "instructor": "C. Thelwell",
+    "meets": "TR 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "23": {
+    "key": "23",
+    "crn": "12450",
+    "code": "AMES 250",
+    "title": "Approaches to Asian and Middle Eastern Studies",
+    "section": "01",
+    "instructor": "S. Balasundaram",
+    "meets": "MWF 1-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "34": {
+    "key": "34",
+    "crn": "12448",
+    "code": "AMST 200",
+    "title": "Rethinking America: Questions, Debates, Futures",
+    "section": "01",
+    "instructor": "C. McGovern",
+    "meets": "TR 3:30-4:50p; F 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "35": {
+    "key": "35",
+    "crn": "13454",
+    "code": "AMST 200",
+    "title": "Rethinking America: Questions, Debates, Futures",
+    "section": "02",
+    "instructor": "C. McGovern",
+    "meets": "TR 3:30-4:50p; F 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "36": {
+    "key": "36",
+    "crn": "14474",
+    "code": "AMST 200",
+    "title": "Rethinking America: Questions, Debates, Futures",
+    "section": "03",
+    "instructor": "C. McGovern",
+    "meets": "TR 3:30-4:50p; F 12-12:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "37": {
+    "key": "37",
+    "crn": "14475",
+    "code": "AMST 200",
+    "title": "Rethinking America: Questions, Debates, Futures",
+    "section": "04",
+    "instructor": "C. McGovern",
+    "meets": "TR 3:30-4:50p; F 9-9:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "123": {
+    "key": "123",
+    "crn": "10731",
+    "code": "ANTH 201",
+    "title": "Introduction to Archaeology",
+    "section": "01",
+    "instructor": "R. Planto",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "124": {
+    "key": "124",
+    "crn": "14574",
+    "code": "ANTH 201",
+    "title": "Introduction to Archaeology",
+    "section": "02",
+    "instructor": "R. Planto",
+    "meets": "MWF 1-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "125": {
+    "key": "125",
+    "crn": "10486",
+    "code": "ANTH 202",
+    "title": "Introduction to Cultural Anthropology",
+    "section": "01",
+    "instructor": "A. Wright",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "127": {
+    "key": "127",
+    "crn": "12363",
+    "code": "ANTH 205",
+    "title": "Anthropology and Language",
+    "section": "01",
+    "instructor": "M. Levey",
+    "meets": "MWF 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "247": {
+    "key": "247",
+    "crn": "13938",
+    "code": "APIA 205",
+    "title": "Approaches to Asian and Pacific Islander American Studies",
+    "section": "01",
+    "instructor": "S. Balasundaram",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "586": {
+    "key": "586",
+    "crn": "13984",
+    "code": "BUAD 200",
+    "title": "Essentials of Business",
+    "section": "01",
+    "instructor": "Team",
+    "meets": "MWF 1-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "621": {
+    "key": "621",
+    "crn": "11368",
+    "code": "BUAD 340",
+    "title": "Introduction to Innovation & Entrepreneurship: Intro to Innovation & Entrepre",
+    "section": "01",
+    "instructor": "G. Henshaw",
+    "meets": "TR 12:30-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "921": {
+    "key": "921",
+    "crn": "10951",
+    "code": "CLCV 227",
+    "title": "History of Ancient Greece",
+    "section": "01",
+    "instructor": "J. Donahue",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "936": {
+    "key": "936",
+    "crn": "12123",
+    "code": "CONS 201",
+    "title": "Introduction to Integrative Conservation",
+    "section": "01",
+    "instructor": "R. Rose",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "1223": {
+    "key": "1223",
+    "crn": "12361",
+    "code": "DATA 202",
+    "title": "AI & Data Ethics",
+    "section": "01",
+    "instructor": "J. Harr",
+    "meets": "MWF 1-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "DATA"
+    ]
+  },
+  "1224": {
+    "key": "1224",
+    "crn": "13500",
+    "code": "DATA 202",
+    "title": "AI & Data Ethics",
+    "section": "02",
+    "instructor": "J. Harr",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "DATA"
+    ]
+  },
+  "1305": {
+    "key": "1305",
+    "crn": "12347",
+    "code": "ECON 323",
+    "title": "Economics of Climate Change",
+    "section": "01",
+    "instructor": "S. Stafford",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "1338": {
+    "key": "1338",
+    "crn": "10516",
+    "code": "EDUC 301",
+    "title": "Educational Psychology",
+    "section": "01",
+    "instructor": "J. Chen",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "1339": {
+    "key": "1339",
+    "crn": "10698",
+    "code": "EDUC 301",
+    "title": "Educational Psychology",
+    "section": "02",
+    "instructor": "J. Chen",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "1557": {
+    "key": "1557",
+    "crn": "10566",
+    "code": "ENSP 101",
+    "title": "Introduction to Environment and Sustainability",
+    "section": "01",
+    "instructor": "Team",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "1654": {
+    "key": "1654",
+    "crn": "11818",
+    "code": "FMST 221",
+    "title": "Fake News: Media, Mistrust, and Misinformation",
+    "section": "01",
+    "instructor": "C. Small",
+    "meets": "TR 11a-12:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "1771": {
+    "key": "1771",
+    "crn": "14113",
+    "code": "GOVT 320",
+    "title": "Political Economy of Extreme Weather",
+    "section": "01",
+    "instructor": "R. Park",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2019": {
+    "key": "2019",
+    "crn": "10569",
+    "code": "HIST 192",
+    "title": "Global History since 1500",
+    "section": "01",
+    "instructor": "S. Middleton",
+    "meets": "MW 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2049": {
+    "key": "2049",
+    "crn": "12022",
+    "code": "HIST 214",
+    "title": "The Era of Jamestown",
+    "section": "01",
+    "instructor": "A. Stallings",
+    "meets": "W 2-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2050": {
+    "key": "2050",
+    "crn": "13687",
+    "code": "HIST 216",
+    "title": "Teaching American History with Historic Sites: Teaching American History with",
+    "section": "01",
+    "instructor": "S. McCartney",
+    "meets": "F 10a-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2051": {
+    "key": "2051",
+    "crn": "10571",
+    "code": "HIST 220",
+    "title": "Colonial and Revolutionary Williamsburg",
+    "section": "01",
+    "instructor": "S. McCartney",
+    "meets": "TR 11a-12:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2052": {
+    "key": "2052",
+    "crn": "13688",
+    "code": "HIST 226",
+    "title": "American West, 1890-",
+    "section": "01",
+    "instructor": "A. Fisher",
+    "meets": "TR 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2053": {
+    "key": "2053",
+    "crn": "12024",
+    "code": "HIST 235",
+    "title": "African American History to Emancipation",
+    "section": "01",
+    "instructor": "H. Rosen",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2055": {
+    "key": "2055",
+    "crn": "13689",
+    "code": "HIST 278",
+    "title": "Deciphering Ancient Egypt",
+    "section": "01",
+    "instructor": "J. Pope",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2062": {
+    "key": "2062",
+    "crn": "13691",
+    "code": "HIST 319",
+    "title": "The Nuclear World",
+    "section": "01",
+    "instructor": "H. Kitamura",
+    "meets": "TR 9:30-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2066": {
+    "key": "2066",
+    "crn": "13693",
+    "code": "HIST 359",
+    "title": "The Reformation in Western Europe",
+    "section": "01",
+    "instructor": "L. Homza",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2068": {
+    "key": "2068",
+    "crn": "13694",
+    "code": "HIST 378",
+    "title": "History of Russia since 1800",
+    "section": "01",
+    "instructor": "I. Gorbunova-Ford",
+    "meets": "TR 9:30-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2241": {
+    "key": "2241",
+    "crn": "14614",
+    "code": "LAS 350",
+    "title": "Latin American Cultures, Politics and Societies",
+    "section": "02",
+    "instructor": "M. Iyanaga",
+    "meets": "MW 6:30-7:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2447": {
+    "key": "2447",
+    "crn": "10741",
+    "code": "LING 220",
+    "title": "Study of Language",
+    "section": "01",
+    "instructor": "L. Cochrane",
+    "meets": "MWF 1-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2449": {
+    "key": "2449",
+    "crn": "13455",
+    "code": "LING 220",
+    "title": "Study of Language",
+    "section": "03",
+    "instructor": "M. Gotowski",
+    "meets": "MWF 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "2448": {
+    "key": "2448",
+    "crn": "12331",
+    "code": "LING 220",
+    "title": "Study of Language",
+    "section": "04",
+    "instructor": "M. Gotowski",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3325": {
+    "key": "3325",
+    "crn": "13651",
+    "code": "PBHL 331",
+    "title": "Sustainable Food Systems and Diets",
+    "section": "01",
+    "instructor": "Z. Conrad",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3513": {
+    "key": "3513",
+    "crn": "10081",
+    "code": "PSYC 202",
+    "title": "Introduction to Psychology as a Social Science",
+    "section": "01",
+    "instructor": "J. Moloney",
+    "meets": "MW 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3524": {
+    "key": "3524",
+    "crn": "10082",
+    "code": "PSYC 310",
+    "title": "Developmental Psychology",
+    "section": "01",
+    "instructor": "P. Vishton",
+    "meets": "MWF 9-9:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3525": {
+    "key": "3525",
+    "crn": "11048",
+    "code": "PSYC 310",
+    "title": "Developmental Psychology",
+    "section": "02",
+    "instructor": "M. Miller",
+    "meets": "TR 9:30-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3526": {
+    "key": "3526",
+    "crn": "12309",
+    "code": "PSYC 310",
+    "title": "Developmental Psychology",
+    "section": "03",
+    "instructor": "D. Dallaire",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3527": {
+    "key": "3527",
+    "crn": "10634",
+    "code": "PSYC 311",
+    "title": "Cognitive Psychology",
+    "section": "01",
+    "instructor": "B. Hartjen",
+    "meets": "MWF 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3528": {
+    "key": "3528",
+    "crn": "10743",
+    "code": "PSYC 311",
+    "title": "Cognitive Psychology",
+    "section": "02",
+    "instructor": "B. Rabinovitz",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3529": {
+    "key": "3529",
+    "crn": "11765",
+    "code": "PSYC 311",
+    "title": "Cognitive Psychology",
+    "section": "03",
+    "instructor": "J. Stevens",
+    "meets": "MWF 9-9:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3530": {
+    "key": "3530",
+    "crn": "14162",
+    "code": "PSYC 311",
+    "title": "Cognitive Psychology",
+    "section": "05",
+    "instructor": "C. Ferris",
+    "meets": "TR 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3533": {
+    "key": "3533",
+    "crn": "10084",
+    "code": "PSYC 313",
+    "title": "Physiological Psych",
+    "section": "01",
+    "instructor": "R. Barnet",
+    "meets": "TR 8-9:20a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3534": {
+    "key": "3534",
+    "crn": "10479",
+    "code": "PSYC 313",
+    "title": "Physiological Psych",
+    "section": "02",
+    "instructor": "B. Rabinovitz",
+    "meets": "MWF 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3538": {
+    "key": "3538",
+    "crn": "10500",
+    "code": "PSYC 317",
+    "title": "Sensation and Perception",
+    "section": "01",
+    "instructor": "H. Hansen",
+    "meets": "MWF 1-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3542": {
+    "key": "3542",
+    "crn": "13598",
+    "code": "PSYC 352",
+    "title": "Cross-Cultural Psychology",
+    "section": "01",
+    "instructor": "J. Schug",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI",
+      "NQR"
+    ]
+  },
+  "3544": {
+    "key": "3544",
+    "crn": "13599",
+    "code": "PSYC 360",
+    "title": "Adult Development",
+    "section": "01",
+    "instructor": "W. Johnson",
+    "meets": "TR 11a-12:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3670": {
+    "key": "3670",
+    "crn": "11780",
+    "code": "RELG 203",
+    "title": "History and Religion of Ancient Israel",
+    "section": "02",
+    "instructor": "A. Tobolowsky",
+    "meets": "TR 9:30-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3671": {
+    "key": "3671",
+    "crn": "13719",
+    "code": "RELG 204",
+    "title": "Christian Origins",
+    "section": "01",
+    "instructor": "F. Liggin",
+    "meets": "MW 6:30-7:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3680": {
+    "key": "3680",
+    "crn": "12090",
+    "code": "RELG 303",
+    "title": "Traditions and Memory in Ancient Israel and Greece: Trads and Memory in Anc Israel",
+    "section": "01",
+    "instructor": "A. Tobolowsky",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3688": {
+    "key": "3688",
+    "crn": "12521",
+    "code": "RELG 322",
+    "title": "Illness and Religion",
+    "section": "01",
+    "instructor": "F. Sheikh",
+    "meets": "TR 6:30-7:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3710": {
+    "key": "3710",
+    "crn": "13831",
+    "code": "SOCI 220",
+    "title": "Criminology",
+    "section": "01",
+    "instructor": "C. Chambers",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "3724": {
+    "key": "3724",
+    "crn": "13845",
+    "code": "SOCI 353",
+    "title": "Environmental Sociology",
+    "section": "01",
+    "instructor": "B. Kaup",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSI"
+    ]
+  },
+  "126": {
+    "key": "126",
+    "crn": "11581",
+    "code": "ANTH 203",
+    "title": "Introduction to Biological Anthropology",
+    "section": "01",
+    "instructor": "J. Jones",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "253": {
+    "key": "253",
+    "crn": "13855",
+    "code": "APSC 201",
+    "title": "Introduction to Materials Science & Engineering",
+    "section": "01",
+    "instructor": "G. Luepke",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "394": {
+    "key": "394",
+    "crn": "11174",
+    "code": "BIOL 203",
+    "title": "Introduction to Molecules, Cells, Development",
+    "section": "01",
+    "instructor": "P. Habersham",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "393": {
+    "key": "393",
+    "crn": "11173",
+    "code": "BIOL 203",
+    "title": "Introduction to Molecules, Cells, Development",
+    "section": "02",
+    "instructor": "P. Habersham",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "395": {
+    "key": "395",
+    "crn": "13623",
+    "code": "BIOL 203",
+    "title": "Introduction to Molecules, Cells, Development",
+    "section": "03",
+    "instructor": "K. Nesbitt",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "396": {
+    "key": "396",
+    "crn": "13624",
+    "code": "BIOL 203",
+    "title": "Introduction to Molecules, Cells, Development",
+    "section": "04",
+    "instructor": "K. Nesbitt",
+    "meets": "MWF 12-12:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "825": {
+    "key": "825",
+    "crn": "11032",
+    "code": "CHEM 205",
+    "title": "Advanced General Chemistry",
+    "section": "01",
+    "instructor": "W. McNamara",
+    "meets": "MWF 9-9:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1233": {
+    "key": "1233",
+    "crn": "12145",
+    "code": "DATA 303",
+    "title": "Data Visualization",
+    "section": "01",
+    "instructor": "M. Alam",
+    "meets": "TR 12:30-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR",
+      "DATA"
+    ]
+  },
+  "1234": {
+    "key": "1234",
+    "crn": "12720",
+    "code": "DATA 303",
+    "title": "Data Visualization",
+    "section": "02",
+    "instructor": "M. Alam",
+    "meets": "TR 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR",
+      "DATA"
+    ]
+  },
+  "1691": {
+    "key": "1691",
+    "crn": "10830",
+    "code": "GEOL 101",
+    "title": "The Dynamic Earth: Physical Geology",
+    "section": "01",
+    "instructor": "D. Ciruzzi",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1692": {
+    "key": "1692",
+    "crn": "12312",
+    "code": "GEOL 110",
+    "title": "Earth's Environmental Systems: Physical Geography",
+    "section": "01",
+    "instructor": "C. Bailey",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1695": {
+    "key": "1695",
+    "crn": "14364",
+    "code": "GEOL 212",
+    "title": "Global Climate Change",
+    "section": "01",
+    "instructor": "M. Chipman",
+    "meets": "MWF 8-8:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1919": {
+    "key": "1919",
+    "crn": "12690",
+    "code": "HHP 101",
+    "title": "Intro to the Human Body",
+    "section": "01",
+    "instructor": "B. Scott",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1920": {
+    "key": "1920",
+    "crn": "14108",
+    "code": "HHP 101",
+    "title": "Intro to the Human Body",
+    "section": "03",
+    "instructor": "A. Queen",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1921": {
+    "key": "1921",
+    "crn": "12677",
+    "code": "HHP 130",
+    "title": "Introduction to Nutrition",
+    "section": "01",
+    "instructor": "S. Caligiuri",
+    "meets": "TR 9:30-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1927": {
+    "key": "1927",
+    "crn": "12671",
+    "code": "HHP 315",
+    "title": "Health-Related Exercise Prescription",
+    "section": "01",
+    "instructor": "E. Burnet",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "2542": {
+    "key": "2542",
+    "crn": "13585",
+    "code": "MATH 316",
+    "title": "Euclidean and Non-Euclidean Geometry",
+    "section": "01",
+    "instructor": "Y. Zhang",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "2545": {
+    "key": "2545",
+    "crn": "12319",
+    "code": "MATH 332",
+    "title": "Graph Theory and its Applications",
+    "section": "01",
+    "instructor": "G. Yu",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3319": {
+    "key": "3319",
+    "crn": "12683",
+    "code": "PBHL 101",
+    "title": "Intro to Public Health",
+    "section": "01",
+    "instructor": "L. Thomas",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3323": {
+    "key": "3323",
+    "crn": "12689",
+    "code": "PBHL 212",
+    "title": "Global Health",
+    "section": "01",
+    "instructor": "J. Odhiambo",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3326": {
+    "key": "3326",
+    "crn": "13652",
+    "code": "PBHL 332",
+    "title": "Population Nutrition, Policy, and Programs",
+    "section": "01",
+    "instructor": "Z. Conrad",
+    "meets": "TR 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3401": {
+    "key": "3401",
+    "crn": "13947",
+    "code": "PHYS 171",
+    "title": "Planetary and Stellar Astronomy",
+    "section": "01",
+    "instructor": "J. Nelson",
+    "meets": "MWF 2-2:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3402": {
+    "key": "3402",
+    "crn": "10166",
+    "code": "PHYS 201",
+    "title": "Modern Physics",
+    "section": "01",
+    "instructor": "M. Kuessner",
+    "meets": "MWF 10-10:50a; F 2-2:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3404": {
+    "key": "3404",
+    "crn": "13948",
+    "code": "PHYS 213",
+    "title": "Introduction to Modern Optics",
+    "section": "01",
+    "instructor": "I. Novikova",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3511": {
+    "key": "3511",
+    "crn": "10080",
+    "code": "PSYC 201",
+    "title": "Introduction to Psychology as a Natural Science",
+    "section": "01",
+    "instructor": "C. Porter",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3512": {
+    "key": "3512",
+    "crn": "10944",
+    "code": "PSYC 201",
+    "title": "Introduction to Psychology as a Natural Science",
+    "section": "02",
+    "instructor": "P. Vishton",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3537": {
+    "key": "3537",
+    "crn": "10499",
+    "code": "PSYC 315",
+    "title": "Foundations of Learning and Memory",
+    "section": "01",
+    "instructor": "R. Barnet",
+    "meets": "TR 2-3:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3753": {
+    "key": "3753",
+    "crn": "10674",
+    "code": "THEA 205",
+    "title": "Stagecraft",
+    "section": "01",
+    "instructor": "L. Gonzalez",
+    "meets": "TR 9:30-10:50a; T 1-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3754": {
+    "key": "3754",
+    "crn": "13112",
+    "code": "THEA 205",
+    "title": "Stagecraft",
+    "section": "02",
+    "instructor": "L. Gonzalez",
+    "meets": "TR 9:30-10:50a; W 1-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3755": {
+    "key": "3755",
+    "crn": "13113",
+    "code": "THEA 205",
+    "title": "Stagecraft",
+    "section": "03",
+    "instructor": "L. Gonzalez",
+    "meets": "TR 9:30-10:50a; R 1-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3756": {
+    "key": "3756",
+    "crn": "13114",
+    "code": "THEA 205",
+    "title": "Stagecraft",
+    "section": "04",
+    "instructor": "L. Gonzalez",
+    "meets": "TR 9:30-10:50a; F 1-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "3757": {
+    "key": "3757",
+    "crn": "14615",
+    "code": "THEA 205",
+    "title": "Stagecraft",
+    "section": "05",
+    "instructor": "L. Gonzalez",
+    "meets": "TR 9:30-10:50a; M 1-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "NQR"
+    ]
+  },
+  "1055": {
+    "key": "1055",
+    "crn": "13164",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: AI for Social Impact",
+    "section": "01",
+    "instructor": "A. Mukhopadhyay",
+    "meets": "TR 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1056": {
+    "key": "1056",
+    "crn": "13253",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Building the Digital World",
+    "section": "02",
+    "instructor": "Y. Wang",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1057": {
+    "key": "1057",
+    "crn": "13339",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Building the Digital World",
+    "section": "03",
+    "instructor": "Y. Wang",
+    "meets": "MWF 2-2:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1060": {
+    "key": "1060",
+    "crn": "14424",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Building the Digital World",
+    "section": "05",
+    "instructor": "T. Davis",
+    "meets": "MW 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1061": {
+    "key": "1061",
+    "crn": "14464",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Building the Digital World",
+    "section": "07",
+    "instructor": "Y. Wang",
+    "meets": "MWF 9-9:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1062": {
+    "key": "1062",
+    "crn": "14465",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Building the Digital World",
+    "section": "08",
+    "instructor": "Y. Wang",
+    "meets": "MWF 1-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1064": {
+    "key": "1064",
+    "crn": "14592",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Physical Intelligence: Robots",
+    "section": "10",
+    "instructor": "S. Lu",
+    "meets": "TR 2-3:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1059": {
+    "key": "1059",
+    "crn": "14423",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Prompt Engineering",
+    "section": "06",
+    "instructor": "A. Mastropaolo",
+    "meets": "MWF 10-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1063": {
+    "key": "1063",
+    "crn": "14522",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Prompt Engineering",
+    "section": "09",
+    "instructor": "T. Woodlief",
+    "meets": "TR 2-3:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1058": {
+    "key": "1058",
+    "crn": "13340",
+    "code": "CSCI 100",
+    "title": "Critical Questions in Computer Science: Smashing LLMs for Fun/Profit",
+    "section": "04",
+    "instructor": "Y. Xiao",
+    "meets": "TR 9:30-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1065": {
+    "key": "1065",
+    "crn": "10112",
     "code": "CSCI 141",
+    "title": "Modern Programming Fundamentals",
     "section": "01",
-    "instructor": "D. Kemper",
-    "meets": "MWF 10:00-10:50am",
-    "status": "OPEN",
-    "semester": "202710"
+    "instructor": "M. Zhang",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
   },
-  {
-    "crn": "10002",
+  "1066": {
+    "key": "1066",
+    "crn": "10593",
+    "code": "CSCI 141",
+    "title": "Modern Programming Fundamentals",
+    "section": "02",
+    "instructor": "M. Zhang",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1067": {
+    "key": "1067",
+    "crn": "11242",
+    "code": "CSCI 141",
+    "title": "Modern Programming Fundamentals",
+    "section": "03",
+    "instructor": "M. Zhang",
+    "meets": "MWF 1-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1068": {
+    "key": "1068",
+    "crn": "11762",
+    "code": "CSCI 141",
+    "title": "Modern Programming Fundamentals",
+    "section": "04",
+    "instructor": "B. Thal",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1070": {
+    "key": "1070",
+    "crn": "12505",
+    "code": "CSCI 141",
+    "title": "Modern Programming Fundamentals",
+    "section": "05",
+    "instructor": "M. Chapman",
+    "meets": "TR 12:30-1:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1069": {
+    "key": "1069",
+    "crn": "12504",
+    "code": "CSCI 141",
+    "title": "Modern Programming Fundamentals",
+    "section": "06",
+    "instructor": "M. Chapman",
+    "meets": "TR 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1071": {
+    "key": "1071",
+    "crn": "10113",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "01",
+    "instructor": "N. Stettler",
+    "meets": "M 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1072": {
+    "key": "1072",
+    "crn": "10114",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "02",
+    "instructor": "B. Silwal",
+    "meets": "M 5-5:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1073": {
+    "key": "1073",
+    "crn": "10115",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "03",
+    "instructor": "T. Sun",
+    "meets": "T 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1074": {
+    "key": "1074",
+    "crn": "10556",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "04",
+    "instructor": "S. Stewart",
+    "meets": "T 5-5:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1075": {
+    "key": "1075",
+    "crn": "10633",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "05",
+    "instructor": "G. Bakbouk",
+    "meets": "W 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1076": {
+    "key": "1076",
+    "crn": "11299",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "06",
+    "instructor": "N. Stettler",
+    "meets": "W 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1082": {
+    "key": "1082",
+    "crn": "12510",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "07",
+    "instructor": "B. Silwal",
+    "meets": "W 5-5:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1077": {
+    "key": "1077",
+    "crn": "11952",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "08",
+    "instructor": "T. Sun",
+    "meets": "R 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1083": {
+    "key": "1083",
+    "crn": "12789",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "09",
+    "instructor": "Q. Vo",
+    "meets": "R 5-5:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1078": {
+    "key": "1078",
+    "crn": "12506",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "10",
+    "instructor": "T. Nair",
+    "meets": "F 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1079": {
+    "key": "1079",
+    "crn": "12507",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "11",
+    "instructor": "G. Bakbouk",
+    "meets": "F 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1080": {
+    "key": "1080",
+    "crn": "12508",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "12",
+    "instructor": "S. Stewart",
+    "meets": "F 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1081": {
+    "key": "1081",
+    "crn": "12509",
+    "code": "CSCI 141L",
+    "title": "Modern Prog. Fundamentals Lab",
+    "section": "13",
+    "instructor": "Q. Vo",
+    "meets": "F 2-2:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1084": {
+    "key": "1084",
+    "crn": "14594",
+    "code": "CSCI 150",
+    "title": "First-Year Seminar: AI in Spec Media and Lits",
+    "section": "01",
+    "instructor": "A. Gao",
+    "meets": "TR 3:30-4:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1085": {
+    "key": "1085",
+    "crn": "11215",
+    "code": "CSCI 232",
+    "title": "Competitive Programming",
+    "section": "01",
+    "instructor": "J. Deverick",
+    "meets": "T 5-5:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1086": {
+    "key": "1086",
+    "crn": "10116",
     "code": "CSCI 241",
+    "title": "Data Structures",
     "section": "01",
-    "instructor": "T. Barnes",
-    "meets": "TR 9:30-10:50am",
-    "status": "FULL",
-    "semester": "202710"
+    "instructor": "J. Deverick",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
   },
-  {
-    "crn": "10003",
-    "code": "DATA 101",
+  "1087": {
+    "key": "1087",
+    "crn": "10662",
+    "code": "CSCI 241",
+    "title": "Data Structures",
+    "section": "02",
+    "instructor": "K. Coogan",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1089": {
+    "key": "1089",
+    "crn": "12053",
+    "code": "CSCI 241",
+    "title": "Data Structures",
+    "section": "03",
+    "instructor": "J. Deverick",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1088": {
+    "key": "1088",
+    "crn": "11885",
+    "code": "CSCI 241",
+    "title": "Data Structures",
+    "section": "04",
+    "instructor": "B. Thal",
+    "meets": "TR 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1090": {
+    "key": "1090",
+    "crn": "11133",
+    "code": "CSCI 243",
+    "title": "Logic and Discrete Structures",
     "section": "01",
-    "instructor": "H. Wang",
-    "meets": "TR 2:00-3:20pm",
-    "status": "OPEN",
-    "semester": "202710"
+    "instructor": "K. Coogan",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1091": {
+    "key": "1091",
+    "crn": "11594",
+    "code": "CSCI 243",
+    "title": "Logic and Discrete Structures",
+    "section": "02",
+    "instructor": "K. Coogan",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1092": {
+    "key": "1092",
+    "crn": "10117",
+    "code": "CSCI 301",
+    "title": "Software Development",
+    "section": "01",
+    "instructor": "P. Kemper",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1093": {
+    "key": "1093",
+    "crn": "10759",
+    "code": "CSCI 301",
+    "title": "Software Development",
+    "section": "02",
+    "instructor": "P. Kemper",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1094": {
+    "key": "1094",
+    "crn": "10778",
+    "code": "CSCI 303",
+    "title": "Algorithms",
+    "section": "01",
+    "instructor": "Q. Li",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1095": {
+    "key": "1095",
+    "crn": "12057",
+    "code": "CSCI 303",
+    "title": "Algorithms",
+    "section": "02",
+    "instructor": "M. Lewis",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1097": {
+    "key": "1097",
+    "crn": "12058",
+    "code": "CSCI 304",
+    "title": "Computer Organization",
+    "section": "01",
+    "instructor": "J. Ren",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1096": {
+    "key": "1096",
+    "crn": "11846",
+    "code": "CSCI 304",
+    "title": "Computer Organization",
+    "section": "02",
+    "instructor": "B. Ren",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1099": {
+    "key": "1099",
+    "crn": "11593",
+    "code": "CSCI 312",
+    "title": "Principles of Programming Languages",
+    "section": "01",
+    "instructor": "B. Lowekamp",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1098": {
+    "key": "1098",
+    "crn": "11443",
+    "code": "CSCI 312",
+    "title": "Principles of Programming Languages",
+    "section": "02",
+    "instructor": "B. Lowekamp",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1100": {
+    "key": "1100",
+    "crn": "11959",
+    "code": "CSCI 320",
+    "title": "Directed Study",
+    "section": "01",
+    "instructor": "D. Poshyvanyk",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1101": {
+    "key": "1101",
+    "crn": "14610",
+    "code": "CSCI 320",
+    "title": "Directed Study",
+    "section": "03",
+    "instructor": "K. Coogan",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1102": {
+    "key": "1102",
+    "crn": "11847",
+    "code": "CSCI 415",
+    "title": "Systems Programming",
+    "section": "01",
+    "instructor": "S. Herwig",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1103": {
+    "key": "1103",
+    "crn": "11596",
+    "code": "CSCI 416",
+    "title": "Fundamentals of Artificial Intelligence/Machine Learning",
+    "section": "01",
+    "instructor": "M. Lewis",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1104": {
+    "key": "1104",
+    "crn": "12792",
+    "code": "CSCI 417",
+    "title": "Computer Animation",
+    "section": "01",
+    "instructor": "T. Davis",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1105": {
+    "key": "1105",
+    "crn": "12055",
+    "code": "CSCI 420",
+    "title": "Special Topics in Computer Science: Cybersecurity and the Law",
+    "section": "01",
+    "instructor": "C. Shenefiel",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1106": {
+    "key": "1106",
+    "crn": "12059",
+    "code": "CSCI 420",
+    "title": "Special Topics in Computer Science: Gen AI for Intelligent Vision",
+    "section": "03",
+    "instructor": "Y. Zhang",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1107": {
+    "key": "1107",
+    "crn": "12794",
+    "code": "CSCI 420",
+    "title": "Special Topics in Computer Science: Robotics",
+    "section": "02",
+    "instructor": "T. Woodlief",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1108": {
+    "key": "1108",
+    "crn": "10715",
+    "code": "CSCI 423",
+    "title": "Finite Automata and Theory of Computation",
+    "section": "01",
+    "instructor": "T. Davis",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1109": {
+    "key": "1109",
+    "crn": "12060",
+    "code": "CSCI 423",
+    "title": "Finite Automata and Theory of Computation",
+    "section": "02",
+    "instructor": "T. Davis",
+    "meets": "TR 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1110": {
+    "key": "1110",
+    "crn": "10716",
+    "code": "CSCI 423W",
+    "title": "Finite Automata Writing",
+    "section": "01",
+    "instructor": "T. Davis",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1111": {
+    "key": "1111",
+    "crn": "11073",
+    "code": "CSCI 435",
+    "title": "Software Engineering",
+    "section": "01",
+    "instructor": "O. Chaparro Arenas",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1112": {
+    "key": "1112",
+    "crn": "12796",
+    "code": "CSCI 444",
+    "title": "Principles of Operating Systems",
+    "section": "01",
+    "instructor": "B. Lowekamp",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1113": {
+    "key": "1113",
+    "crn": "13737",
+    "code": "CSCI 446",
+    "title": "Neural Networks for Machine Learning",
+    "section": "01",
+    "instructor": "M. White",
+    "meets": "MW 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1114": {
+    "key": "1114",
+    "crn": "11358",
+    "code": "CSCI 464",
+    "title": "Penetration Testing",
+    "section": "01",
+    "instructor": "M. Chapman",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1115": {
+    "key": "1115",
+    "crn": "14663",
+    "code": "CSCI 490",
+    "title": "Research in Computer Science",
+    "section": "01",
+    "instructor": "K. Coogan",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1116": {
+    "key": "1116",
+    "crn": "10996",
+    "code": "CSCI 495",
+    "title": "Honors",
+    "section": "01",
+    "instructor": "B. Ren",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1117": {
+    "key": "1117",
+    "crn": "11537",
+    "code": "CSCI 495",
+    "title": "Honors",
+    "section": "02",
+    "instructor": "D. Poshyvanyk",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1118": {
+    "key": "1118",
+    "crn": "11538",
+    "code": "CSCI 495",
+    "title": "Honors",
+    "section": "03",
+    "instructor": "M. Saha",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1119": {
+    "key": "1119",
+    "crn": "11546",
+    "code": "CSCI 495",
+    "title": "Honors",
+    "section": "04",
+    "instructor": "Q. Li",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1120": {
+    "key": "1120",
+    "crn": "14523",
+    "code": "CSCI 495",
+    "title": "Honors",
+    "section": "05",
+    "instructor": "S. Lu",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1121": {
+    "key": "1121",
+    "crn": "14657",
+    "code": "CSCI 495",
+    "title": "Honors",
+    "section": "06",
+    "instructor": "T. Woodlief",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1122": {
+    "key": "1122",
+    "crn": "11902",
+    "code": "CSCI 515",
+    "title": "Systems Programming",
+    "section": "01",
+    "instructor": "S. Herwig",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1123": {
+    "key": "1123",
+    "crn": "11599",
+    "code": "CSCI 516",
+    "title": "Fundamentals of Artificial Intelligence and Machine Learning",
+    "section": "01",
+    "instructor": "M. Lewis",
+    "meets": "MWF 11-11:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1124": {
+    "key": "1124",
+    "crn": "12797",
+    "code": "CSCI 517",
+    "title": "Computer Animation",
+    "section": "01",
+    "instructor": "T. Davis",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1126": {
+    "key": "1126",
+    "crn": "12799",
+    "code": "CSCI 520",
+    "title": "Elementary Topics: Computing in OR",
+    "section": "06",
+    "instructor": "L. Leemis",
+    "meets": "TR 2-3:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1125": {
+    "key": "1125",
+    "crn": "12056",
+    "code": "CSCI 520",
+    "title": "Elementary Topics: Cybersecurity and the Law",
+    "section": "01",
+    "instructor": "C. Shenefiel",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1127": {
+    "key": "1127",
+    "crn": "14194",
+    "code": "CSCI 520",
+    "title": "Elementary Topics: Gen AI for Intelligent Vision",
+    "section": "03",
+    "instructor": "Y. Zhang",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1128": {
+    "key": "1128",
+    "crn": "11598",
+    "code": "CSCI 535",
+    "title": "Software Engineering",
+    "section": "01",
+    "instructor": "O. Chaparro Arenas",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1129": {
+    "key": "1129",
+    "crn": "14258",
+    "code": "CSCI 544",
+    "title": "Principles of Operating Systems",
+    "section": "01",
+    "instructor": "B. Lowekamp",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1130": {
+    "key": "1130",
+    "crn": "13944",
+    "code": "CSCI 546",
+    "title": "Neural Networks and Machine Learning",
+    "section": "01",
+    "instructor": "M. White",
+    "meets": "MW 5-6:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1131": {
+    "key": "1131",
+    "crn": "11597",
+    "code": "CSCI 564",
+    "title": "Applied Cybersecurity",
+    "section": "01",
+    "instructor": "M. Chapman",
+    "meets": "MW 2-3:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1132": {
+    "key": "1132",
+    "crn": "11659",
+    "code": "CSCI 619",
+    "title": "Ubiquitous and Mobile Computing",
+    "section": "01",
+    "instructor": "G. Zhou",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1133": {
+    "key": "1133",
+    "crn": "12064",
+    "code": "CSCI 646",
+    "title": "Deep Learning",
+    "section": "01",
+    "instructor": "H. Shao",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1134": {
+    "key": "1134",
+    "crn": "11046",
+    "code": "CSCI 653",
+    "title": "Analysis of Algorithms",
+    "section": "01",
+    "instructor": "W. Mao",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1135": {
+    "key": "1135",
+    "crn": "13739",
+    "code": "CSCI 664",
+    "title": "Advanced Operating Systems",
+    "section": "01",
+    "instructor": "Q. Li",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1137": {
+    "key": "1137",
+    "crn": "12065",
+    "code": "CSCI 666",
+    "title": "Directed Studies",
+    "section": "01",
+    "instructor": "P. Peers",
+    "meets": "MWF 1-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1136": {
+    "key": "1136",
+    "crn": "10893",
+    "code": "CSCI 666",
+    "title": "Directed Studies",
+    "section": "02",
+    "instructor": "L. Leemis",
+    "meets": "MWF 7-7:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1138": {
+    "key": "1138",
+    "crn": "12066",
+    "code": "CSCI 680",
+    "title": "Topics in Computer Science: AI for S/W Eng",
+    "section": "01",
+    "instructor": "A. Mastropaolo",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1139": {
+    "key": "1139",
+    "crn": "12067",
+    "code": "CSCI 680",
+    "title": "Topics in Computer Science: Affective Computing",
+    "section": "02",
+    "instructor": "A. Gao",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1140": {
+    "key": "1140",
+    "crn": "12921",
+    "code": "CSCI 680",
+    "title": "Topics in Computer Science: Auton Driving & Con Mobility",
+    "section": "03",
+    "instructor": "S. Lu",
+    "meets": "TR 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1142": {
+    "key": "1142",
+    "crn": "14281",
+    "code": "CSCI 680",
+    "title": "Topics in Computer Science: Human Robotic Interaction",
+    "section": "05",
+    "instructor": "Y. Hu",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1141": {
+    "key": "1141",
+    "crn": "13337",
+    "code": "CSCI 680",
+    "title": "Topics in Computer Science: Natural Language Processing",
+    "section": "04",
+    "instructor": "S. Schoch",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1144": {
+    "key": "1144",
+    "crn": "12068",
+    "code": "CSCI 685",
+    "title": "Colloquium",
+    "section": "01",
+    "instructor": "A. Mukhopadhyay",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1143": {
+    "key": "1143",
+    "crn": "10891",
+    "code": "CSCI 685",
+    "title": "Colloquium",
+    "section": "02",
+    "instructor": "A. Ninh",
+    "meets": "T 7-7:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1145": {
+    "key": "1145",
+    "crn": "12079",
+    "code": "CSCI 688",
+    "title": "Topics in Computational Operations Research: Design of Experiments",
+    "section": "01",
+    "instructor": "P. deCamp",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1146": {
+    "key": "1146",
+    "crn": "13953",
+    "code": "CSCI 688",
+    "title": "Topics in Computational Operations Research: Game Theory",
+    "section": "02",
+    "instructor": "Y. Wu",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1147": {
+    "key": "1147",
+    "crn": "10484",
+    "code": "CSCI 698",
+    "title": "Simulation and Modeling in Computational Operations Research",
+    "section": "01",
+    "instructor": "D. Williams",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1148": {
+    "key": "1148",
+    "crn": "14558",
+    "code": "CSCI 700",
+    "title": "Thesis",
+    "section": "01",
+    "instructor": "D. Poshyvanyk",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1149": {
+    "key": "1149",
+    "crn": "13307",
+    "code": "CSCI 708",
+    "title": "Research Project in Computational Operations Research",
+    "section": "01",
+    "instructor": "Y. Wu",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1151": {
+    "key": "1151",
+    "crn": "14386",
+    "code": "CSCI 710",
+    "title": "Research Project",
+    "section": "02",
+    "instructor": "B. Ren",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1152": {
+    "key": "1152",
+    "crn": "14399",
+    "code": "CSCI 710",
+    "title": "Research Project",
+    "section": "13",
+    "instructor": "S. Lu",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1150": {
+    "key": "1150",
+    "crn": "12670",
+    "code": "CSCI 710",
+    "title": "Research Project",
+    "section": "19",
+    "instructor": "D. Poshyvanyk",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1154": {
+    "key": "1154",
+    "crn": "14582",
+    "code": "CSCI 710",
+    "title": "Research Project",
+    "section": "20",
+    "instructor": "A. Nadkarni",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1153": {
+    "key": "1153",
+    "crn": "14497",
+    "code": "CSCI 710",
+    "title": "Research Project",
+    "section": "27",
+    "instructor": "Y. Xiao",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1158": {
+    "key": "1158",
+    "crn": "13322",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "01",
+    "instructor": "O. Chaparro Arenas",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1161": {
+    "key": "1161",
+    "crn": "14607",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "02",
+    "instructor": "B. Ren",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1157": {
+    "key": "1157",
+    "crn": "13321",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "18",
+    "instructor": "S. Herwig",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1162": {
+    "key": "1162",
+    "crn": "14628",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "19",
+    "instructor": "D. Poshyvanyk",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1155": {
+    "key": "1155",
+    "crn": "13319",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "21",
+    "instructor": "A. Mukhopadhyay",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1159": {
+    "key": "1159",
+    "crn": "13323",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "22",
+    "instructor": "H. Shao",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1156": {
+    "key": "1156",
+    "crn": "13320",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "24",
+    "instructor": "Y. Zhang",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1160": {
+    "key": "1160",
+    "crn": "14549",
+    "code": "CSCI 775",
+    "title": "Research",
+    "section": "25",
+    "instructor": "Y. Xiao",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1164": {
+    "key": "1164",
+    "crn": "13740",
+    "code": "CSCI 780",
+    "title": "Advanced Topics: AI for Systems Security",
+    "section": "02",
+    "instructor": "D. Evtyushkin",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1163": {
+    "key": "1163",
+    "crn": "12070",
+    "code": "CSCI 780",
+    "title": "Advanced Topics: IoT Security",
+    "section": "01",
+    "instructor": "A. Nadkarni",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1171": {
+    "key": "1171",
+    "crn": "12615",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: RDGS Sys&Alg Co-Opt for DNN",
+    "section": "08",
+    "instructor": "B. Ren",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1172": {
+    "key": "1172",
+    "crn": "12616",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs ADS Metric Eval",
+    "section": "09",
+    "instructor": "B. Ren",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1170": {
+    "key": "1170",
+    "crn": "12614",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs ADS Metrics Evaluation",
+    "section": "07",
+    "instructor": "B. Ren",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1168": {
+    "key": "1168",
+    "crn": "12612",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs Agentic Code Generation",
+    "section": "05",
+    "instructor": "A. Mastropaolo",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1165": {
+    "key": "1165",
+    "crn": "11519",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs Agentic Software Engrg",
+    "section": "01",
+    "instructor": "O. Chaparro Arenas",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1169": {
+    "key": "1169",
+    "crn": "12613",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs Efficient MoE Inference",
+    "section": "06",
+    "instructor": "B. Ren",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1166": {
+    "key": "1166",
+    "crn": "11528",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs Federated LLM Pruning",
+    "section": "02",
+    "instructor": "Y. Zhang",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1173": {
+    "key": "1173",
+    "crn": "12649",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs Seq. Decision under NS",
+    "section": "04",
+    "instructor": "A. Mukhopadhyay",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1167": {
+    "key": "1167",
+    "crn": "11532",
+    "code": "CSCI 790",
+    "title": "Readings in Computer Science: Rdgs World Models",
+    "section": "03",
+    "instructor": "H. Shao",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1174": {
+    "key": "1174",
+    "crn": "13741",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "02",
+    "instructor": "B. Ren",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1175": {
+    "key": "1175",
+    "crn": "13742",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "03",
+    "instructor": "O. Chaparro Arenas",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1176": {
+    "key": "1176",
+    "crn": "13743",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "04",
+    "instructor": "Y. Sun",
+    "meets": "W 8-8:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1177": {
+    "key": "1177",
+    "crn": "13744",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "05",
+    "instructor": "A. Mastropaolo",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1178": {
+    "key": "1178",
+    "crn": "13745",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "06",
+    "instructor": "G. Zhou",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1179": {
+    "key": "1179",
+    "crn": "13746",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "07",
+    "instructor": "W. Mao",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1180": {
+    "key": "1180",
+    "crn": "13747",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "08",
+    "instructor": "D. Evtyushkin",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1181": {
+    "key": "1181",
+    "crn": "13748",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "10",
+    "instructor": "J. Ren",
+    "meets": "W 8-8:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1182": {
+    "key": "1182",
+    "crn": "13749",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "11",
+    "instructor": "P. Peers",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1183": {
+    "key": "1183",
+    "crn": "13750",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "12",
+    "instructor": "Q. Li",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1184": {
+    "key": "1184",
+    "crn": "13751",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "13",
+    "instructor": "S. Lu",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1185": {
+    "key": "1185",
+    "crn": "13752",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "15",
+    "instructor": "E. Smirni",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1186": {
+    "key": "1186",
+    "crn": "13753",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "16",
+    "instructor": "A. Stathopoulos",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1187": {
+    "key": "1187",
+    "crn": "13754",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "18",
+    "instructor": "S. Herwig",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1188": {
+    "key": "1188",
+    "crn": "13755",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "19",
+    "instructor": "D. Poshyvanyk",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1189": {
+    "key": "1189",
+    "crn": "13756",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "20",
+    "instructor": "A. Nadkarni",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1190": {
+    "key": "1190",
+    "crn": "13757",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "21",
+    "instructor": "A. Mukhopadhyay",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1191": {
+    "key": "1191",
+    "crn": "13758",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "22",
+    "instructor": "H. Shao",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1192": {
+    "key": "1192",
+    "crn": "13759",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "23",
+    "instructor": "A. Gao",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1193": {
+    "key": "1193",
+    "crn": "13760",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "24",
+    "instructor": "Y. Zhang",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1194": {
+    "key": "1194",
+    "crn": "13761",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "25",
+    "instructor": "J. Zhang",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1195": {
+    "key": "1195",
+    "crn": "14285",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "26",
+    "instructor": "T. Woodlief",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "1196": {
+    "key": "1196",
+    "crn": "14286",
+    "code": "CSCI 800",
+    "title": "Dissertation",
+    "section": "27",
+    "instructor": "Y. Xiao",
+    "meets": "W 8-8:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "CSCI"
+    ]
+  },
+  "270": {
+    "key": "270",
+    "crn": "13858",
+    "code": "APSC 424",
+    "title": "Supercomputing for Science",
+    "section": "01",
+    "instructor": "G. Zahn",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1217": {
+    "key": "1217",
+    "crn": "12500",
+    "code": "DATA 101",
+    "title": "Reasoning with Generative AI",
+    "section": "01",
+    "instructor": "A. Nwala",
+    "meets": "TR 8-9:20a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1218": {
+    "key": "1218",
+    "crn": "12706",
+    "code": "DATA 101",
+    "title": "Reasoning with Generative AI",
+    "section": "03",
+    "instructor": "R. Khaldi",
+    "meets": "TR 9:30-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1219": {
+    "key": "1219",
+    "crn": "13499",
+    "code": "DATA 101",
+    "title": "Reasoning with Generative AI",
+    "section": "04",
+    "instructor": "R. Khaldi",
+    "meets": "TR 11a-12:20p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1222": {
+    "key": "1222",
+    "crn": "12601",
+    "code": "DATA 201",
+    "title": "Data in the Age of AI",
+    "section": "01",
+    "instructor": "R. Khaldi",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1220": {
+    "key": "1220",
+    "crn": "12352",
+    "code": "DATA 201",
+    "title": "Data in the Age of AI",
+    "section": "02",
+    "instructor": "J. Harr",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1221": {
+    "key": "1221",
+    "crn": "12353",
+    "code": "DATA 201",
+    "title": "Data in the Age of AI",
+    "section": "03",
+    "instructor": "J. Giroux",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1225": {
+    "key": "1225",
+    "crn": "13501",
+    "code": "DATA 209",
+    "title": "Applied Linear Algebra & Calculus",
+    "section": "01",
+    "instructor": "R. Smith",
+    "meets": "MWF 1-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1226": {
+    "key": "1226",
+    "crn": "13502",
+    "code": "DATA 209",
+    "title": "Applied Linear Algebra & Calculus",
+    "section": "02",
+    "instructor": "D. Vasiliu",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1227": {
+    "key": "1227",
+    "crn": "13503",
+    "code": "DATA 210",
+    "title": "Research Design and Statistics",
+    "section": "01",
+    "instructor": "D. Vasiliu",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1228": {
+    "key": "1228",
+    "crn": "13504",
+    "code": "DATA 210",
+    "title": "Research Design and Statistics",
+    "section": "02",
+    "instructor": "D. Vasiliu",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1229": {
+    "key": "1229",
+    "crn": "12602",
+    "code": "DATA 301",
+    "title": "Applied Machine Learning",
+    "section": "02",
+    "instructor": "Y. Xiong",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1230": {
+    "key": "1230",
+    "crn": "12718",
+    "code": "DATA 301",
+    "title": "Applied Machine Learning",
+    "section": "03",
+    "instructor": "W. Silva",
+    "meets": "TR 12:30-1:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1231": {
+    "key": "1231",
+    "crn": "12144",
+    "code": "DATA 302",
+    "title": "Databases",
+    "section": "01",
+    "instructor": "M. Alam",
+    "meets": "TR 11a-12:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1232": {
+    "key": "1232",
+    "crn": "12719",
+    "code": "DATA 302",
+    "title": "Databases",
+    "section": "02",
+    "instructor": "D. Willner",
+    "meets": "MWF 3:30-4:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1235": {
+    "key": "1235",
+    "crn": "13505",
+    "code": "DATA 305",
+    "title": "Designing AI Agents",
+    "section": "01",
+    "instructor": "T. Ford",
+    "meets": "TR 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1236": {
+    "key": "1236",
+    "crn": "13506",
+    "code": "DATA 305",
+    "title": "Designing AI Agents",
+    "section": "02",
+    "instructor": "D. Willner",
+    "meets": "MWF 12-12:50p",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1237": {
+    "key": "1237",
+    "crn": "14255",
+    "code": "DATA 305",
+    "title": "Designing AI Agents",
+    "section": "03",
+    "instructor": "D. Willner",
+    "meets": "MWF 2-2:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1238": {
+    "key": "1238",
+    "crn": "12274",
+    "code": "DATA 390",
+    "title": "Directed Research in Data Science",
+    "section": "01",
+    "instructor": "D. Miller Runfola",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1239": {
+    "key": "1239",
+    "crn": "14677",
+    "code": "DATA 390",
+    "title": "Directed Research in Data Science",
+    "section": "11",
+    "instructor": "J. Colen",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1240": {
+    "key": "1240",
+    "crn": "13507",
+    "code": "DATA 405",
+    "title": "Trustworthy AI",
+    "section": "01",
+    "instructor": "J. Wang",
+    "meets": "TR 8-9:20a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1244": {
+    "key": "1244",
+    "crn": "14192",
+    "code": "DATA 440",
+    "title": "Special Topics: Automation & Workflows",
+    "section": "13",
+    "instructor": "R. Smith",
+    "meets": "MWF 11-11:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1245": {
+    "key": "1245",
+    "crn": "14193",
+    "code": "DATA 440",
+    "title": "Special Topics: Automation & Workflows",
+    "section": "14",
+    "instructor": "R. Smith",
+    "meets": "MWF 12-12:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1242": {
+    "key": "1242",
+    "crn": "13934",
+    "code": "DATA 440",
+    "title": "Special Topics: Music & AI",
+    "section": "11",
+    "instructor": "D. Burchett",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1243": {
+    "key": "1243",
+    "crn": "13935",
+    "code": "DATA 440",
+    "title": "Special Topics: Music & AI",
+    "section": "12",
+    "instructor": "D. Burchett",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1241": {
+    "key": "1241",
+    "crn": "12422",
+    "code": "DATA 440",
+    "title": "Special Topics: Natural Language Processing",
+    "section": "05",
+    "instructor": "M. Alam",
+    "meets": "TR 9:30-10:50a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1246": {
+    "key": "1246",
+    "crn": "13509",
+    "code": "DATA 442",
+    "title": "Neural Networks & Deep Learning",
+    "section": "01",
+    "instructor": "J. Colen",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1247": {
+    "key": "1247",
+    "crn": "12592",
+    "code": "DATA 448",
+    "title": "Reinforcement Learning",
+    "section": "01",
+    "instructor": "H. Chen",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1248": {
+    "key": "1248",
+    "crn": "13952",
+    "code": "DATA 451",
+    "title": "Artificial Intelligence Systems",
+    "section": "01",
+    "instructor": "R. Khaldi",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1250": {
+    "key": "1250",
+    "crn": "13053",
+    "code": "DATA 490",
+    "title": "Independent Research in Data Science",
+    "section": "01",
+    "instructor": "T. Ford",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1249": {
+    "key": "1249",
+    "crn": "11788",
+    "code": "DATA 490",
+    "title": "Independent Research in Data Science",
+    "section": "02",
+    "instructor": "T. Wiipongwii",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1251": {
+    "key": "1251",
+    "crn": "12146",
+    "code": "DATA 491",
+    "title": "Mentored Data Science Teaching",
+    "section": "01",
+    "instructor": "M. Alam",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1252": {
+    "key": "1252",
+    "crn": "14361",
+    "code": "DATA 498",
+    "title": "Internship",
+    "section": "01",
+    "instructor": "D. Miller Runfola",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1253": {
+    "key": "1253",
+    "crn": "14697",
+    "code": "DATA 498",
+    "title": "Internship",
+    "section": "02",
+    "instructor": "D. Vasiliu",
+    "meets": "TBD",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1254": {
+    "key": "1254",
+    "crn": "13513",
+    "code": "DATA 601",
+    "title": "Computational Foundations of Data Science",
+    "section": "02",
+    "instructor": "Y. He",
+    "meets": "TR 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1255": {
+    "key": "1255",
+    "crn": "13528",
+    "code": "DATA 603",
+    "title": "Data Ethics and Trustworthy AI",
+    "section": "01",
+    "instructor": "J. Wang",
+    "meets": "TR 8-9:20a",
+    "status": "F",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1256": {
+    "key": "1256",
+    "crn": "13531",
+    "code": "DATA 610",
+    "title": "Neural Networks and Deep Learning",
+    "section": "01",
+    "instructor": "J. Colen",
+    "meets": "MW 2-3:20p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1257": {
+    "key": "1257",
+    "crn": "13508",
+    "code": "DATA 611",
+    "title": "Hardware and Software Systems for AI and Big Data",
+    "section": "01",
+    "instructor": "R. Khaldi",
+    "meets": "MWF 10-10:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1258": {
+    "key": "1258",
+    "crn": "13936",
+    "code": "DATA 631",
+    "title": "Reinforcement Learning",
+    "section": "01",
+    "instructor": "H. Chen",
+    "meets": "MW 3:30-4:50p",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1259": {
+    "key": "1259",
+    "crn": "13514",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "01",
+    "instructor": "H. Chen",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1260": {
+    "key": "1260",
+    "crn": "13515",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "02",
+    "instructor": "C. Fanelli",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1261": {
+    "key": "1261",
+    "crn": "13516",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "03",
+    "instructor": "T. Ford",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1262": {
+    "key": "1262",
+    "crn": "13517",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "04",
+    "instructor": "A. Nwala",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1263": {
+    "key": "1263",
+    "crn": "13518",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "05",
+    "instructor": "R. Khaldi",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1264": {
+    "key": "1264",
+    "crn": "13519",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "06",
+    "instructor": "R. Smith",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1265": {
+    "key": "1265",
+    "crn": "13520",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "07",
+    "instructor": "M. Alam",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1266": {
+    "key": "1266",
+    "crn": "13521",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "08",
+    "instructor": "J. Colen",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1267": {
+    "key": "1267",
+    "crn": "13522",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "09",
+    "instructor": "Q. Wang",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1268": {
+    "key": "1268",
+    "crn": "13523",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "10",
+    "instructor": "J. Wang",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1269": {
+    "key": "1269",
+    "crn": "13524",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "11",
+    "instructor": "Y. Xiong",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1270": {
+    "key": "1270",
+    "crn": "13525",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "12",
+    "instructor": "D. Miller Runfola",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1271": {
+    "key": "1271",
+    "crn": "13526",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "13",
+    "instructor": "Y. He",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1272": {
+    "key": "1272",
+    "crn": "13527",
+    "code": "DATA 692",
+    "title": "Readings in Data Science",
+    "section": "14",
+    "instructor": "D. Vasiliu",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1273": {
+    "key": "1273",
+    "crn": "14477",
+    "code": "DATA 706",
+    "title": "Research Methods in Data Science",
+    "section": "01",
+    "instructor": "D. Miller Runfola",
+    "meets": "MWF 9-9:50a",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1274": {
+    "key": "1274",
+    "crn": "14591",
+    "code": "DATA 792",
+    "title": "Readings in Data Science",
+    "section": "01",
+    "instructor": "D. Miller Runfola",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
+  },
+  "1275": {
+    "key": "1275",
+    "crn": "14596",
+    "code": "DATA 799",
+    "title": "Directed Research",
+    "section": "01",
+    "instructor": "D. Miller Runfola",
+    "meets": "TBD",
+    "status": "A",
+    "semester": "202710",
+    "attributes": [
+      "DATA"
+    ]
   }
-]
+}
