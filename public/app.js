@@ -13,6 +13,45 @@
 
 const ROADMAP_STORAGE_KEY = "wm-cs-advisor-roadmap";
 
+// Decorative cursor trail across the page; the normal cursor stays visible.
+(function cursorFireflies() {
+  const layer = document.querySelector(".cursor-fireflies");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const hover = window.matchMedia("(hover: hover)");
+  let lastSpawn = -Infinity;
+
+  function clearTrail() {
+    layer.replaceChildren();
+    lastSpawn = -Infinity;
+  }
+
+  document.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "mouse" || reducedMotion.matches || !hover.matches) return;
+    const now = performance.now();
+    // Limit both emission rate and active particles during rapid movement.
+    if (now - lastSpawn < 35 || layer.childElementCount >= 30) return;
+    lastSpawn = now;
+
+    const fleck = document.createElement("span");
+    fleck.className = "cursor-firefly";
+    fleck.style.left = `${event.clientX + (Math.random() - 0.5) * 16}px`;
+    fleck.style.top = `${event.clientY + (Math.random() - 0.5) * 16}px`;
+    fleck.style.setProperty("--size", `${2 + Math.random() * 3}px`);
+    fleck.style.setProperty("--hue", 58 + Math.random() * 28);
+    fleck.style.setProperty("--leaf-hue", Math.random() * 32);
+    fleck.style.setProperty("--drift-x", `${(Math.random() - 0.5) * 40}px`);
+    fleck.style.setProperty("--drift-y", `${-12 - Math.random() * 28}px`);
+    fleck.addEventListener("animationend", () => fleck.remove(), { once: true });
+    layer.appendChild(fleck);
+  }, { passive: true });
+
+  document.documentElement.addEventListener("pointerleave", clearTrail);
+  window.addEventListener("blur", clearTrail);
+  document.addEventListener("visibilitychange", clearTrail);
+  reducedMotion.addEventListener("change", clearTrail);
+  hover.addEventListener("change", clearTrail);
+})();
+
 /* ==========================================================================
    SECTION 0 — roadmap persistence (localStorage) + onboarding state
    ========================================================================== */
